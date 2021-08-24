@@ -1,0 +1,247 @@
+---
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+---
+# Computer-intensive statistical approaches
+
+Below I document (following the reading I circulated) three non-parametric statistical approaches. These approaches are similar:
+
+1. They do not require theoretical distributions for hypothesis testing.
+2. Involve randomized sampling performed many times from the data (observations) available to the experimenter.
+3. All require representative and randomly sampled observations.
+
++ Many statistical methods, other than the classical ones presented by Zar and others that rely on the characteristics of the t-, Z-, F-, and normal distributions are not able to "handle" some statistical approaches including the non-parameteric ones presented below. 
+
+## Why are we interested in using resampling techniques
+1.) Resampling provides clear advantages when assumptions of traditional parametric tests are not met.
+
+2.) Resampling methods can be used for testing means, medians, ratios, or other parameters are the same, so we do not need new methods for these different applications.
+
+3.)  Resampling  has advantages of conceptual simplicity (but a bit of learning curve for computation)
+
+## Parametric statistical approaches have some issues:
+1.) Restrictive assumptions
+
+2.) Tests can be difficult to interpret
+
+3.) Recall that the $p$-value is defined as the probability of getting data as extreme as the observed data when the null hypothesis is true. 
+
+4.) If the data are shuffled many times in accordance with the null hypothesis being true, the number of cases with data as extreme as the observed data can be counted, and a $p$-value can be calculated.
+
+## Common resampling methods
+Three resampling methods are commonly used for different purposes:
+
+1. Permutation methods - use sampling without replacement to test hypotheses of "no effect".
+
+2. Bootstrap methods - use sampling with replacement to establish confidence intervals.
+
+3. Monte Carlo methods - use repeated sampling from populations with known characteristics.
+
+# Permutation methods
+
+Approach to  randomly redistribute the observations and calculate a statistic of interest. If we do this many times, say 1,000 times or 10,000 times, we generate a distribution of observed values for the statistic of interest under the null hypothesis of no difference between the two populations. We compare our observed statistic to the sampling distribution to determine how likely our observed statistic is. The benefit of this approach is that we can generate a sampling distribution for any parameter of interest and then determine the percentile of our observed parameter relative to those of the permutation samples.
+
+## Permutation methods in practice
+A permutation test builds - rather than assumes - sampling distribution (called the "permutation distribution") by resampling the observed data. Specifically, we can "shuffle" or permute the observed data (e.g., by assigning different outcome values to each observation from among the set of actually observed outcomes). 
+
+Permutation tests are particularly relevant in null hypothesis significance testing (NHST) approaches. In these situations, the permutation test represents our process of inference because our null hypothesis is that the two treatment groups do not impact the outcome. When we permute the outcome values we  see all of the possible alternative treatment assignments we could have had. While a permutation test requires that we see all possible permutations of the data (which can become quite large), we can easily conduct "approximate permutation tests" by simply conducting a vary large number of resamples.
+
+## Example of permutation methods
+We have randomly sampled the data from a log-normal distribution with equal mean and variance. We set the seed to ensure the results are repeatable. So in this case, we are looking to find there is no significant difference between the two populations.
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+diff.in.mean <- 0.5
+mean.pop.1 <- 1
+mean.pop.2 <- abs(mean.pop.1 - diff.in.mean)
+
+set.seed(seed = 3) 
+# Run the code below, do you see what "set.seed" does to the random number generator?
+pop.1 <- rlnorm(n = 100, meanlog = mean.pop.1, sdlog = 2)
+pop.2 <- rlnorm(n = 100, meanlog = mean.pop.2, sdlog = 2)
+
+pop.1[1]
+pop.2[1]
+```
+
++ The classic statistical approach here would be to use a t-test. Let's instead apply our random permutation test.
+
+First, let's compute the difference between the means of the two groups:
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+obs.diff <- mean(pop.1) - mean(pop.2)
+```
+
++ What we want to do is randomly shuffle our data between the two groups. If we were to sample (without replacement) once and compute the difference using the randomly shuffled version of groups, we would have the difference in population means, but only one iteration
+
+So, we will put this in a loop to get many values...
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+perm.diff <-c()
+for (j in 1:10000) {
+  sample.ind <- seq(1,length.out = length(c(pop.1, pop.2)))
+  ind.1 <- sample(x = seq(1,length.out = length(c(pop.1, pop.2))), 
+                  size = length(pop.1), replace = F)
+  ind.2 <- which(!(sample.ind %in% ind.1))
+  
+  perm.diff[j] <- mean(c(pop.1,pop.2)[ind.1]) - mean(c(pop.1,pop.2)[ind.2])
+}
+```
+
++ If we plot the examples, along with where our observed difference falls:
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+par(mfrow = c(3,1))
+hist(pop.1, 100, main = "Histogram of population 1", xlim = c(0,100))
+hist(pop.2, 100, main = "Histogram of population 2", xlim = c(0,100))
+hist(perm.diff,100, main = "Histogram of perumuted differences in population means")
+abline(v = obs.diff, col = "red", lwd = 2)
+perm.p <- which(sort(perm.diff) > obs.diff)[1]/10000
+
+```
+
+Questions for your consideration
+
++ How does this result compare to using a parametric and alternative non-parametric test to test the equality of means of the two populations?
+
++ Discuss and understand how the number of iterations you specify in the simulation impacts your assessment of the precision of your estimate.
+
+# Bootstrap methods
+
+Assuming we have some representative samples, we can sample, with replacement, to generate confidence intervals. We randomly sample with replacement from the observed scores to produce a new sample of the same size as our original sample.  Now we can calculate the statistic of interest (e.g., median) from the new sample. With a large number of new samples, at least 10,000, we generate an empirical sampling distribution for the statistic of interest and we can determine upper and lower confidence limits for this statistic. 
+
+## A simple bootstrap example:
+
+Here, we will estimate the size of the confidence interval by applying the bootstrap and sampling many samples with replacement from the original sample, each the same size as the original sample, computing a point estimate for each, and finding the CI of this distribution of bootstrap statistics.
+
+To construct the confidence interval we need to find the point estimate (sample mean) from the original sample.
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+mean.pop.1 <- 1
+set.seed(seed = 3) 
+pop.1 <- rlnorm(n = 100, meanlog = mean.pop.1, sdlog = 2)
+m.pop.1 <- mean(pop.1)
+```
+
+To find the standard error, we will create a large vector to store all of the samples. Note, here we are sampling with replacement.
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+boot.samp <- c()
+for (j in 1:1000) {
+  boot.samp[j] <- mean(sample(pop.1, size = length(pop.1), replace = T))
+}
+```
+
+Now we plot the distribution of sample means and determine the 95% CI. 
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+hist(boot.samp, 100)
+abline(v = sort(boot.samp)[c(25,975)], col = "red", lwd = 2)
+abline(v = m.pop.1, col = "red", lwd = 2)
+```
+We are 95% confident that the mean of the population is in the interval from 6.4 to 12.2.
+
+How do these 95% CI estimates compare to those derived using the $t$-distribution?
+
+## Using the "boot" package to Bootstrap 95% CI for R-Squared
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+require(boot)
+library(boot)
+
+# function to obtain R-Squared from the data 
+rsq <- function(formula, data, indices) {
+  d <- data[indices,] # allows boot to select sample 
+  fit <- lm(formula, data=d)
+  return(summary(fit)$r.square)  } 
+
+# bootstrapping with 1000 replications 
+results <- boot(data=mtcars, statistic=rsq, R=1000, formula=mpg~wt+disp)
+
+# view results
+results
+class(results)
+
+# get 95% confidence interval 
+boot.ci(results, type="bca")
+```
+
+Why do we choose type "bca", how do these compare to the other varieties of CI?
+
+## Challenge: 
+Write a script that will bootstrap the residuals values, such that given the linear model we can get the bootstrapped confidence intervals of the intercept and slope:
+
+$y_{ij} = \alpha+\beta\times{x_i} + \epsilon_{ij}$.
+
+$\alpha$ and $\beta$ are the unknown intercept and slope and $\epsilon_{ij}$ are normally distributed errors.
+
+The residuals from the least squares fit are given by:
+
+$\epsilon_{ij} =y_{ij} - \alpha+\beta\times{x_i}$.
+
+Steps:
+
+1.) Bootstrap the residuals
+
+2.) Produce a vector of $\epsilon_{ij}^{*}$ by taking random draws, with replacement.
+
+3.) $y_{ij}^* = y_{ij} + \epsilon_{ij}^{*}$.
+
+4.) Determine mean $\alpha$ and $\beta$ based on $y_{ij}^*$
+
+5.) Repeat steps 1 to 4, $n$ = 1,000 times.
+
+# Monte Carlo methods
+
+With Monte Carlo techniques, we can specify several populations with known characteristics, and sample randomly from these distributions. With many replications, we generate sampling distributions for the statistics of interest. For example, we may be interested in the sensitivity of the t-test to violations of the assumption of equal variance or normality. We can generate populations that have specific characteristics, and then with multiple resampling we can generatesampling distributions for the statistics of interest. 
+
+## Lets take a look at doing a Monte Carlo simulation
+The Monte Carlo method is a way to solve problems through simulation. In this case, we will used it to calculate the number $\pi$. You could approximate $\pi$  by simulation. 
+
+The surface area of a quarter of a circle inscribe in [0,1] $\times$ [0,1] is $\pi/4$.
+```{r}
+plot(0, type = 'n', xlim = c(0,1), ylim = c(0,1), xlab = "",ylab = "")
+r <- 1
+
+x <- seq(0,1,by = 0.01)
+y <- sqrt(1 - x^2)
+lines(x,y)
+```
+
+1. Let's generate a great many points uniformly distributed in the square [0, 1] ? [0, 1]. 
+
+Reminder, that the equation for a circle is $x^2 + y^2 = r^2$
+
+2. Compute the proportion of those falling inside the quarter circle, that should be approximately the proportion
+of areas of the quarter circle and the inscribing square.
+3. Clever right?!
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+N <- 1000
+x <- runif(N,0,1)
+y <- runif(N,0,1)
+
+Inside <- 0
+for (i in 1:N) {
+  if (x[i]^2 + y[i]^2 < 1) {
+    Inside <- Inside + 1
+    points(x[i],y[i], pch = 20, col = "green", bg = "white")
+  }
+    if (x[i]^2 + y[i]^2 > 1) {
+    points(x[i],y[i], pch = 20, col = "orange", bg = "white")
+  }
+}
+```
+
+Now determine the proportion of points inside vs. outside of the circle...
+```{r, eval=FALSE, results='hide',message=FALSE,fig.show = 'hide'}
+poportion.in <- Inside/N
+
+```
+
+## Monte Carlo practice: 
+Compute the probability under the $N(0,1)$ distribution of a certain interval. 
+
+So, we want to obtain the approximate integral of such function over the interval [0, 1] using simulation, so, instead of using the equation for the circle we will use: 
+
+$f(x) = \frac{1}{2\pi}e^{\frac{-x^2}{2}}$.
+
+How does the equation above compare to what you know about the form of the normal distribution?
+
+How can we check our work?
+
+

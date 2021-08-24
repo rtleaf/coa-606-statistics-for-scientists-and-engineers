@@ -1,0 +1,231 @@
+
+### Assumptions 
+
+Assumptions - When broken then we are not able to make inference or accurate descriptions about reality. 
+
+Thus our models are flawed descriptions and inferences will be compromised.
+
++ Assumptions of parametric tests based on the normal distribution.
++ Understand the assumption of normality.
++ Understand homogeneity of variance.
++ Know how to correct problems (with respect to the assumptions of normality) in the data.
+
+Parametric tests based on the normal distribution assume:
+
++ Normally distributed
++ Distribution of samples
++ Model distribution (residuals)
++ Homogeneity of variance
++ Interval or ratio level data
++ Some data are intrinsically not normally distributed.
++ Independence of observation
+
+
+
+
+
+
+
+
+
+
+
+
+### The Normal Distribution Review
+
+Commonly the distribution of measurements (frequency of data collected from interval data) have a bell shaped distribution
+
+Parameters of the model determine its shape.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(2,1)) # This tells R to put 1 row, 1 columns
+xlim. <- c(-3.5,5.5)
+plot(x = seq(xlim.[1],xlim.[2], length.out = 100), y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), 
+     xlab = "Z", ylab = "Y", type = "l", yaxt = 'n', xlim = xlim.)
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100) + 1, y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)))
+
+
+xlim. <- c(-5.5,5.5)
+plot(x = seq(xlim.[1],xlim.[2], length.out = 100), y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), 
+     xlab = "Z", ylab = "Y", type = "l", yaxt = 'n', xlim = xlim.)
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100), y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100), sd = 1.5))
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100), y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100), sd = 2))
+
+
+```
+
+*Figure 4.12.1*
+
+<Br>
+
+Two-parameter distribution
+
+$f(x,\mu,\sigma)=\frac{1}{\sigma\sqrt2\pi}e^-(x-\mu)^2/2\sigma^2$
+
+Symmetric around mu
+
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Histogram for fig 4.8.1
+par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
+
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "Z", ylab = "Y", type = "l", yaxt = 'n')
+#Needs correct x axis
+```
+
+*Figure 4.12.2*
+
+<Br>
+
+
+### 4.13 Distribution of Samples Central Limit Theorem
+
+How well do samples represent the population?
+
+A key foundation of frequentist statistics - samples are random variables: When we take a sample from the population we are taking one of many possible samples.
+
+Thought experiment - take many, many samples from a population.
+
+Do we expect all sample to have the same mean value (the same sample mean)?
+
++ No, there is variation in the samples - 'Sampling variation.'
+
+The frequency histogram of samples is the sampling distribution.
+
+Analog to standard deviation  
+
++ SD how well does model fit the data
+
+We can take the standard deviation of the sample mean.
+
++ Termed 'Standard Error of the Sampling mean'
++ Or 'Standard Error'
+
+If the sample is large then sampling error can be approximated:
+
+<center>
+$SE=\frac{s}{\sqrt n}$
+</center>
+
+<Br>
+
+### 4.14 Assumption #1: Sample observations and associated deviations are normally distributed.
+
+We will review how to check these assumptions in this lecture and the following lab.
+
+### 4.15 Assumption #2: Homogeneity of Variance.
+
+Data taken from groups must have homogenous variance.
+
+Homogenous does not mean 'equal' but equal in the probabilistic sense.
+
+We will review how to check these assumptions in this lecture and the following lab.
+
+### 4.16 Assumption #3: Interval and Ratio Scale
+
+Continuous variables
+
++ Interval scale (equal intervals between measurements).
++ Ratio scale - Conversion of interval data such that ratio of measurements was meaningful.
+
+Ordinal data - rankings - 
+
++ Darker, faster, shorter and might label these 1,2,3,4,5 to reflect increases in magnitude. 
++ Really convey less information - data condensation.
+
+Nominal or Categorical data 
+
++ Example are public surveys
++ Willingness to vote for a candidate? Economic class, Taxonomic categories.
+
+### 4.17 Assumption #4
+
+Observations are independent
+
+The measurement of one sample does not influence the measurement of another sample.
+
++ Measurements taken in space and time are examples - experimenter needs to determine when there is zero correlation between the samples.
++ Behavioral Example - the opinion of one person influences the behavior of another person and hence the measurements are correlated.
+
+### 4.18 Assessing Normality
+
+We don't have access to the population distribution so we usually test the observed data
+
+Graphical displays
+
++ Q-Q plot (or P-P plot)
++ Histogram
+
+Kolmogorov-Smirnov
+
+Shapiro-Wilk
+
+### 4.19 Assessing Homogeneity of Variance
+
+Figures
+
+Levene's test
+
++ Tests if variances in different groups are the same.
++ Significant = variances not 'equal'
++ Non-significant = variances are 'equal'
+
+Variance ratio
+
++ With 2 or more groups
++ VR = largest variance/smallest variance
++ If VR < 2, homogeneity can be assumed
+
+### 4.20 Correcting Data 'Problems'
+
+Log transformation log(X~i~) or log(X~i~ +1)
+
++ Reduce positive skew.
+
+Square root transformation:
+
++ Also reduces positive skew. Can also be useful for stabilizing variance.
+
+Reciprocal transformation (1/ X~i~):
+
++ Dividing 1 by each score also reduces the impact of large scores. 
++ This transformation reverses the scores
++ You can avoid this by reversing the scores before the transformation, 1/(X~Highest~ - X~i~).
+
+### 4.21 To Transform Or Not
+
+Transforming the data helps as often as it hinders the accuracy of F 
+
+The central limit theorem: sampling distribution will be normal in samples > 40 anyway.
+
++ Transforming the data changes the hypothesis being tested.
++ E.g. when using a log transformation and comparing means, you change from comparing arithmetic means to comparing geometric means.
+
++ In small samples it is tricky to determine normality one way or another.
+The consequences for the statistical model of applying the 'wrong' transformation could be worse than the consequences of analysing the untransformed scores.
++ Alternative - use non-parametric statistics or Bayesian approaches.
+
+
+
+
+### Probability
+
+SETS: A collection of items. 
+
+Element: on item of a set.
+
+Subsets have multiple elements and are themselves sets.
+
+Outcome set.
+
++ In an experiment (or other phenomenon that yields results to observe), there is a set (usually very large) of possible outcomes. Let us refer to this as the outcome set. 
+
+Intersect - the common elements in two sets.
+
+Mutually exclusive - Sets with no elements in common , null intersect.
+
+Union - the combination of elements in two sets - what element is in either set or both?
+
+Complement - the remainder of outcomes in a set that are not in a subset
+
+

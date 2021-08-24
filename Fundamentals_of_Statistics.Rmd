@@ -1,0 +1,1289 @@
+---
+output:
+  html_document:
+    toc: yes
+    toc_depth: 1
+    toc_float: yes
+    number_sections: true
+---
+
+# Introduction to statistical analysis
+
+Kachigan (1986) defines statistical analysis as the:
+
++ Data Collection,
+
++ Organization (including project and data management), and
+
++ Interpretation of data according to well-defined procedures
+
+In this course we will use Kachigan's definition as a framework and focus on aspects of collection (experimental design), organization (using descriptive and inferential approaches), and interpretation.
+
+One of the primary facets of quantitative analysis is the need to be creative in your approaches - the methods outlined in this class provide the foundation for analysis but the practitioner is encouraged to explore the methods and practices in their discipline to best address the needs for interpretation.
+
+Indeed, this is one of the features of statistical analysis that I would like to highlight: We cannot be constrained to cookbook approaches to analysis. Every problem, every research approach, will require consideration of the means of collection, processing of data, and statistical analysis. 
+
+Prior to study we need to understand clearly and succinctly what the specific research focus is. Once this is unambiguous to the scientist, then the process of data collection can begin. At this stage, it is necessary to define the variables (observations) that will be collected. 
+
+
+# Practical aspects of Statistical Analysis
+## Data Organization (Broman and Woo, 2018)
+
++ Spreadsheets continue to to be a primary way for data storage, analysis, and visualization
+
++ Multipurpose (positive and negative)
+
++ Can be error prone to make large sweeping changes - hard to retrace your steps. Though stand by for some guidance on this.
+
++ Organization is critical for reproducible research and archiving
+
+## Consistency and conventions
+
+1. Use consistent codes for categorical variables
+
+1. Use a consistent fixed code for any missing values (e.g. 'NA', 'NaN', or an unfilled cell)
+
+1. Use consistent variable names (generally these are column names)
+
+1. Use a consistent data layout in multiple files (same column names). This allows data to be merged in a seamless way.
+
+1. Use a consistent format for all dates (YMD, DMY, MS Excel will often read non-traditional date values as a character code that must be post-processed for analysis.)
+
+1. Use consistent phrases in your notes. *Notes are data.* So, treating these as variables that have a binary, nominal, or ordinal value will allow you to treat these them quantitatively.
+
+1. Be careful about extra spaces within cells. Again, MS Excel will read these as character codes that must be post-processed for analysis.
+
+1. One variable is recorded in each cell (remember, in our scheme, a comment is a variables)
+
+1. Strive for a rectangular data layout
+
+1. Avoid font and cell colors as annotation
+
+1. Use .csv or some other file back up. ASCII files, like .csv promote distribution to non-MS Excel users (yes, they do exist)
+
+## Data Managment (Adapted from Malin Pinsky at Rutgers University)
+
+1. Keep lab notebooks to record what you did, learned, or produced each day. Can be physical notebooks, text files, Evernote, Jupyter notebooks, etc.
+
+2. Establish a mechanism to facilitate collaboration and sharing within the lab. 
+
++ This could be a shared directory or project
+
++ Given the resources available here it is often most useful to work directly in the cloud (Dropbox, OneDrive)
+
+3. Use descriptive (non-ambiguous) file names
+
+4. Keep raw (unprocessed, un-formatted) data in a file and associated directory that is not overwritten. Instead, processing should be performed on this data and saved in an appropriately named file.
+
++ If we 'clean' the data, we often use a folder called something like “data-raw” and a folder called “data-clean” to differentiate data in its original form from data that has been manipulated. Have "master" or "original" and "tidy" versions of files and name them appropriately.
+
+5. Store raw data with metadata describing the contents of the file (i.e. what do the columns mean, how was the data collected, etc.)
+
+6. If using data downloaded from another data source, we often have a folder called “data_dl” for downloaded data. Include the data source in a README file for reproducibility (this is like meta data and provides useful description). 
+
+ ```{r eval=FALSE, echo=FALSE}
+# Theoretical aspects of Statistical Analysis
+
+In 'The Ecological Detective' (on reserve for this class), Hilborn and Mangel describe the challenges for understanding the natural world and the book is focused on how to link the data collected by ecologists with mathematical and statistical representations (models) that allow inference.
+
+Hilborn and Mangel outline an approach for the ecological science:
+
+1. Construction of hypotheses (plural): 
+
++ In this step, the experimenter will come up with a suite of different descriptions of how the world works. These competeing descriptions will be evaluated using data. 
+
+2. Data
+
++ This component includes the measurements (the values of variables) that will be used in hypothesis testing.
+
+3. Goodness of Fit (GOF)
+
++ Here, we are concerned with understanding how well the description (model) fits the data.
+
+4. Numerical procedures
+
++ How does the GOF derived in #3 compare to it's competitor's values (multi-model selection).
+
+ ```
+
+# Types of Variables 
+
+Observations that are variable, by their nature, will result in different observations. 
+
+We need to understand the structure of these measurements - different types of measurements will necessitate the appropriate methods of analysis.
+
+## Categorical Variables (entities are divided into distinct categories):
+
+Binary variable: There are only two categories.
+
++ Dead or alive,
+
++ Present or absent,
+
++ positive or negative (e.g. for a disease),
+
++ the value of some quantity of interest is zero or positive, 
+
++ or the value of some quantity of interest exceeds some threshold value.
+
+Nominal variable: There are more than two categories. 
+
++ Whether the subject is an omnivore, vegetarian, vegan, or carnivore.
+
++ The subject's taxonomic group, 
+
+Ordinal variable: Similar to a nominal variable but the categories are ordered.
+
++ Whether people got a fail, a pass, a merit or a distinction in their exam.
+
++ Intensity of infection (e.g. none, mild, moderate, severe)
+
+## Distribution of a Categorical Variable 
+
++ A tally of how frequently occurring a value is among categories.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+barplot(longley$GNP[1:10] ~ state.abb[1:10], xlab = 'State', ylab = 'Frequency Mentions in the News')
+```
+
+## Continuous Variables (entities get a distinct score):
+
+Interval variable: Equal intervals on the variable represent equal differences in the property being measured.
+
++ e.g. the difference between 6 and 8 is equivalent to the difference between 13 and 15.
+
+Some examples of measurements that are continuous are: 
+
++ Density or frequency of organisms in a transect or at a sampling station, 
+
++ Body Mass Index or some measure of condition of an organism.
+
+## Relative Distribution of a Continuous Variable
+
++ A question often asked: What interval to choose? Your knowledge of the domain will guide this. 
+
++ A tally of how frequently occurring a value is among a set of measured objects.
+
++ What does a qualitative evaluation of the frequency distribution allow?
+
+<center>
+Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Continuous Data
+
+| Phosphorous concentration |  Frequency |
+| ---           | ---|
+| 8.1 to 8.2  | 2  |
+| 8.2 to 8.3  | 6  |
+| 8.3 to 8.4  | 8  |
+| 8.4 to 8.5  | 11 |
+| 8.5 to 8.6  | 17 |
+| 8.6 to 8.7  | 17 |
+| 8.7 to 8.8  | 24 |
+| 8.8 to 8.9  | 18 |      
+| 8.9 to 9.0  | 13 |
+| 9.0 to 9.1  | 10 |       
+| 9.1 to 9.2  | 4  | 
+Total frequency = 130 = n
+</center>
+
+<Br>
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Histogram for fig 2.2.3
+par(mfrow = c(1,1)) # This tells R to put 1 row, 2 columns
+stuff.to.plot <- c(rep(8.1,2), rep(8.3,6), rep(8.4,8), rep(8.5,11), rep(8.6,17), rep(8.7,17), rep(8.8,24), rep(8.9,18), rep(9.0,13), rep(9.1,10), rep(9.2,4))
+hist(stuff.to.plot, main = "", xlab = "Phosphorous (mg/g of leaf)", xlim = c(8.1,9.3), freq = T)
+box()
+```
+
+
+## Other Descriptions of Continuous Frequency Distributions
+
+### Range 
+
++ The smallest score subtracted from the largest
+
+Example:
+
++ Number of friends of 11 Facebook users.
++ 22, 40, 53, 57, 93, 98, 103, 108, 116, 121, 252
++ Range = 252 - 22 = 230
++ Very biased by outliers, why?
+
+### The Interquartile Range
+
++ The values that split the sorted data into four equal parts.
++ *First* or *lower quartile* (the range values of the first 25% of values in ordered sequence)
++ *Second* quartile (the range values of the first 25 to 50% of values in ordered sequence)
++ *Third* quartile (the range values of the first 50 to 75% of values in ordered sequence)
++ *Fourth* quartile (the range values of the first 75 to 100% of values in ordered sequence)
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Histogram for fig 2.2.1 and 2.2.2
+par(mfrow = c(1,2)) # This tells R to put 1 row, 2 columns
+stuff.to.plot <- rnorm(n = 1000, mean = 50, sd = 15)
+hist(stuff.to.plot, main = "Large Deviation (from the mean)", xlab = "Score", xlim = c(0,100))
+box()
+abline(h = 0)
+
+stuff.to.plot <- rnorm(n = 1000, mean = 50, sd = 8)
+hist(stuff.to.plot, main = "Small Deviation (from the mean)", xlab = "Score", xlim = c(0,100))
+box()
+abline(h = 0)
+
+```
+
+*How does the Interquartile Range vary between the two histograms?*
+
+<Br>
+
+## Cumulative Distribution of a Continuous Variable
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Histogram for fig 2.2.3
+par(mfrow = c(1,1), mar = c(4,4,1,4)) # This tells R to put 1 row, 2 columns
+x <- c(8.1, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9.0, 9.1, 9.2)
+y <- c(2,8,16,27,44,61,85,103,116,126,130)
+y2 <- y/130
+plot(x,y, 
+     main = "", 
+     xlab = "Phosphorous (mg/g of leaf)", 
+     ylab = "Frequency", 
+     xlim = c(8.0,9.3), 
+     ylim = c(-10,140), 
+     type = 'b',
+     pch=16,
+     axes = F)
+axis(side=2)
+axis(side=1)
+
+text(x = x, y = y, labels = paste0(round(seq(1,length(x))/length(x), 2)*100,'%'), pos = 3)
+text(x = x, y = y, labels = x, pos = 1)
+box()
+
+```
+
+
+Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Continuous Data
+
+|                           |           |                Cummulative Frequency                 |
+|---                        |---        | ---                      |  ---                      |             
+| Phosphorous concentration | Frequency | Starting with Low Values | Starting with High Values |
+| 8.15 to 8.25  | 2  |   2 | 130 |
+| 8.25 to 8.35  | 6  |   8 | 128 |
+| 8.35 to 8.45  | 8  |  16 | 122 |   
+| 8.45 to 8.55  | 11 |  27 | 114 |
+| 8.55 to 8.65  | 17 |  44 | 130 |
+| 8.65 to 8.75  | 17 |  61 | 86  |
+| 8.75 to 8.85  | 24 |  85 | 69  |
+| 8.85 to 8.95  | 18 | 103 | 45  |    
+| 8.95 to 9.05  | 13 | 116 | 27  |
+| 9.05 to 9.15  | 10 | 126 | 14  |     
+| 9.15 to 9.25  | 4  | 130 | 4   |
+
+Total frequency = 130 = n
+
+
+# The Normal Distribution
++ The normal distribution is probably the most common distribution in all of probability and statistics. 
++ One of the main reasons it crops up so much is due to the Central Limit Theorem (we will explore this). 
+
+## The Normal Probability Density Function
+
+The probability density function for the normal distribution is defined as:
+
+<center>
+$y_i = \frac{1}{\sigma\sqrt2\pi}e^{-(x_i-\mu)^2/2\sigma^2}$
+</center>
+
+We can think of the model in this way (mathematical approach):
+
+<center>
+$f(x) = \frac{1}{\sigma\sqrt2\pi}e^{-(x_i-\mu)^2/2\sigma^2}$
+</center>
+
+Where the parameters (the symbols ) represent the mean, $\mu$ (the point on the x-axis where the center of the distribution is) and the standard deviation, $\sigma$ (how spread out the distribution is) of the population.
+
++ What are some of the general characteristics of this model? *Can you describe its shape?*
++ What are the parameters of the model? *These are the quantities we will estimate in the fitting process.*
++ What are the variables used in the model? *These are the observations.*
+
+Below, two distributions are plotted from the 'Standard Normal Distribution', in this formulation:
+
+${\sigma=1}$ and ${\mu=0}$.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+set.seed(3000)
+xseq<-seq(-4,4,.01)
+densities<-dnorm(xseq, 0,1)
+cumulative<-pnorm(xseq, 0, 1)
+randomdeviates<-rnorm(1000,0,1)
+par(mfrow=c(1,2), mar=c(3,4,4,2))
+plot(xseq, densities,xlab="", ylab="Density", type="l",lwd=2, cex=2, main="PDF of Standard Normal", cex.axis=.8)
+plot(xseq, cumulative, xlab="", ylab="Cumulative Probability",type="l",lwd=2, cex=2, main="CDF of Standard Normal", cex.axis=.8)
+```
+
+The normal distribution is an example of a continuous univariate probability distribution with infinite support. By infinite support, we mean that we can calculate values of the probability density function for all outcomes between $-\infty$ and $+\infty$.
+
+The output of a probability density function is *not a probability value.* 
+
+To get the probability from a probability density function we need to find the area under the curve. So from our example distribution with mean = 0 and standard deviation = 1, we can find the probability that the outcome is between 0 and 1 by finding the area shown in the image below.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+set.seed(3000)
+xseq<-seq(-4,4,.01)
+densities<-dnorm(xseq, 0,1)
+cumulative<-pnorm(xseq, 0, 1)
+randomdeviates<-rnorm(1000,0,1)
+plot(xseq, densities,xlab="", ylab="Density", type="l",lwd=2, cex=2, main="PDF of Standard Normal", cex.axis=.8)
+abline(v = c(0,1), lwd = 2)
+```
+
+<center>
+$\int_0^1f(x;\mu,\sigma)dx = P(0 < X < 1)$
+</center>
+
+We can read this as “the integral of the probability density function between 0 and 1 (on the left-hand side) is equal to the probability that the outcome of the random variable is between zero and 1 (on the right-hand side)”.
+
+We can cover all possible values if we set our range from ‘minus infinity’ all the way to ‘positive infinity’. Therefore the following has to be true for the function to be a probability density function:
+
+<center>
+$\int_{-\infty}^{\infty}f(x)dx = 1$.
+</center>
+
+One last thing here: The probability of the random variable being equal to a specific outcome is 0, because the integral over x values of x to x is equal to zero.
+
+## Different Means, Identical Standard Deviation 
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Figures 30 and 31 (went out of order)
+par(mar = rep(1,4))
+xlim. <- c(-3.5,5.5)
+plot(x = seq(xlim.[1],xlim.[2], length.out = 100), y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), 
+     xlab = "", ylab = "Y", type = "l", yaxt = 'n', xlim = xlim.)
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100) + 1, y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), lwd = 2)
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100) + 2, y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), lwd = 3)
+```
+
+
+## Same Mean, Different Standard Deviation 
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mar = rep(1,4)) 
+
+xlim. <- c(-4,4)
+
+plot(x = seq(xlim.[1],xlim.[2], length.out = 100), 
+     y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100), mean = 0, sd = 0.5), 
+     xlab = "", ylab = NA, type = "l", yaxt = 'n', xlim = xlim.)
+
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100), 
+      y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100), mean = 0, sd = 1.5), 
+      col = 'orangered2', lwd = 2)
+
+labels <- c(expression(paste(mu,"-3",sigma)), expression(paste(mu,"-2",sigma)))
+
+```
+
+```{r, eval=FALSE, echo=FALSE}
+## Taking samples from a Normal Distribution
+
+Normal distribution sampling theorem:
+
++ Sampling distribution is normal when the population distribution is normal.
++ Sample mean = population mean
++ Sample sd = population *s*
+
+## Central limit theorem
+
++ The central limit theorem (CLT) states that the distribution of sample means approximates a normal distribution as the sample size becomes larger regardless of the population distribution shape.
+
+```
+
+
+## *Z*-scores
+### Properties of *Z*-scores - Centering and Scaling
+
++ Standardizing a score with respect to the other scores in the group.
++ Expresses a score in terms of how many standard deviations it is away from the mean.
++ Converts a distribution to a z-score distribution.
++ Z-scores have mean = 0 and standard deviation = 1.
+
+<center>
+$z_i = \frac{x_i-\bar{x}}{s}$
+</center>
+
+```{r, message=FALSE, echo=FALSE}
+library(knitr)
+vals <- rnorm(10)
+dt <- data.frame(observation = vals,
+                 centered.obs = vals - mean(vals),
+                 scaled.centered.osb = (vals - mean(vals))/sd(vals),
+                 Prob.get.less = pnorm((vals - mean(vals))/sd(vals)),
+                 Prob.get.more = 1 - pnorm((vals - mean(vals))/sd(vals)))
+dt <- round(dt,3)
+names(dt) <- c('Obs', 
+               'Centered Obs (difference between the value and the mean)', 
+               'Scaled Centered Obs (Centered value divided by standard deviation, Z-score)', 
+               'Prob (obs < Z)', 'Prob (Obs > Z)')
+knitr::kable(dt)
+
+dt <- data.frame(mean = mean(vals),
+                 sd = sd(vals))
+dt <- round(dt,3)
+knitr::kable(dt)
+```
+
+
+### Properties of *Z*-scores - Quantiles
+
++ 1.96 definesthe top 2.5% of the distribution.
+
++ -1.96 defines the bottom 2.5% of the distribution.
+
++ As such, 95% of z-scores lie between -1.96 and 1.96.
+
++ 99% of z-scores lie between -2.58 and 2.58.
+
++ 99.9% of them lie between -3.29 and 3.29. 
+
++ Let's look at a [Z Table](http://www.z-table.com/)
+
+### Areas under the Normal Curve for different quantile values 
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
+plot(x = seq(-4,4, length.out = 100), 
+     y = dnorm(seq(-4,4,length.out = 100)), ylab = "", type = "l", yaxt = 'n', xlab = "Quantile")
+abline(v = c(-1.96, 1.96), lwd = 2)
+abline(v = c(-2.58, 2.58), lwd = 2)
+abline(v = c(-3.29, 3.29), lwd = 2)
+
+#x axis labels and percentages need to be added 
+```
+
+
+
+
+
+# Model Fitting
+
+```{r, eval=FALSE, echo=FALSE}
++ Achieve an unbiased estimate - Long-run (infinite sampling) 
++ Derive an efficient estimator - Fewest number samples to obtain accurate value
+
+
+## The normal distribution, your first statistical model  
+
+$outcome_i = (model) + error_i$  
+
+$Y_{i,obs} = \frac{1}{\sigma\sqrt2\pi}e^{-(X_i-\mu)^2/2\sigma^2} + error_{i}$
+
++ In statistics we fit models to our data (i.e. we use a statistical model to represent what is happening in the world)
+
++ The mean, the measure of central tendency
+
++ The mean is the hypothetical value of the most common outcome. However, it is not a perfect representation of the characteristics of the data.
+
++ The Standard Deviation is the measure of dispersion (precision)
+
++ How can we assess how well the mean represents reality?
+
+``` 
+  
+## Quantifying Error
+
++ A deviation is the difference between the mean (*expected*) and the *observed* data (the outcome of the sample).
+
++ The deviation of *observed* and *expected* value is also called: the residual, error, or residual error
+
++ Deviations can be calculated by taking each score and subtracting the mean from it:
+
+When the normal fitting models: 
+
+<center>
+$deviation = x_i - \bar{x}$
+</center>
+
+<center>
+$error_i = outcome_i - (model_i)$  
+</center>
+
++ In the figure below the expected value is zero, and the residual error for each of the five samples is plotted.
+
+<br>
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1), mar = c(4,4,1,4))  
+x <- c(1,2,3,4,5)
+y <- rnorm(length(x), mean = 0, sd = 1)
+y <- y - mean(y)
+plot(x,y, 
+     main = "", xlab = "Sample from Lecturer in my Department", 
+     ylab = "Deviation", xlim = c(1,5), 
+     ylim = c(-max(abs(range(y))), max(abs(range(y)))), 
+     pch=16, type = 'h')
+points(x,y, pch = 20)
+abline(h = 0)
+
+```
+
+Should we use the Total Error as an estimate of uncertainty?
+
++ We could sum $i^{th}$ error terms from 1 to n.
+
+|Score|Mean|Deviation|
+|---|---|---|
+| 1 | 2.6  |-1.6 |
+| 2 |   |-0.6 |
+| 3 |   |0.4  |
+| 3 |   |0.4  |
+| 4 |   |1.4  |
+|   | Sum = |0 |
+
+
+<center>
+$\Sigma(x_i - \bar{x}) = 0$
+</center>
+
+## Sum of Squared Errors
+
++ We could add the deviations to find out the total error, but the deviations 'cancel out' (some are positive and others negative)
+
++ Therefore, we square each deviation.
+
++ If we add these squared deviations we get the sum of squared errors (SS).
+
+<Br>
+
+|Score|Mean|Deviation|Sqaured Deviation|
+|---|---  |---    |---   |
+| 1 | 2.6 | -1.6  | 2.56 |
+| 2 |  | -0.6  | 0.36 |
+| 3 |  | 0.4   | 0.16 |
+| 3 |  | 0.4   | 0.16 |
+| 4 |  | 1.4   | 1.96 |
+|   |     | Total | 5.20 |
+
+<center>
+$SS = \Sigma(X - \bar{X})^2 = 5.20$
+</center>
+
++ The sum of squares is a good measure of overall variability, but is dependent on the number of scores.
+
+## Variance
+
++ We calculate the average variability (average variability of each sample) by dividing by the number of scores minus one (n-1).
+
++ The quantity n - 1 is termed *degrees of freedom*. It is the maximum number of logically independent values, those with the freedom to vary in the sample
+
++ The sum of squares divided by the degrees of freedom is called the variance (s^2^).
+
+<center>
+Sample variance: $s^2 = \frac{SS}{n-1} = \frac{\Sigma(x_i-\bar{x})^2}{n-1}$
+</center>
+
+Contrast this with the population variance: 
+
+<center>
+Population variance: $\sigma^2 = \frac{SS}{N} = \frac{\Sigma^n_{i=1}(x_i-\mu)^2}{N}$
+</center>
+
+## Standard Deviation 
+
++ The variance has one problem: it is measured in units^2^ (The original units, like the numbers are squared.).
+
++ This isn't a very meaningful metric so we take the square root value.
+
++ This is the sample standard deviation: 
+
+$s = \sqrt\frac{\Sigma^n_{i=1}(x_i-\bar{x})^2}{n-1}$
+
+<Br>
+
+## Summary of Variance Estimates
+
+The sum of squares, variance, and standard deviation represent the same thing:
+
++ The fit of the mean to the data, how well the mean represents the observed data
++ The variability in the data when modeled using the mean 
+
+
+
+# Sampling and Parameter Estimation
+## Random samples
+
++ Every possible member of the population has an equal probability of being included in the sample.
+
++ Ex: scientific exit polling vs. twitter polls to estimate proportion voting for a candidate.
+
++ Think of a normally distributed frequency distribution as the population distribution:
+
+How would the sampling distribution vary if samples were non-random?
+
++ Only statistically valid data that can be used for analysis - the first assumption of parametric statistics.
+
++ We will generally make an inspection of the data and/or the residuals to ensure that they are normally distributed.
+
++ Ensuring that data are collected in a random fashion allows statistics to be calculated. Non-random data collection disallows this.
+
++ Independence is also a critical aspect of sampling - the sampling of one element will not impact or predict the value of another element.
+
+## Parameter Estimates - Unbiased
+
++ Parameters are estimated quantities that could describe any number of population characteristics (the characteristics of variables).
+
++ We are generally focused on the mean and variance, estimated parameters could be the mean, median, mode.
+
++ One aspect of parameter estimation is to get a *point estimate* - approximation of the true value of the population, but does not provide information about the precision of the estimate.
+
++ The best estimate of $\mu$ is $\bar{x}$.
+
++ The best estimate of $\sigma$ is $s$.
+
++ We strive for an unbiased estimate of population paramters: Unbiased means that the expected value is equal to the true value (accuracy)
+
+## Parameter Estimates - Efficient
+
++ The second property we want is to have parameters be efficient
+
++ This has to do with the relationship of variance to sample size and is concerned with understanding how does sampling impact the estimate - variance should be reduced when sampling is increased.
+
+## Interval Estimation
+
++ Reporting point estimates alone is unsatisfactory - we need an estimate of the variation.
+
++ We want to know how close the sample statistic is to the population parameter.
+
++ Interval estimation is concerned making statements saying how confident or certain we are that the populaiton parameter resides in an interval of values.
+
++ e.g. There is a 0.95 probability that the value of $\mu$ resides between 6.2 and 9.7.
+
+## Confidence Interval
+
++ Confidence intervals involve: 
+
+1. Identification of associated probability 
+
+1. Specification of the interval
+
++ So how do we determine confidence intervals in practice: 
+
++ In the first case, let's use or general equation for a statistical model: 
+
+$Statistic = Parameter  \pm Error$ (From Kachigan, p. 138)
+
+$Paramter = Statistic  \pm Error$
+
+$\mu = \bar{x}  \pm Error$
+
++ We will never know the magnitude of the true error? How large is the combined effect of sampling and process error. However, we can attach a probability that the error is a certain size. Now, we want to solve for the Statistic.
+
+$\bar{x}  = \mu \pm Error$
+
++ If we take an infinite number of samples from the population, we will get an estimate of the error term, $\sigma$. 
+
++ The error in sampling, from an *infinite* number of samples, is equal to the variation in the sample means, the standard distribution (sd) equals the standard error of the mean.
+
++ So this takes us back to our *Z*-score: 
+
++ What is the z value in which 95% of the values are under the curve?
+
++ Let's look at a [Z Table](http://www.z-table.com/)
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
+plot(x = seq(-3,3, length.out = 100), 
+     y = dnorm(seq(-3,3,length.out = 100)), ylab = "", type = "l", yaxt = 'n', xlab = "Quantile")
+abline(v = c(-1.96, 1.96), lwd = 2)
+#x axis labels and percentages need to be added 
+```
+
+$\mu = \bar{x} \pm 1.96\sigma$ (95% Certainty)
+
+$\mu = \bar{x} \pm ?  \sigma$ (99% Certainty)
+
++ The above presumes that we have a very good knowledge of the population parameter $\sigma$, which is generally not the case. We do not sample populations and infinite number of times. 
+
+## Confidence Intervals of the Mean from samples - using the t-distribution
+
++ The determination of the sampling interval from populations with unknown $\sigma$ we will use our best estimate of $\sigma$, which is *s*.
+
++ Similarly, we will use the *t* distribution to model the variability, you will see that it is flatter and has larger tails - what does this mean to our estimate of the confidence interval?
+
++ The *t* distribution is a one parameter distribution, *df* is the parameter and it controls the shape of the distribution. The model is platykurtic at small sample sizes.
+
++ *df* is *n* - 1.
+
++ To model the confidence interval we assume that the distribution of the variables are normally distributed. 
+
++ Allow us to determine the interval estimates of an estimated parameter, contingent on the values of estimates of parameters derived from sampling, in a probabilistic way.
+
++ Let's look at a [t Table](http://www.ttable.org/)
+
+$\mu = \bar{x} \pm t_{df}{s_{\bar{x}}}$ (95% Certainty, with *n* =  10?)
+
+$\mu = \bar{x} \pm t_{df}{s_{\bar{x}}}$ (99% Certainty, with *n* =  10?)
+
+$\mu = \bar{x} \pm t_{df}{s_{\bar{x}}}$ (99% Certainty, with *n* =  50?)
+
+
+
+
+
+
+
+
+
+
+# Hypothesis Testing and Power
+## Statistical Hypothesis Testing
+
++ State a testable hypothesis
+
++ $H_0$   Null hypothesis
++ $H_A$   Alternative hypothesis
+
++ Declare $\alpha$ level
+
++ Collect Data
+
++ Compare the test statistic to the critical value (determined by alpha)
+
++ State the resulting probability
+
++ State testable hypothesis
+
++ These are a set of mutually exclusive and exhaustive outcomes
+
++ The test statistic will support one or the other outcomes
+
+<Br>
+
+$H_0: \mu = 0$,  $H_A:\mu \ne 0$
+
+$H_0: \mu = 3.5 cm$,  $H_A:\mu \ne 3.5 cm$
+
+$H_0: \mu = 10.5 kg$,  $H_A:\mu \ne 10.5 kg$
+
+<Br>
+
+## Example: Use *Z*-score to evaluate if it is likely that a given value of the distribution is the mean value
+
++ Is the mean fuel consumption of a population of buses equal to 20 mpg?
+
++ What is the null hypothesis?
+
++ We need information about the population (remember we are using *Z*-score so we know the population-level parameters $\mu$ and $\sigma$).
+
++ Mean
++ Population standard deviation
++ Calculate *Z*-score for mean = 20 mpg
++ Determine the associated probability that the mean is 20 mpg given:
++ $\sigma$ = 0.3, $\mu$ = 19.1
+
+## Evaluate *Z*-score
+
+What is the probability that we would get this *Z*-score?
+
+Hypothetical *Z*-scores
+
+<Br>
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "Z", ylab = NA, type = "l", yaxt = 'n', xaxt = 'n')
+abline(v = 1.96)
+
+```
+
+<Br>
+<Br>
+
+| z | .00 | .01   | .02   | .03   | .04   | .05   | .06   | .07   | .08   | .09   |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 0.0 | .5000 | .5040 | .5080 | .5120 | .5160 | .5199 | .5239 | .5279 | .5319 | .5359 |
+| 0.1 | .5398 | .5438 | .5478 | .5517 | .5557 | .5596 | .5636 | .5675 | .5714 | .5753 |
+| 0.2 | .5793 | .5832 | .5871 | .5910 | .5948 | .5987 | .6026 | .6064 | .6103 | .6141 |
+| 0.3 | .6179 | .6217 | .6255 | .6293 | .6331 | .6368 | .6406 | .6443 | .6480 | .6517 |
+| 0.4 | .6554 | .6591 | .6628 | .6664 | .6700 | .6736 | .6772 | .6808 | .6844 | .6879 |
+| 0.5 | .6915 | .6950 | .6985 | .7019 | .7054 | .7088 | .7123 | .7157 | .7190 | .7224 |
+| 0.6 | .7257 | .7291 | .7324 | .7357 | .7389 | .7422 | .7454 | .7486 | .7517 | .7549 |
+| 0.7 | .7580 | .7611 | .7642 | .7673 | .7704 | .7734 | .7764 | .7794 | .7823 | .7852 |
+| 0.8 | .7881 | .7910 | .7939 | .7967 | .7995 | .8023 | .8051 | .8078 | .8106 | .8133 |
+
+<Br>
+
+## Is it meaningful?
+
+Declare $\alpha$
+
++ Given our $\alpha$ level, how does the resulting probability compare?
++ Remember, $\alpha$ is defined prior to statistical testing
++ Two tail and one tail test
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "Z", ylab = "Y", type = "l", yaxt = 'n')
+abline(v = -1.96)
+abline(v = 1.96)
+#Needs "-1.96", "1.45", and "1.96" arrows on x axis 
+```
+
+<Br>
+
+## Statistical Hypothesis Testing
+
+Evaluate if the population mean is not significantly different from some specified value.
+
+$H_0$: $\mu$ = 0
+
+$H_A: \mu \ne 0$
+
+Introduce the idea of a critical value (critical quantile)
+
++ $\alpha$ of 0.05
+
+We have data taken from the weight change in horses given some medical treatment.
+
+We are interested to know if the mean change in weight that we found +1.29 kg is significantly different from 0 kg.
+
++ We calculate the *Z*-score and find that *Z* = 1.45
+
+$P(mean \ge 1.29) = P(Z \ge 1.45) = ?$
+
+$P(mean \le 1.29) = P(Z \le 1.45) = ?$
+
+Z = 1.96 is the rejection region at 2.5%
+
++ This is the 'region of rejection'
+
+Now we have a way to objectively reject or accept the null hypothesis.
+
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "Z", ylab = "Y", type = "l", yaxt = 'n')
+abline(v = -1.96)
+abline(v = 1.96)
+#Needs "-1.96", "1.45", and "1.96" arrows on x axis 
+```
+
+<Br>
+
+### One- and Two-Tailed Tests
+
+Alternative to testing 'is the value different.'
+
+In some cases we care about the direction of the difference (is the value less than or greater than some value).
+
+Use one-tailed test
+
++ In general, one-tailed hypotheses about a mean are: 
++ $H_0:\mu\ge\mu_0$ and $H_A:\mu<\mu_0$
++ In which case, H~0~ is rejected if the test statistic is in the left-hand tail of the distribution or:
++ $H_0:\mu\le\mu_0$ and $H_A:\mu>\mu_0$
+
+Contrast the region of rejection for these.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(2,1), mar=c(4,4,1,1)) 
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "Z (a)", ylab = "Y", type = "l", yaxt = 'n')
+abline(v = -1.96)
+abline(v = 1.96)
+#Needs "-1.96", "1.45", and "1.96" arrows on x axis 
+
+
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "Z (b)", ylab = "Y", type = "l", yaxt = 'n')
+abline(v = -1.645)
+
+#Needs "-1.645" 
+```
+
+<Br>
+
+## Type-1 and Type-2 Errors
+
+
+Sometimes we:
+
++ Reject the null hypothesis when it is true. 
++ Accept the alternative hypothesis when it is false.
+
+Type 1 error or alpha error - frequency of rejecting $H_0$ when it is true.
+
+Type 1 error rate is equal to $\alpha$.
+
+Type 1 error: "rejecting the null hypothesis when it is true." We rejected the null hypothesis but did so erroneously.
+
+Type 1 error is termed '$\alpha$ error' because it is equal to $\alpha$ 
+
+Now we have some criteria to choose alpha.
+
+So if your $\alpha$, or critical value is 0.10 we have a 10% probability of rejecting the null hypothesis when we should have, in fact, accepted it.
+
+### Type 1 ($\alpha$) Error
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Histogram for fig 4.8.1
+par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
+
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "Z", ylab = "Y", type = "l", yaxt = 'n')
+abline(v = c(1.96,-1.96))
+#Needs "-1.96", "1.45", and "1.96" arrows on x axis 
+```
+
+*Figure 4.8.1*
+
+<Br>
+
+Type 2 error: "accepting the null hypothesis when it is false."
+
+Type 2 error or '$\beta$ error' is equal to $\beta$.
+
+
+<Br>
+
+
+|   | If H~0~ is true | If H~0~ is false |
+|---|---|---|
+| If H~0~ is rejected  | Type I error   | No error   |
+| If H~0~ is not rejected  | No error   | Type II error  |
+
+*Table 4.8.1: \ Two Types of Errors in Hypothesis Testing*
+
+<Br>
+
+Thought experiments:
+
++ Ex. Endangered species conservation
++ Ex. Pharmaceutical testing 
+
+
+<Br>
+
+|   | If H~0~ is true | If H~0~ is false |
+|---|---|---|
+| If H~0~ is rejected  | $\alpha$   | $1-\beta$ ("power") No error   |
+| If H~0~ is not rejected  | No error $1-\alpha$   | $\beta$ |
+
+*Table 4.8.2: \ Long-term Probabilities of Outcomes in Hypothesis Testing* 
+
+<Br>
+
+### Power 
+
+Power: the probability that a statistical test will reject a null hypothesis when it is false (proper rejection).
+
+<Br>
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Histogram for fig 4.8.1
+par(mfrow = c(2,1), mar=c(4,4,1,1)) # This tells R to put 1 row, 1 columns
+
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "(a)", ylab = "Y", type = "l", yaxt = 'n', xlim = c(-4,6))
+abline(v = c(1.96,-1.96))
+#Needs arrows on x axis
+
+plot(x = seq(-3,5, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "(c)", ylab = "Y", type = "l", yaxt = 'n', xlim = c(-4,6))
+abline(v = c(1.96,-1.96))
+
+```
+
+*Figure 4.9.1*
+
+<Br>
+<Br>
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Histogram for fig 4.8.1
+par(mfrow = c(2,1), mar=c(4,4,1,1)) # This tells R to put 1 row, 1 columns
+
+plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "(a)", ylab = "Y", type = "l", yaxt = 'n', xlim = c(-4,6))
+abline(v = c(1.96,-1.96))
+#Needs arrows on x axis
+
+plot(x = seq(-2,6, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "(c)", ylab = "Y", type = "l", yaxt = 'n', xlim = c(-4,6))
+abline(v = c(1.96,-1.96))
+
+```
+
+*Figure 4.9.2*
+
+<Br>
+
+### Leaf's power simulation in R
+
+<Br>
+
+### What Influences Statistical Power?
+
+
+
+# Parameteric and Non-Parameteric Correlation
+## Correlation 
+
+Correlations is a way of measuring the extent to which two variables are related.
+
+Parametric approaches
+
++ Pearson's correlation coefficient
+
+Nonparametric approaches
+
++ Spearman's rho
++ Kendall's tau
+
+Interpreting correlations
+
+Small Relationship 
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1))  
+x <- rnorm(100, 50, 35)
+y <- rnorm(100, 0, 55)
+plot(x,y, xlim = c(0,100), pch = 16, xlab = "x.val", ylab = "y.val")
+line <- lm(y~x)
+sum <- summary(line)
+slope <- sum$coefficients[2,1]
+b <- sum$coefficients[1,1]
+curve(slope*x+b, from = min(x), to = max(x), add = T)
+box()
+
+```
+
+
+Positive Relationship
+
+```{r, echo=FALSE}
+library(MASS)
+out <- as.data.frame(mvrnorm(100, mu = c(0,0), 
+                             Sigma = matrix(c(1,0.56,0.56,1), ncol = 2), 
+                             empirical = TRUE))
+
+out$V1.s <- (out$V1 - min(out$V1))*10+10 #x
+out$V2.s <- (out$V2 - min(out$V2))*20+30 #y
+
+plot(out$V1.s,out$V2.s, pch = 16, xlab = "x.val", ylab = "y.val", xlim = c(10,60), main = "Positive Relationship")
+line <- lm(out$V2.s~out$V1.s)
+sum <- summary(line)
+slope <- sum$coefficients[2,1]
+b <- sum$coefficients[1,1]
+curve(slope*x+b, from = 10, to = 60, add = T, lwd = 2)
+
+
+```
+
+
+Negative Relationship
+
+```{r, echo=FALSE}
+library(MASS)
+out <- as.data.frame(mvrnorm(100, mu = c(0,0), 
+                             Sigma = matrix(c(1,-0.56,-0.56,1), ncol = 2), 
+                             empirical = TRUE))
+
+out$V1.s <- (out$V1 - min(out$V1))*10+10 #x
+out$V2.s <- (out$V2 - min(out$V2))*20+30 #y
+
+plot(out$V1.s,out$V2.s, pch = 16, xlab = "x.val", ylab = "y.val", xlim = c(10,60), main = "Negative Relationship")
+line <- lm(out$V2.s~out$V1.s)
+sum <- summary(line)
+slope <- sum$coefficients[2,1]
+b <- sum$coefficients[1,1]
+curve(slope*x+b, from = 10, to = 60, add = T, lwd = 2)
+
+
+```
+
+
+## Quantifying the magnitude of correlation
+
++ As one variable increases, does the other increase, decrease or stay the same?
+
++ This can be done by calculating the covariance.
+
++ We look at how much each score deviates from the mean.
+
++ If both variables deviate from the mean by the same amount, they are likely to be related.
+
+Here is the results (bivariate) of an experiment aimed at understanding the efficacy of advertising:
+
+| Participant | 1 | 2 | 3 | 4 | 5 | Mean | SD |
+|---|---|---|---|---|---|---|---|
+| Adverts Watched | 5 | 4 | 4 | 6 | 8 | 5.4 | 1.67 |
+| Packets Bought  | 8 | 9 | 10| 13| 15| 11  | 2.92 |
+
+Residual error values:
+
+| Participant | 1 | 2 | 3 | 4 | 5 | Mean | SD |
+|---|---|---|---|---|---|---|---|
+| Adverts Watched | 5 | 4 | 4 | 6 | 8 | 5.4 | 1.67 |
+| Packets Bought  | 8 | 9 | 10| 13| 15| 11  | 2.92 |
+| Advertiser Residual | -0.4 | -1.4 | -1.4 | 0.6 | 2.6 |
+| Packets residual | -3 |-2 | -1 | 2 | 4 |
+
+
+<Br>
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1), mar = c(4,4,1,4)) # This tells R to put 1 row, 2 columns
+x <- c(1,2,3,4,5,1,2,3,4,5)
+y <- c(5,3,3,6,8,8,9,10,13,14)
+
+plot(x,y, main = "", xlab = "", ylab = NA, xlim = c(1,5), ylim = c(0,12), pch=16, type = 'n')
+points(x[1:5],y[1:5], main = "", xlab = "Participant", ylab = NA, xlim = c(0,6), ylim = c(0,20), 
+       pch=16, col = "blue", cex = 1.5)
+abline(h = c(5.5, 11)[1])
+segments(x[1:5],y[1:5],x[1:5],rep(5.5,5))
+points(x[1:5],y[1:5], main = "", xlab = "", ylab = NA, 
+       pch=16, col = "blue", cex = 1.5)
+legend('topleft', legend = "Residual value of advertisements watched", bty = 'n')
+```
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1), mar = c(4,4,1,4)) # This tells R to put 1 row, 2 columns
+x <- c(1,2,3,4,5,1,2,3,4,5)
+y <- c(5,3,3,6,8,8,9,10,13,14)
+plot(x,y, main = "", xlab = "Participant", ylab = NA, xlim = c(1,5), ylim = c(5,15), pch=16, type = 'n')
+
+points(x[6:10],y[6:10], main = "", xlab = "Participant", ylab = NA, xlim = c(0,6), ylim = c(0,20), 
+       pch=16, col = "orangered2", cex = 1.5)
+abline(h = c(5.5, 11)[2])
+segments(x[6:10],y[6:10],x[6:10],rep(11,5))
+
+points(x[6:10],y[6:10], main = "", xlab = "Participant", ylab = NA, xlim = c(0,6), ylim = c(0,20), 
+       pch=16, col = "orangered2", cex = 1.5)
+legend('topleft', legend = "Residual value of packets bought", bty = 'n')
+
+```
+
+## Covariance and a re-examination of variance
+
++ Remember the variance tells us by how much scores deviate from the mean for a single variable.
+
++ It is closely linked to the sum of squares.
+
++ Covariance is similar - it tells is by how much scores on two variables differ from their respective means.
+
+$variance=\frac{\Sigma(x_i - \bar{X})}{N-1}^2$
+
+$variance=\frac{\Sigma(x_i - \bar{X})(x_i - \bar{X})}{N-1}$
+
++ Calculate the error between the mean and each subject's score for the first variable (*X*).
+
++ Calculate the error between the mean and their score for the second variable (*Y*).
+
++ Multiply these error values.
+
++ Add these values and you get the cross product deviations.
+
++ The covariance is the average cross-product deviations:
+
+
+$cov(x,y)=\frac{\Sigma(x_i - \bar{x})(y_i - \bar{y})}{N-1}$
+
+$cov(x,y)=\frac{(-0.4)(-3)+(-1.4)(-2)+(-1.4)(-1)+(0.6)(2)+(2.6)(4)}{4}$
+
+$cov(x,y)=\frac{1.2+2.8+1.4+1.2+10.4}{4}$
+
+$cov(x,y)=\frac{17}{4}$
+
+$cov(x,y)=4.25$
+
+## Limitations of Covariance
+
+The magnitude of the covariance is dependent on the units of measurement.
+
++ e.g. the covariance of two variables measured in miles might be 4.25, but if the same scores are converted to kilometres, the covariance is 11.
+
++ Standardize: Divide by the standard deviations of both variables.
+
++ The standardized version of covariance is known as the correlation coefficient.
+
++ It is unaffected by units of measurement.
+
+## The Correlation Coefficient
+
+$r=\frac{cov_xy}{s_xs_y}$
+
+$r=\frac{\Sigma(x_i - \bar{x})(y_i - \bar{y})}{(N-1)s_xs_y}$
+
+$r=\frac{cov_xy}{s_xs_y}$
+
+$r=\frac{4.25}{1.67 * 2.92}$
+
+$r=0.87$
+
+Termed Pearson-product moment correlation coefficient
+
+It varies between -1 and +1
+
++ 0 = no relationship
+
+It is a testable hypothesis
+
+Testing $H_0: \rho=0$ versus $H_A: \rho\ne0$
+
+The standard error of the correlation coefficient is calculated as:
+
+$S_r=\sqrt\frac{1-r^2}{n-2}$
+
+It is a testable hypothesis
+
+*r*  = 0.870
+
+*n* = 12 (new data set, with more samples)
+
+We will calculate the critical value:
+
+$t=\frac{r}{S_r}= \frac{0.870}{0.156}= 5.58$
+
+t~0.05(2),10~ =2.228
+
+Testing $H_0: \rho=0$ versus $H_A: \rho\ne0$
+
+Coefficient of determination, r^2
+
++ By squaring the value of r you get the proportion of variance in one variable shared by the other.
+
+## Non-parametric Correlation
+
+Spearman's rho $\rho$
+
++ Pearson's correlation on the ranked data
+
+Kendall's tau ($\tau$)
+
++ "Better" than Spearman's for small samples
+
+## Spearman Rank Correlation Coefficient
+
+*d* is the difference between two numbers in each pair of ranks
+
+*n* = number of pairs of data
+
+$r=1-(\frac{6\Sigma d^2}{n(n^2 - 1)})$
+
+|Data 1|Data 2|
+|---|---|
+|6|2|
+|4|9|
+|7|3|
+
+|Data 1|Data 2|Rank 1|Rank 2|d|d^2^|
+|---|---|---|---|---|---|
+|6|2|2|1|
+|4|9|1|3|
+|7|3|3|2|
+
+|Data 1|Data 2|Rank 1|Rank 2|d|d^2^|
+|---|---|---|---|---|---|
+|6|2|2|1|1|1|
+|4|9|1|3|2|4|
+|7|3|3|2|1|1|
+
+$r=1-(\frac{6\Sigma d^2}{n(n^2 - 1)})$
+
+$=1-(\frac{6*6}{3(3^2 - 1)})$
+
+We can use this value as the calculated *r* value
+
+The critical value is a two tailed value with *n*

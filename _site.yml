@@ -1,0 +1,25 @@
+name: "Statistics for Scientists and Engineers"
+output_dir: "."
+navbar:
+  left:
+    - text: "Course Syllabus"
+      href: syllabus.html
+    - text: "Fundamentals"
+      href: Fundamentals_of_Statistics.html
+    - text: "Linear Models"
+      href: Linear_Models.html
+#    - text: "Probability"
+#      href: Probability.html
+    - text: "Maximum Liklihood"
+      href: Maximum_Likelihood.html 
+#    - text: "AIC"
+#      href: AIC.html
+    - text: "Multilevel Models"
+      href: Multilevel_Models.html 
+#    - text: "Evaluation of Frequencies"
+#      href: Freq_Models02.html 
+    - text: "Resampling Methods"
+      href: Comp_Intensive_Approaches.html 
+output:
+  html_document:
+    theme: united

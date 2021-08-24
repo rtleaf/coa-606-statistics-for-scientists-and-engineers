@@ -1,0 +1,128 @@
+---
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+---
+
+# AIC 
+
+## Multi model selection with AIC
+
+Model selection is a widely used approach, how do you choose between (and compare) alternate models? Alternative models are statements about different ways that the world works. Here we will focus on the Akaike Information Criteria (AIC).
+
+This principal encourages hard thinking to identify candidate alternative hypotheses.
+
+Using AIC is an approach to understand which models are best supported by the data. The calculation of the AIC index, described below, is an approach to balance model fit and parsimony (the number of parameters).
+
++ How does this contrast with our standard approach to hypothesis testing?
++ Traditional methods are based on test statistics and their associated *P*-values. 
+
+From the *P*-value comes the somewhat arbitrary judgment concerning statistical significance and the dichotomous ruling about rejection or failure to reject the null hypothesis.
+
+## *P*-Value
+
+The meaning of a *P* value. 
+
++ The definition of a  *P* value might seem strained: One starts with experimental data and then computes a test statistic that has a known distribution by design (e.g., *t* or *F* or *z* or $\chi^2$). 
+
++ A *P* value is then the probability that a test statistic would be as large as, or larger than, the actual computed test statistic, if the null hypothesis is true. 
+
+People often want to "redefine" such *P* values to be the probability of the null, given the data - this is seriously wrong (see Selke et al. 2001). 
+
+## Recall the Likelihood Principle
+
+A set of data supports one statistical hypothesis better than another if the likelihood of the first hypothesis exceeds the likelihood of the second hypothesis (Edwards 1972).
+
+## Akaike information criteria 
+
+Developed by Akaike and generally referred to as AIC
+
+AIC=$-2log(\mathcal{L})+2K$
+
+Equivalent to:
+
+AIC=$2k+n Log_e(\frac{RSS}{n})$
+
+## Parsimony
+
+Suppose there exist multiple alternative explanations for an occurrence (multiple models can be evaluated). 
+
+Among different models, those that are complex (have more parameters) will generally have a greater likelihood.
+
+AIC serves to penalize models with higher numbers of parameters.
+
+## We seek to compare multiple candidate hypotheses
+
+1. Calculate the AIC value from each of the $i$ models.
+
+$AIC_{min}$ is the candidate model with the lowest AIC value. 
+
+$\Delta_{AIC}=AIC_i-AIC_{min}$, \ for \ $i=1,2,\ldots,R.$
+
+The $\Delta_{AIC}=AIC_i-AIC_{min}$ 
+
++ Values are on a continuous scale of support:
++ Delta AIC above 20 have no support
++ Delta AIC above 9 to 11 have little support
+
+## In practice 
+
++ First we compute AIC for each model.
+
++ Then calculate the delta AIC value for each.
+
++ Select the one or ones with the smallest information loss or smallest distance from "full reality".
+
++ We select the model with smallest value of AIC (i.e. closest to "truth").
+
++ AIC will identify the best model in the set, even if all the models are poor!
+
++ It is the researcher's (your) responsibility that the set of candidate models includes well founded, realistic models.
+
+## Bias and Uncertainty in Model Selection
+
+Model Selection Bias: Chance inclusion of meaningless variables in a model will produce a biased underestimate of the variance, and a corresponding exaggeration of the precision of the model (the problem with "fishing expeditions").
+
+Model Selection Uncertainty: The fact that we are using data (with uncertainty) to both estimate parameters and to select the best model necessarily introduces uncertainty into the model selection process.
+
+##Model Weighting and Averaging
+
+How can we understand the effects of multiple models by determining the relative weight of thier support:
+
+$\omega_i=\frac{e^{-0.5\Delta_i}}{\sum^n_{k=1}e^{-0.5\Delta_k}}$
+
+$\sum^n_{k=1}\omega_i=1$
+
+Let $\bar{Y}$ be the predicted value from the i^th^ model, model averages are the weighted mean prediction:
+
+$\hat{\bar{Y}}=\sum^R_{i=1}\mathcal{W}_i\hat{Y}$
+
+## Multimodel Evaluation
+
+|Model description|Model notation|
+|---|---|
+|Male body size ('body')        |$\beta_0+\beta_{2i}X_{2i}$   |
+|Food availability ('food')     |$\beta_0+\beta_4X_4$   |
+|Male dominance ('status')      |$\beta_0+\beta_5X_5$   |
+|Territory quality ('territory')|$\beta_0+\beta_7X_7$   |
+|Body + Food                    |$\beta_0+\beta_{2i}X_{2i}+\beta_4X_4$   |
+|Body + Status                  |$\beta_0+\beta_{2i}X_{2i}+\beta_5X_5$   |
+|Body + Territory               |$\beta_0+\beta_{2i}X_{2i}+\beta_7X_7$   |
+|Food + status                  |$\beta_0+\beta_4X_4+\beta_5X_5$   |
+|Food + territory               |$\beta_0+\beta_4X_4+\beta_7X_7$   |
+|Body + Food + Status           |$\beta_0+\beta_{2i}X_{2i}+\beta_4X_4+\beta_5X_5$   |
+|Body + Food + Territory        |$\beta_0+\beta_{2i}X_{2i}+\beta_4X_4+\beta_7X_7$    |
+|Body x Status                  |$\beta_0+\beta_{2i}X_{2i}+\beta_5X_5+\beta_{2i,5}(X_{2i}*X_5)$    |
+|Body x Territory               |$\beta_0+\beta_{2i}X_{2i}+\beta_7X_7+\beta_{2i,7}(X_{2i}*X_7)$   |
+|Food x Territory               |$\beta_0+\beta_4X_4+\beta_7X_7+\beta_{4,7}(X_4*X_7)$   |
+|Intercept only                 |$\beta_0$   |
+
+*A model set for the example examining ecological factors and extra-pair paternity in a hypothetical bird species *
+
++ Above we see a suite of model formulations. 
++ When these are derived, one model which includes all of the parameters is the "global model" the most highly parameterized model.
++ Models can be nested (include some subset of parameters)
++ Your data  has a finite amount of information. Each time a parameter estimate is made, the amount of "left over" information is reduced.

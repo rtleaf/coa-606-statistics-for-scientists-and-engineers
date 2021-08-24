@@ -1,0 +1,133 @@
+---
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+  word_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+# Study Notes
+
+## Fundamentals 01 - Types of Variables and Data Organization
+
+1. What are the primary features of Broman and Wu (2018) that enable reproducible research?
+
+1. How will your workflow need to change to better emulate the approach of Broman and Wu and Malin Pinsky?
+
+1. Broman and Wu and Pinsky stress consistency, what are some of the best examples of this.
+
+1. What data will you collect in your dissertation and thesis - describe in detail the folder and data structure you will develop.
+
+1. Describe the primary types of data that comprise the universe of potential variables.
+
+## Fundamentals 02 - Univariate Frequency Distributions
+
+1. Describe, in words what the relative frequency describes
+
+1. Describe, in words what the cumulative frequency describes
+
+1. Given a vector of data, make a frequency histogram
+
+1. What qualitative and quantitative inferences can be made from frequency distributions.
+
+## Fundamentals 03 - The normal distribution
+
+1. Differentiate a normal distribution with different means and different variance estimates.
+
+1. What are the parameters of a normal distribution?
+
+1. Why are these called parameters?
+
+1. What is the general equation we use for modeling.
+
+1. How can error be quantified.
+
+1. What is the relationship of variance, standard deviation, and the residuals.
+
+1. What is the realtionhsip of the interquartile range and the relative and cumulative frequency distributions.
+
+1. What are quantiles, what inference can we make using them with *Z*-scores
+
+## Fundamentals 04 - Samples and parameter estimation
+
+1. Describe cases of random sampling vs. haphazard sampling
+
+1. Can non-random samples be made into random samples?
+
+1. Under what circumstance should the normal distribution be used for determining confidence intervals?
+
+1. Under what circumstance should the *t* distribution be used for determining confidence intervals?
+
+1. Describe the characteristics of the *t* distribution.
+
+1. How do the shape of the *t* and normal distributions compare? How are they similar, how are they different?
+
+## Fundamentals 05 - Samples and parameter estimation
+
+### Fitting 01
+
+Sheet "Fitting 01" in "Leaf Excercise Fundamentals 05" has the same general approach as Fitting 02 and 03. The headers on row 3 "Fitting 01" indicate the sequence of calculations for the stereotypical approach to model fitting. Model fitting means fitting models to data by changing the model's parameter values to minimize error. 
+
+We are fitting this model: 
+
+$Y_{i,obs} = \frac{1}{\sigma\sqrt2\pi}e^{-(X_i-\mu)^2/2\sigma^2} + error_{i}$, 
+
+where $Y_{i,obs}$ is the response for each value of $X_i$. 
+
+The process of reducing error follows: 
+
+$Error = \Sigma{(outcome_i - model_i)^2}$.
+
+Describe in words how to move from column A to column H.
+
+Change the values of $\mu$ and $\sigma$. How does the orange curve change - can you predict this change before changing the value?
+
+How does *SSE* change in your experiment of changing $\mu$ and $\sigma$.
+
+Plot *SSE* vs. the value of $\mu$. Choose 5 values of $\mu$ and plot the resulting *SSE* value. The is referred to as a cost function. What inferences can you make if you choose values for $\mu$ < 0 and > 0? 
+
+### Fitting 02
+
+Sheet "Fitting 02" presents results that are similar to Fitting 01. What are the differences in the values column between Fitting 01 and 02 - use a range of summary statistics to decribe the differences (e.g. quantiles, range, ect.).
+
+What is plotted in the second panel - describe in detail and describe why it is useful. Describe the relationship of the upper and bottom panels.
+
+### Fitting 03
+
+Sheet Fitting 03 highlights the role of the cumulative frequency distribution to make inference. 
+
+Describe in detail how the observed and modeled frequency distributions are similar and differ. 
+
+What inference can be made about the relative probability of getting a number than a certain value  $P(x > 4)$ or less than a certain value $P(x < -3)$.
+
+Describe in detail the relationship of the top and bottom panels.
+
+### Standard Deviation
+
+What is the relationship between the Standard Error of Population and the Standard Error of Sample?
+
+### Z-score
+
+The Z-score sheet contrasts two different ways of calculating the Z-score. 
+
+The first is using NORM.DIST. This is is a built in function in MS Excel. Describe in detail what is calculated in column D.
+
+Column F and G are also calculations for the Z-score. Walk through this calculation, what is returned.
+
+Why are the observed values and the Z-score values linearly correlated?
+
+### *t*-dist
+
+What is the relationship of kurtosity and sample size in the *t*-distribution?
+
+### Confidence Interval
+
+How does increasing sample size influence the Confidence Interval? Specifically, what components of the CI calculation are influenced?
+
+How does sample selection, specifically SD impact the CI?
