@@ -108,9 +108,21 @@ Hilborn and Mangel outline an approach for the ecological science:
 
 # Types of Variables 
 
-Observations that are variable, by their nature, will result in different observations. 
+Properties and characteristics of an object that can assume two or more different values are called *variables*.
 
-We need to understand the structure of these measurements - different types of measurements will necessitate the appropriate methods of analysis.
+We need to understand the structure of variables - different types of measurements will necessitate the appropriate methods of analysis.
+
+The next step after the completion of data collection is to organize the data into a meaningful form so that patterns, if any, emerging out of the data can be seen easily. 
+
+One of the common methods for organizing data is to construct frequency distributions either in a table or as a figure.
+
+Frequency distribution is an organized representation of the number of observations in each category on the scale of measurement.
+
+These allow researchers to have a glance at the entire data conveniently. 
+
+It shows whether the observations are high or low and also whether they are concentrated in one area or spread out across the entire scale. 
+
+Thus, frequency distribution presents a picture of how the individual observations are distributed in the measurement scale.
 
 ## Categorical Variables (entities are divided into distinct categories):
 
@@ -138,7 +150,7 @@ Ordinal variable: Similar to a nominal variable but the categories are ordered.
 
 + Intensity of infection (e.g. none, mild, moderate, severe)
 
-## Distribution of a Categorical Variable 
+## Frequency Distribution of a Categorical Variable 
 
 + A tally of how frequently occurring a value is among categories.
 
@@ -146,7 +158,7 @@ Ordinal variable: Similar to a nominal variable but the categories are ordered.
 barplot(longley$GNP[1:10] ~ state.abb[1:10], xlab = 'State', ylab = 'Frequency Mentions in the News')
 ```
 
-## Continuous Variables (entities get a distinct score):
+## Continuous Variables (entities or objects get a score on the ratio scale):
 
 Interval variable: Equal intervals on the variable represent equal differences in the property being measured.
 
@@ -158,13 +170,19 @@ Some examples of measurements that are continuous are:
 
 + Body Mass Index or some measure of condition of an organism.
 
-## Relative Distribution of a Continuous Variable
+## Frequency Distribution of a Continuous Variable
 
 + A question often asked: What interval to choose? Your knowledge of the domain will guide this. 
 
-+ A tally of how frequently occurring a value is among a set of measured objects.
+The width of the class can be determined by dividing the range of observations by the number of classes. 
 
-+ What does a qualitative evaluation of the frequency distribution allow?
+The following are some guidelines regarding class widths:
+
+1.) It is advisable to have equal class widths. Unequal class widths should be used only when large gaps exist in data.
+
+2.) The class intervals should be mutually exclusive and nonoverlapping.
+
+3.) Open-ended classes at the lower and upper side (e.g., <10, >100) should be avoided.
 
 <center>
 Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Continuous Data
@@ -232,8 +250,6 @@ abline(h = 0)
 
 ```
 
-*How does the Interquartile Range vary between the two histograms?*
-
 <Br>
 
 ## Cumulative Distribution of a Continuous Variable
@@ -281,6 +297,91 @@ Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Conti
 
 Total frequency = 130 = n
 
+## Measures of central tendency 
+
+### The Mode
+
++ The most frequently occurring value in the population or sample. 
+
+### The Median 
+
++ The 50th percentile in the ordered data. 
+
+### The Mean
+
++ We will spend a lot of time on this.
+
+## Skew and Kurtosis
+
++ A left-skewed distribution has a long left tail.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+x= rbeta(10000,5,2)
+hist(x, main="Negative or Left Skewness", freq=FALSE)
+lines(density(x), col='red', lwd=3)
+abline(v = c(mean(x),median(x)),  col=c("green", "red"), lty=c(2,2), lwd=c(3, 3))
+legend('topleft', legend = c('Mean', 'Median'), col = c('green', 'red'), lwd = c(2,2))
+```
+
++ A right-skewed distribution has a long right tail.
+```{r, results='hide',message=FALSE, echo=FALSE}
+x= rbeta(10000,2,5)
+hist(x, main="Positive or Right Skewness", freq=FALSE)
+lines(density(x), col='red', lwd=3)
+abline(v = c(mean(x),median(x)),  col=c("green", "red"), lty=c(2,2), lwd=c(3, 3))
+legend('topleft', legend = c('Mean', 'Median'), col = c('green', 'red'), lwd = c(2,2))
+```
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+x= rbeta(10000,5,5)
+hist(x, main="Symmetrical", freq=FALSE)
+lines(density(x), col='red', lwd=3)
+abline(v = c(mean(x),median(x)),  col=c("green", "red"), lty=c(2,2), lwd=c(3, 3))
+legend('topleft', legend = c('Mean', 'Median'), col = c('green', 'red'), lwd = c(2,2))
+```
+
+## Some additional visual representations of frequency
+
+### Frequency polygon
+
+A frequency polygon is constructed by connecting all midpoints of the top of the bars in a histogram by a straight line without displaying the bars. 
+
+A frequency polygon aids in the easy comparison of two frequency distributions. 
+
+When the total frequency is large and the class intervals are narrow, the frequency polygon becomes a smooth curve known as the frequency curve. 
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(2,1))
+x= rnorm(n = 150,3,2)
+x = hist(x, plot = F)
+
+plot(x$mids, x$counts, xlab = 'Midpoint', ylab = 'Frequency')
+lines(x$mids, x$counts)
+
+x= rnorm(n = 150,5,1)
+x = hist(x, plot = F)
+
+plot(x$mids, x$counts, xlab = 'Midpoint', ylab = 'Frequency')
+lines(x$mids, x$counts)
+```
+
+### Box and whisker plot
+
+This graph, first described by Tukey in 1977, can also be used to illustrate the distribution of data. 
+
+There is a vertical or horizontal rectangle (box), the ends of which correspond to the upper and lower quartiles (75th and 25th percentile, respectively). 
+
+Hence the middle 50% of observations are represented by the box. 
+
+The length of the box indicates the variability of the data. The line inside the box denotes the median (sometimes marked as a plus sign). 
+
+The position of the median indicates whether the data are skewed or not. If the median is closer to the upper quartile, then they are negatively skewed and if it is near the lower quartile, then positively skewed.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(2,1))
+boxplot(rnorm(n = 150,3,2), horizontal=TRUE)
+boxplot(rnorm(n = 150,5,1), horizontal=TRUE)
+```
 
 # The Normal Distribution
 + The normal distribution is probably the most common distribution in all of probability and statistics. 
