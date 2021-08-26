@@ -1,39 +1,47 @@
 Day,Section,Activity,Reading,Link
-"Monday, August 23, 2021",Fundamentals 01 to 02,"Syllabus, Practical Aspects",Zar Ch 1.1,https://www.dropbox.com/s/mita39zgeqpbz7z/Fundamentals%2001.mp4?dl=0
+"Monday, August 23, 2021",Fundamentals 01 to 02,"Syllabus, Practical Aspects",Zar Ch 1.1,https://tinyurl.com/48hn7z4c
 ,,,Broman and Woo (2018),
-"Wednesday, August 25, 2021",Fundamentals 03,"Types of Variables, Frequency Distributions",Zar Ch 1.2 to 1.4,https://www.dropbox.com/s/chgvloeixuyo5ea/Fundamentals%2002.mp4?dl=0
-,,,,
-,,,,
-"Monday, August 30, 2021",Fundamentals 04,The Normal Distribution and Maximum Likelihood,"Zar Ch 6, Myung (2003)",https://www.dropbox.com/s/ln4ehrh8ch6yqq4/Fundamentals%2003.mp4?dl=0
-"Wednesday, September 01, 2021",Fundamentals 04,In class exercise: The Normal Distribution and Maximum Likelihood,,
+"Wednesday, August 25, 2021",Fundamentals 03,"Types of Variables, Frequency Distributions",Zar Ch 1.2 to 1.4,https://tinyurl.com/k2nb42me
+,,,Kachigan 3,
+"Monday, August 30, 2021",Fundamentals 04,The Normal Distribution and Maximum Likelihood (ML),Zar Ch 6,
+,,,Myung (2003),
+,,,Hilborn and Mangel Ch 7,
+"Wednesday, September 01, 2021",Fundamentals 04,In class exercise: The Normal Distribution and ML,,
 "Monday, September 06, 2021",Labor Day Holiday,,,
-"Wednesday, September 08, 2021",Fundamentals 05,Model Fitting,,https://www.dropbox.com/s/br5x5y1xtbtgztg/Fundamentals%2004.mp4?dl=0
-"Monday, September 13, 2021",Fundamentals 06,Sampling and Parameter Estimation,"Zar Ch 3 and 4, Hurlburt (1984)",https://www.dropbox.com/s/sj8xju3dutgcvlj/Fundamentals%2005.mp4?dl=0
-"Wednesday, September 15, 2021",Fundamentals 05 and 06,In class exercise: Model Fitting and Sampling,,https://www.dropbox.com/s/r7n6oc0j73leyzw/Fundamentals%2006%20Archived.mp4?dl=0
-"Monday, September 20, 2021",Fundamentals 07,Hypothesis Testing and Power,,
-"Wednesday, September 22, 2021",Fundamentals 07,In class exercise: Hypothesis Testing and Power,,https://www.dropbox.com/s/brtfkbd94v14kld/Fundamentals%2007.mp4?dl=0
+"Wednesday, September 08, 2021",Fundamentals 05,Model Fitting,,https://tinyurl.com/r4mfcvvw
+"Monday, September 13, 2021",Fundamentals 06,Sampling and Parameter Estimation,"Zar Ch 3 and 4, Hurlburt (1984)",https://tinyurl.com/yt8t5zau
+,,,Hilborn and Mangel Ch 5,
+"Wednesday, September 15, 2021",Fundamentals 05 and 06,In class exercise: Model Fitting and Sampling,,
+"Monday, September 20, 2021",Fundamentals 07,Hypothesis Testing and Power,Steidl et al. 1997,
+,,,Pernet 2016,
+,,,Quinn and Keough Ch 7,
+,,,Quinn and Keough Ch 3,
+"Wednesday, September 22, 2021",Fundamentals 07,In class exercise: Hypothesis Testing and Power,,https://tinyurl.com/378ebv8a
 "Monday, September 27, 2021",Fundamentals 08,Correlation,Zar Ch 19,
-"Wednesday, September 29, 2021",Fundamentals 08,In class exercise: Correlation,,
-"Monday, October 04, 2021",Midterm 01,"Leaf Travel to Lund's Fisheries Cape May, NJ",,
-"Wednesday, October 06, 2021",Midterm 01 and Linear Models 01,"Midterm 01 Questions, A look forward to linear models (Leaf Travel to Lund's Fisheries Cape May, NJ)","Zar Ch 17, 18",https://www.dropbox.com/s/bq1y923lp7yutgf/Fundamentals%2008%20Archived.mp4?dl=0
-"Monday, October 11, 2021",Linear Models 01,"Linear Regression (Leaf Travel to Lund's Fisheries Cape May, NJ)",,https://www.dropbox.com/s/pbjy6hq5a6q7y6s/Linear%20Models%2001.mp4?dl=0
-"Wednesday, October 13, 2021",Linear Models 01,"In class exercise: Linear Regression (Leaf Travel to Lund's Fisheries Cape May, NJ)",,https://www.dropbox.com/s/mrt6s55rxu9j63k/Linear%20Models%2001b.mp4?dl=0
-"Monday, October 18, 2021",Linear Models 02,"Multiple Linear Regression, Leaf Travel to Gulf States Marine Fisheries Commission 72nd Annual Meeting",Zar Ch 20,https://www.dropbox.com/s/cbydwlqaxh8jxdw/Linear%20Models%2002.mp4?dl=0
-"Wednesday, October 20, 2021",Linear Models 02,"In class exercise: Multiple Linear Regression, Leaf Travel to Gulf States Marine Fisheries Commission 72nd Annual Meeting",,https://www.dropbox.com/s/mxvt08gndqzp97p/Linear%20Models%2003%20Archived.mp4?dl=0
-"Monday, October 25, 2021",Linear Models 03,"Comparing two mean values, Leaf Travel to Scemfis Meeting Annapolis, MD","Zar Ch 8, 9",
-"Wednesday, October 27, 2021",Linear Models 03,"In class excercise: Comparing two mean values, Leaf Travel to Scemfis Meeting Annapolis, MD",,https://www.dropbox.com/s/nch0ul40053dt4a/Linear%20Models%2005%20Archived.mp4?dl=0
-,,,,https://www.dropbox.com/s/cetm6myd8scw5i4/Linear%20Models%2006.mp4?dl=0
-"Monday, November 01, 2021",Linear Models 04,One-way ANOVA,"Zar Ch 10, 11",
-"Wednesday, November 03, 2021",Linear Models 04,In class excercise: One-way ANOVA,,https://www.dropbox.com/s/ay7z4zrnfsmli87/Linear%20Models%2007%20Archived.mp4?dl=0
-,,,,https://www.dropbox.com/s/je4q4ad3meffg7a/Linear%20Models%2008.mp4?dl=0
-"Monday, November 08, 2021",Linear Models 05 and 06,"Two-way ANOVA, Leaf Travel to 151st American Fisheries Society Annual Meeting","Zar Ch 12, 13",https://www.dropbox.com/s/3qd87rlc2dqhmdi/Linear%20Models%2006%2007.mp4?dl=0
-"Wednesday, November 10, 2021",Linear Models 05 and 06,"In class excercise: Two-way ANOVA, Leaf Travel to 151st American Fisheries Society Annual Meeting",,
-"Monday, November 15, 2021",Linear Models 07,Logistic Regression,,
-"Wednesday, November 17, 2021",Linear Models 07,In class exercise: Logistic Regression ,,https://rtleaf.github.io/R-shortcourse/01.RStudio.and.R.html
-"Monday, November 22, 2021",Midterm 02,Akaike information criterion,Burnham and Anderson (2011),
-,,,,
+,,,Aggarwal and Ranganathan 2016,
+,,,Quinn and Keough Ch 5,
+"Wednesday, September 29, 2021",Fundamentals 08,In class exercise: Correlation,,https://tinyurl.com/edfnsbrd
+"Monday, October 04, 2021",Midterm 01,,,
+"Wednesday, October 06, 2021",Midterm 01 and Linear Models 01,"Midterm 01 Questions, A look forward to linear models","Zar Ch 17, 18",
+"Monday, October 11, 2021",Linear Models 01,Linear Regression,Quinn and Keough Ch 5,https://tinyurl.com/ax5pt6zb
+"Wednesday, October 13, 2021",Linear Models 01,In class exercise: Linear Regression,,
+"Monday, October 18, 2021",Linear Models 02,Multiple Linear Regression,Zar Ch 20,https://tinyurl.com/jwwbdd38
+,,,Quinn and Keough Ch 6,
+"Wednesday, October 20, 2021",Linear Models 02,In class exercise: Multiple Linear Regression,,https://tinyurl.com/zx34ms4f
+"Monday, October 25, 2021",Linear Models 03,Comparing two mean values,"Zar Ch 8, 9",https://tinyurl.com/m6vefyc6
+"Wednesday, October 27, 2021",Linear Models 03,In class excercise: Comparing two mean values,,
+"Monday, November 01, 2021",Linear Models 04,One-way ANOVA,"Zar Ch 10, 11",https://tinyurl.com/cvxjz3md
+,,,Quinn and Keough Ch 8,
+"Wednesday, November 03, 2021",Linear Models 04,In class excercise: One-way ANOVA,,https://tinyurl.com/c5fff6bj
+"Monday, November 08, 2021",Linear Models 05 and 06,Two-way ANOVA,"Zar Ch 12, 13",https://tinyurl.com/2r6kkbmp
+,,,Quinn and Keough Ch 9,
+"Wednesday, November 10, 2021",Linear Models 05 and 06,In class excercise: Two-way ANOVA,,
+"Monday, November 15, 2021",Linear Models 07,Logistic Regression,Stoltzfus 2011,
+"Wednesday, November 17, 2021",Linear Models 07,In class exercise: Logistic Regression ,Quinn and Keough Ch 13,
+"Monday, November 22, 2021",Midterm 02,,,
 "Wednesday, November 24, 2021",Thankgiving Holiday ,,,
 "Monday, November 29, 2021",Categorical Data Analysis 01,Categorical Data Analysis,Zar Ch 23,
-"Wednesday, December 01, 2021",AIC 01,,,
+,,,Quinn and Keough Ch 14,
+"Wednesday, December 01, 2021",AIC 01,Akaike information criterion,Burnham and Anderson (2011),
 "Monday, December 06, 2021",Fall Term Final Exam Week,,,
 "Friday, December 10, 2021",All HW Due (5 PM CST),,,

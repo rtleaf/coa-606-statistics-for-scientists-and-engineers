@@ -1,0 +1,195 @@
+---
+output:
+  html_document:
+    toc: yes
+    toc_depth: 1
+    toc_float: yes
+    number_sections: true
+---
+
+# Analyzing frequencies in categorical data
+
+## Analysis of frequencies of one or more categorical variables
+
+Fundamental statistic: chi-square  $\chi^2$ statistic, where the degrees of freedom is defined as the number of categories (k - 1)
+
+Not surprisingly we will use our standard modeling framework as a starting point, we will compare observations and expectations:
+
+$\frac{{({observed}-expected})^2}{expected}$
+
+Some assumptions and best practices:
+
+1) Ovservations are classified into categories independently
+2) No more thatn 20% of categories have < 5 observations
+
+## Goodness-of-fit
+
+Sometimes we have data consisting of the frequency of cases falling into unique categories - this is a univariate (single variable) analysis of goodness-of-fit.
+
+The general data layout is to have a single categorical variable with frequencies in each category.
+
+Examples:
+
++ Frequency of people voting for different politicians
+
+*We may hypothesize that the voting frequency is uniformily distributed across candidates, and test this.*
+
++ Frequency of students who pass or fail their degree in different subject areas
+
++ Frequency of patients or waiting list controls who are 'free from diagnosis' (or not) following a treatment
+
+So, the expected value (if $H_0$ is true) is that the ovserved data came from a population that has some theoretical or expected frequencies.
+
+## Contingency tables
+
+A common situation in data anlaysis involves frequencies among cross classified experimental units.
+
+Counts or frequencies associated with each combination of variables, we will examine what is termed a *two-way contingency table*
+
+### An Example: Dancing Cats and Dogs
+
+Analysing frequencies allocated among two variables.
+
++ The mean of a categorical variable is meaningless
++ The numeric values you attach to different categories are arbitrary
++ The mean of those numeric values will depend on how many members each category has.
++ Therefore, we analyse frequencies
+
+An example (from Fields et al.)
+
++ Can animals be trained to line-dance with different rewards?
++ Participants: 200 cats
++ Training
+      + The animal was trained using either food or affection, not both)
++ Dance
+      + The animal either learnt to line-dance or it did not
++ Outcome:
+      + The number of animals (frequency) that could dance or not in each reward condition
++ We can tabulate these frequencies in a contingency table
+
+### The Contingency Table
+
+| Training  |
+|---|---|---|---|---|
+|   |   |Food as Reward|Affection as Reward|Marginal Total (Reward)|
+|Could they dance?|Yes|28|48|76|
+|   |No |10|114|124|
+|   |Marginal Total (Dance)|38|162|200|
+
+## Pearson's Chi-Square Test
+
+The test is a called a test of independence:
+
+"The sampling uits come from a population of units in which the two variables are independent of each other in terms of cell frequencies (Quinn 2002)"
+
+So we will use the test to understand if there is a relationship between two categorical variables - by analyzing the frequencies.
+
+The null hypothesis is that the two variables are independent.
+
+If rows and columns are independent, the probability of an obsrevation occuring in a cell is is equal to the product of marginal elements. These are the expected frequencies in each cell if observations are independent.
+
++ Compares the frequencies you observe in certain categories to the frequencies you might expect to get in those categories by chance.
+
+The equation:
+
+$\chi^2=\sum\frac{(observed_{ij}-Model_{ij})^2}{Model_{ij}}$
+
++ "i" represents the rows in the contingency table and "j" represents the columns.
++ The observed data are the frequencies the contingency table
+      
+The 'model' is based on 'expected frequencies'.
+
++ Calculated for each of the cells in the contingency table.
++ n is the total number of observations (in this case 200).
+
+$Model_{ij}=E_{ij}=\frac{Row \: Total_i\times Column \: Total_j}{n}$
+
+Test statistic
+
++ Checked against a distribution with ($n_r$ - 1)($n_c$ - 1) degrees of freedom.
++ If significant we reject the null hypothesis and conclude thatthere is a significant association between the categorical variables in the population.
+
+
+$Model_{Food, Yes}=\frac{RT_{Yes}\times CT_{Food}}{n}=\frac{76\times 38}{200}=14.44$
+
+$Model_{Food, No}=\frac{RT_{No}\times CT_{Food}}{n}=\frac{124\times 38}{200}=23.56$
+
+$Model_{Affection, Yes}=\frac{RT_{Yes}\times CT_{Affection}}{n}=\frac{76\times 162}{200}=61.56$
+
+$Model_{Affection, No}=\frac{RT_{No}\times CT_{Affection}}{n}=\frac{124\times 162}{200}=100.44$
+
+<Br>
+<Br>
+
+\begin{aligned}
+\chi^2&=\frac{(28-14.44)^2}{14.44}+\frac{(10-23.56)^2}{23.56}+\frac{(48-61.56)^2}{61.56}+\frac{(114-100.44)^2}{100.44}\\
+
+&=\frac{(13.56)^2}{14.44}+\frac{(-13.56)^2}{23.56}+\frac{(-13.568)^2}{61.56}+\frac{(13.56)^2}{100.44}\\
+
+&=12.73+7.80+2.99+1.83\\
+
+&=25.35
+\end{aligned}
+
+<Br>
+
+## Interpreting Chi-Square
+
+The test statistic gives an 'overall' result.
+
+We can break this result down using standardized residuals - a very informative diagnostic.
+
+There will be cell specfic residuals, and we can normalize these based on the expected frequencies:
+
+$residual_{ij}=\sum\frac{observed_{ij}-Model_{ij}}{\sqrt{Model_{ij}}}$
+
+There are two important things about these standardized residuals:
+
++ Standardized residuals have a direct relationship with the test statistic (they are a standardized version of the difference between observed and expected frequencies).
++ These are standardized  z-scores (e.g. if the value lies outside of the range between -1.96 and +1.96 then it is significant at p < .05).
+
+## Important Points
+
+The chi-square test has two important assumptions:
+
++ Independence:
+      + Each person, item or entity contributes to only one cell of the contingency table.
++ The expected frequencies should be greater than 5.
+      + In larger contingency tables up to 20% of expected frequencies can be below 5, but there a loss of statistical power.
+      + Even in larger contingency tables no expected frequencies should be below 1.
+
+Proportionately small differences in cell frequencies can result in statistically significant associations between variables if the sample is large enough
+
++ Look at row and column percentages to interpret effects.
+
+Performing the Analysis in R using the "CrossTable function"
+
+## Output from the CrossTable() Function 
+
+|CatsData$Training|Yes|No|Row Total|
+|---|---|---|---|
+|Food as reward |28   |10   |38   |
+|   |14.440   |23.560 |   |
+|   |12.734   |7.804  |   |
+|   |73.684%  |26.316%|19.000%   |
+|   |36.842%  |8.065% |   |
+|   |14.000%  |5.000% |   |
+|   |3.568   |-2.794   |   |
+|Affection as Reward   |48   |114   |162   |
+|   |61.560   |100.440   |   |
+|   |2.987   |1.831   |   |
+|   |29.630%   |70.370%   |81.000%   |
+|   |63.159%   |91.935%   |   |
+|   |24.000%   |57.000%   |   |
+|   |-1.728   |1.353   |   |
+|Colomn Total   |76   |124   |200   |
+|   |38.000%   |62.000%   |   |
+
+## Statistics for all table factors 
+
+Pearson's Chi-squared test
+
+ + Chi^2 = 25.35569, d.f. = 1, p = 4.767434e-07
+ + Pearson's Chi-squared test with Yates' continuity correction 
+
+

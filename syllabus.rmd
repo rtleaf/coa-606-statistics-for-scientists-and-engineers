@@ -22,8 +22,6 @@ Office Hours: `r paste0(syl.comp$VAR2[which(syl.comp$VAR1 == "Office Hours")])`
 
 Email: `r paste0(syl.comp$VAR2[which(syl.comp$VAR1 == "Email")])`
 
-Website: https://rtleaf.github.io/rtleaf-COA-606-Statistics-for-Scientists-and-Engineers/
-
 Course Meeting Day and Time: `r paste0(syl.comp$VAR2[which(syl.comp$VAR1 == "Course Meeting Days")])`, `r paste0(syl.comp$VAR2[which(syl.comp$VAR1 == "Course Meeting Time")])`
 
 ## Course Description and Objectives
