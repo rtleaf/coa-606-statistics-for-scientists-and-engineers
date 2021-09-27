@@ -352,10 +352,11 @@ When the total frequency is large and the class intervals are narrow, the freque
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 par(mfrow = c(2,1))
+par(mar = c(4,4,1,1))
 x= rnorm(n = 150,3,2)
 x = hist(x, plot = F)
 
-plot(x$mids, x$counts, xlab = 'Midpoint', ylab = 'Frequency')
+plot(x$mids, x$counts, xlab = '', ylab = 'Frequency', xaxt = 'n')
 lines(x$mids, x$counts)
 
 x= rnorm(n = 150,5,1)
@@ -365,7 +366,7 @@ plot(x$mids, x$counts, xlab = 'Midpoint', ylab = 'Frequency')
 lines(x$mids, x$counts)
 ```
 
-### Box and whisker plot
+### Box and whisker Plot
 
 This graph, first described by Tukey in 1977, can also be used to illustrate the distribution of data. 
 
@@ -382,6 +383,36 @@ par(mfrow = c(2,1))
 boxplot(rnorm(n = 150,3,2), horizontal=TRUE)
 boxplot(rnorm(n = 150,5,1), horizontal=TRUE)
 ```
+
+
+### Violin 
+
+Violin plots are an alternative to box plots that solves the issues regarding displaying the underlying distribution of the observations, as these plots show a kernel density estimate of the data. 
+
+same summary statistics as box plots:
+
+* the white dot represents the median
+
+* the thick gray bar in the center represents the interquartile range
+
+* the thin gray line represents the rest of the distribution, except for points that are determined to be “outliers” using a method that is a function of the interquartile range.
+
+On each side of the gray line is a kernel density estimation to show the distribution shape of the data. Wider sections of the violin plot represent a higher probability that members of the population will take on the given value; the skinnier sections represent a lower probability.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+library("vioplot")
+
+par(mfrow=c(2,1), mar = c(4,4,1,1))
+mu<-2
+si<-0.6
+bimodal<-c(rnorm(1000,-mu,si),rnorm(1000,mu,si))
+uniform<-runif(2000,-4,4)
+normal<-rnorm(2000,0,3)
+vioplot(bimodal,uniform,normal)
+boxplot(bimodal,uniform,normal)
+
+```
+
 
 # The Normal Distribution
 + The normal distribution is probably the most common distribution in all of probability and statistics. 
@@ -560,16 +591,11 @@ abline(v = c(-3.29, 3.29), lwd = 2)
 #x axis labels and percentages need to be added 
 ```
 
-
-
-
-
 # Model Fitting
 
 ```{r, eval=FALSE, echo=FALSE}
 + Achieve an unbiased estimate - Long-run (infinite sampling) 
 + Derive an efficient estimator - Fewest number samples to obtain accurate value
-
 
 ## The normal distribution, your first statistical model  
 
@@ -588,7 +614,15 @@ $Y_{i,obs} = \frac{1}{\sigma\sqrt2\pi}e^{-(X_i-\mu)^2/2\sigma^2} + error_{i}$
 + How can we assess how well the mean represents reality?
 
 ``` 
-  
+
+## The Residual and Objective Function
+
+The residuals for a particular model:
+
+$outcome_i = (model) + error_i$  
+
+To ‘thread the model through the middle of the noise’, we want the magnitudes of all residuals to be small. A reasonable way (not the only way) to achieve this is to define our objective function to minimize error.  
+
 ## Quantifying Error
 
 + A deviation is the difference between the mean (*expected*) and the *observed* data (the outcome of the sample).
@@ -669,23 +703,53 @@ $SS = \Sigma(X - \bar{X})^2 = 5.20$
 
 + The sum of squares is a good measure of overall variability, but is dependent on the number of scores.
 
+
+## Let's fit a model to some data using the sum of squares criteria:
+
+Data from 10 tree heights. We want to estimate the mean value. 
+
+```{r}
+tree.ht <- c(2,4,9,3,5,1,2,12,8,10)
+candidate.mu <- seq(min(tree.ht), max(tree.ht), length.out = 30)
+SS.est <- c()
+for (j in 1:length(candidate.mu))
+
+  SS.est[j] <- sum((tree.ht - candidate.mu[j])^2)
+  
+plot(candidate.mu, SS.est, type = 'n')
+lines(candidate.mu, SS.est, lwd = 2 )
+```
+
+
 ## Variance
 
-+ We calculate the average variability (average variability of each sample) by dividing by the number of scores minus one (n-1).
 
-+ The quantity n - 1 is termed *degrees of freedom*. It is the maximum number of logically independent values, those with the freedom to vary in the sample
+In statistics, when we talk about population, we mean the entire universe of possible values of a stochastic (random) variable.
 
-+ The sum of squares divided by the degrees of freedom is called the variance (s^2^).
+<center>
+Population variance: $\sigma^2 = \frac{SS}{N} = \frac{\Sigma^n_{i=1}(x_i-\mu)^2}{N}$
+</center>
+
+Most of the time, we don’t sample the entire population because it is too complex or simply not feasible. Think, for instance, at a problem when you want to analyze the heights of the oak trees in a forest. You can, of course, measure every single tree of the forest and so have collected statistics about the entire forest, but this could be very expensive and would take a very long time. 
+
++ We calculate the average variability (average variability of each sample.
+
+So,  can obtain a sample of, let’s say, 20 trees and try to relate sample statistics and population statistics. 
+
 
 <center>
 Sample variance: $s^2 = \frac{SS}{n-1} = \frac{\Sigma(x_i-\bar{x})^2}{n-1}$
 </center>
 
-Contrast this with the population variance: 
+Why n-1 instead of N? 
 
-<center>
-Population variance: $\sigma^2 = \frac{SS}{N} = \frac{\Sigma^n_{i=1}(x_i-\mu)^2}{N}$
-</center>
+When we use N instead of n-1, we have an error called statistical bias, which means that the sample variance (the estimator) is systematically different from the true population parameter (in this case, the variance).
+
+Let’s see an example. Imagine a forest of 10,000 oak trees: This is the entire population. We want to estimate the distribution of heights. 
+
+Suppose we don’t know that the heights are normally distributed with an average of 10 m and a standard deviation (square root of variance) of 2 m. These are the statistical parameters of the entire population. We try to estimate these values through a sample of 20 random oak trees. We repeat the experiment 100 times. 
+
+Given that 20 samples are a tiny subset of 10,000 items of population, every time we sample the population, we get a different estimate of the sample variance and the population variance. On average (after taking many, many samples), we get a reasonable estimate of the standard deviation of the population. 
 
 ## Standard Deviation 
 
@@ -707,39 +771,246 @@ The sum of squares, variance, and standard deviation represent the same thing:
 + The variability in the data when modeled using the mean 
 
 
+## Central limit theorem
+
+The central limit theorem (CLT) states that the distribution of sample means approximates a normal distribution as the sample size becomes larger regardless of the population distribution shape.
+
+The sample theory is the study of relationships existing between a population and samples drawn from population.
+
+Consider all possible samples of size *n* that can be drawn from the population. For each sample, we can compute statistic like mean or a standard deviation, etc that will vary from sample to sample. This way we obtain a distribution called as the sampling distribution of a statistic. If the statisic is sample mean , then the distribution is called the sampling distribution of mean.
+
+If we take many sets of samples from a population, and calculated the mean of these, we could plot the frequency distribution of the sample means.
+
+This distribution is the 'sampling distribution'  It: 
+
+1.) The sampling distribution from a normal distribution is normally-distributed.
+
+2.) As sample size increases (to infinity), the sampling distribution, from any distribution, will approach a normal distribution.
+
+3.) The expected value (the mean) of the sample distribution will be the mean of the population distribution.
+
+
+## Example 1 
+
+A fair die can be modelled with a discrete random variable with outcome 1 through 6, each with the equal probability of 1/6.
+
+```{r}
+DieOutcome <- sample(1:6,10000, replace= TRUE)
+hist(DieOutcome, col ="light blue")
+abline(v=3.5, col = "red",lty=1)
+
+```
+
+We will take samples of size 10 , from the above 10000 observation of outcome of die roll, take the arithmetic mean and try to plot the mean of sample. we will do this procedure k times (in this case k= 10000 )
+
+```{r}
+x10 <- c()
+k =10000
+ for ( i in 1:k) {
+ x10[i] = mean(sample(1:6,10, replace = TRUE))}
+ hist(x10, col ="pink", main="Sample size =10",xlab ="Outcome of die roll")
+ abline(v = mean(x10), col = "Red")
+ abline(v = 3.5, col = "blue")
+
+```
+
+
+By theory , we know as the sample increases, we get better bell shaped curve. As the n apporaches infinity , we get a normal distribution. Lets do this by increasing the sample size to 30, 100 and 1000.
+
+```{r}
+x30 <- c()
+ x100 <- c()
+ x1000 <- c()
+ k =10000
+ for ( i in 1:k){
+ x30[i] = mean(sample(1:6,30, replace = TRUE))
+ x100[i] = mean(sample(1:6,100, replace = TRUE))
+ x1000[i] = mean(sample(1:6,1000, replace = TRUE))
+ }
+ par(mfrow=c(1,3))
+ hist(x30, col ="green",main="n=30",xlab ="die roll")
+ abline(v = mean(x30), col = "blue")
+
+ hist(x100, col ="light blue", main="n=100",xlab ="die roll")
+ abline(v = mean(x100), col = "red")
+
+ hist(x1000, col ="orange",main="n=1000",xlab ="die roll")
+ abline(v = mean(x1000), col = "red")
+
+```
+
+### Example 2
+
+Flipping a fair coin many times the probability of getting a given number of heads in a series of flips should follow a normal curve, with mean equal to half the total number of flips in each series. Here 1 represent heads and 0 tails.
+
+```{r}
+x <- c()
+k =10000  
+ for ( i in 1:k) {  
+ x[i] = mean(sample(0:1,100, replace = TRUE))}  
+ hist(x, col ="light green", main="Sample size = 100",xlab ="flipping coin ")  
+ abline(v = mean(x), col = "red")
+```
 
 # Sampling and Parameter Estimation
-## Random samples
 
-+ Every possible member of the population has an equal probability of being included in the sample.
+## Simple Random Samples
 
-+ Ex: scientific exit polling vs. twitter polls to estimate proportion voting for a candidate.
++ Every member of the population has an equal probability of being included in the sample.
 
-+ Think of a normally distributed frequency distribution as the population distribution:
++ Consider Exit polling vs. Twitter polls to estimate proportion voting for a candidate. Why does one provide a better estimate than another.
 
-How would the sampling distribution vary if samples were non-random?
++ BTW, this is the primary issue with current political polling - the quest to get a representative sample (https://fivethirtyeight.com/features/is-the-polling-industry-in-stasis-or-in-crisis/)
+
+Some language of sampling that is useful to review (or introduce):
+
+* a *population* is the entire collection of people or things you are interested in (note a *census* is a measurement of all the units in the population);
+* a *sampling frame* is the specific data from which the sample is drawn, e.g., a telephone book;
+* a *unit of analysis* is the type of object of interest, e.g., arsons, fire departments, firefighters;
+* a *sample* is a subset of some of the units in the population;
+* a *statistic* is a number that results from measuring all the units in the sample;
+
+Statistics derived from samples are used to estimate population parameters.
+
+For example, to find out the average age of all motor vehicles in the state in 1997:
+
+* *Population* = all motor vehicles in the state in 1997
+* *Sampling frame* = all motor vehicles registered with the DMV on July 1, 1997
+* *Unit of analysis* = motor vehicle
+* *Sample* = 300 motor vehicles
+* *Statistic* = the average age of the 300 motor vehicles in the sample
+
+Simple random sample (SRS): *Each unit in the population is identified, and each unit has an equal chance of being in the sample.* The selection of each unit is independent of the selection of every other unit. Selection of one unit does not affect the chances of any other unit (*Independence*).
+
+For example, to select a sample of 25 people who live in your college dorm, make a list of all the 250 people who live in the dorm. 
+
+* Assign each person a unique number, between 1 and 250. 
+
+* Then refer to a table of random numbers. 
+
+* Starting at any point in the table, read across or down and note every number that falls between 1 and 250. 
+
+* Use the numbers you have found to pull the names from the list that correspond to the 25 numbers you found. 
+
+* These 25 people are your sample. This is called the table of random numbers method.
+
+We (I) spend considerable effort to discuss SRS because it is the way to obtain *statistically valid data*.
 
 + Only statistically valid data that can be used for analysis - the first assumption of parametric statistics.
 
-+ We will generally make an inspection of the data and/or the residuals to ensure that they are normally distributed.
++ We will generally make an inspection of the data and/or the residuals to ensure that they are normally distributed (The second assumption)
+
++ If we are examining and doing statistical tests among or between groups then the variances of each group must be *equal*. The third assumption.
 
 + Ensuring that data are collected in a random fashion allows statistics to be calculated. Non-random data collection disallows this.
 
 + Independence is also a critical aspect of sampling - the sampling of one element will not impact or predict the value of another element.
 
+## Hurlburt (1984)
+
+Now that we know what constitutes a valid sample, lets look at some ways (and some ways not) to collect samples.
+
+Hurlburt's paper has been instrumental in promoting an understanding of *pseudoreplication* and the term has become widely used. Ecologists have become more aware of the need for close concordance of design, analysis, and interpretation of experiments. 
+
+*“No one would now dream of testing the response to a treatment by comparing two plots, one treated and the other control.” Fisher and Wishart (1930).*
+
+Hurlburt evaluated the frequency of *pseudoreplication* as a fatal flaw of experiments
+
+* Hurlbert(1984) Ecological Monographs 54:187‐211
+
+* Evaluated 176 studies from 1960 to 1984.
+
+* Found 27% overall or 48% of those making statistical inferences used “pseudoreplication”.
+
+* The term pseudoreplication was coined by Hurlbert to refer to "the use of inferential statistics to test for treatment effects with data from experiments where either treatments are not replicated (though samples may be) or replicates are not statistically independent.“
+
+* The context of his paper was ecological field experiments, but pseudoreplication can occur in other contexts as well.
+
+### Types of Experiments
+
+Manipulative Experiments have the features
+
+* Control
+* Randomization
+* Replication
+
+What is the other class of experiments that Hurlburt discusses?
+
+### Sample allocation
+
+* Statisticians emphasize importance of randomization
+
+* Hurlbert’s concern is with randomization methods not always giving good interspersion of treatments (spatial and temporal)
+
+### What is Pseudoreplication?
+
+* Replication refers to having more than one experimental (or observational) unit with the same treatment.
+
+* Each unit with the same treatment is called a replicate.
+
+* Most models for statistical inference require true replication.
+
+* True replicates are often confused with repeated measures or with pseudoreplicates.
+
+### Examples of Pseudoreplication
+
+1. Suppose a blood-pressure lowering drug is administered to a patient, then the patient's blood pressure is measured twice. This is a repeated measure, not a replication. It can give information about the uncertainty in the measurement process, but not about the variability in the effect of the drug. On the other hand, if the drug were administered to two patients, and each patient's blood pressure was measured once, we can say the treatment has been replicated, and the replication may give some information about the variability in the effect of the drug.
+
+2. A researcher is studying the effect on plant growth of different concentrations of CO2 in the air.  He needs to grow the plants in a growth chamber so that the  CO2 concentration can be controlled. He has access to only two growth chambers, but each one will hold five plants.  However, since the five plants in each chamber share whatever conditions are in that chamber besides the CO2 concentration, and in fact may also influence each other, they are not independent replicates but are pseudoreplicates. The growth chambers are the experimental units; the treatments are applied to the growth chambers, not to the plant independently.
+
+3. Two fifth-grade math curricula are being studied. Two schools have agreed to participate in the study. One is randomly chosen to use curriculum A, the other to use curriculum B. At the end of the school year, the fifth-grade students in each school are tested and the results are used to do a statistical analysis comparing the two curricula. There is no true replication in this study; the students are pseudo-replicates. The schools are the experimental units; they, not the students, are randomly assigned to treatment. Within each school, the test results (and the learning) of the students in the experiment are not independent; they are influenced by the teacher and other school-specific factors (e.g., previous teachers and learning, socioeconomic background of the school, etc.).
+
+## Stratified Random Sampling 
+
+The way in which was have selected sample units thus far has required us to know little about the population of interest in advance of selecting the sample. 
+
+This approach is ideal only if the characteristic of interest is distributed homogeneously across the population. 
+
+If, however, the characteristic is distributed heterogeneously, then estimates based on these designs will be imprecise relative to several alternative sampling designs. 
+
+For example, if we have information that we know to be associated with the heterogeneity in the population, we can use that ancillary information to guide alternative strategies for selecting samples that will yield estimates with higher precision that a simple random sample for the same amount of effort. The first of these designs is stratified random sampling. 
+
+A stratified random sample is one obtained by dividing the population elements into mutually exclusive, non-overlapping groups of sample units called strata, then selecting a simple random sample from within each stratum (stratum is singular for strata). 
+
+Stratifying involves classifying sampling units of the population into relatively homogeneous groups before (usually) selecting sample units. Strata are based on information other than the characteristic being measured that is known to or thought to vary with the characteristic of interest.
+
+Because virtually all ecological systems are heterogeneous, stratifying is used commonly as a way to increase precision in ecological studies. Common strata in ecological studies include elevation, aspect, or other geographic features for studying plant communities and vegetation communities or soils for studying some animal communities. When choosing among several potential strata, seek strata that best minimize variation in the characteristic of interest within strata and that maximize variation among strata. 
+
+How it is implemented:
+*  Divide the entire population into non-overlapping strata
+*  Select a simple random sample from within each strata 
+
+*L* = number of strata
+$n_i$ = number of sample units within stratum *i*
+*n* = number of sample units in the population 
+
+Estimates from stratified random samples are simply the weighted average or the sum of estimates from a series of simple random samples, each generated within a unique stratum. 
+
+$\bar{x} = \frac{1}{n}\sum_{i = 1}^{L}n_{i}\bar{x}_i$
+
+$s^2 = \frac{1}{n^2}\sum_{i = 1}^{L}n_i^2(\frac{n - n_i}{n})(\frac{s_i^2}{n_i})$
+
+### Allocating Sampling Effort among Strata 
+
+Using stratified random sampling requires that we decide how to divide a fixed amount of sampling effort among the different strata; that process is called allocation. When deciding where to allocate sampling effort, the question becomes how best to allocate effort among strata so that the sampling process will provide the most efficient balance of effort, cost, and estimate precision.
+
+* Uniform Allocation
+
+* Allocation Proportional to Size or Variation 
+
 ## Parameter Estimates - Unbiased
 
 + Parameters are estimated quantities that could describe any number of population characteristics (the characteristics of variables).
 
-+ We are generally focused on the mean and variance, estimated parameters could be the mean, median, mode.
++ We are generally focused on the mean and variance (however estimated parameters could be the mean, median, mode, proportion, total, etc.).
 
-+ One aspect of parameter estimation is to get a *point estimate* - approximation of the true value of the population, but does not provide information about the precision of the estimate.
++ One aspect of parameter estimation is to get a *point estimate*, an approximation of the true value of the population parameter. However this estimated does not provide information about the precision of the estimate.
 
 + The best estimate of $\mu$ is $\bar{x}$.
 
 + The best estimate of $\sigma$ is $s$.
 
-+ We strive for an unbiased estimate of population paramters: Unbiased means that the expected value is equal to the true value (accuracy)
++ We strive for an unbiased estimate of population parameters: Unbiased means that the expected value is equal to the true value (accuracy)
 
 ## Parameter Estimates - Efficient
 
@@ -769,13 +1040,15 @@ How would the sampling distribution vary if samples were non-random?
 
 + In the first case, let's use or general equation for a statistical model: 
 
-$Statistic = Parameter  \pm Error$ (From Kachigan, p. 138)
+Statistic = Parameter  $\pm$ Error (From Kachigan, p. 138)
 
-$Paramter = Statistic  \pm Error$
+Parameter = Statistic  $\pm$ Error
 
 $\mu = \bar{x}  \pm Error$
 
-+ We will never know the magnitude of the true error? How large is the combined effect of sampling and process error. However, we can attach a probability that the error is a certain size. Now, we want to solve for the Statistic.
++ We will never know the magnitude of the true error. 
+
+What we can understand is the  combined effect of sampling and process error. so, we attach a probability that the error is a certain size. Now, we want to solve for the Statistic.
 
 $\bar{x}  = \mu \pm Error$
 
@@ -826,29 +1099,67 @@ $\mu = \bar{x} \pm t_{df}{s_{\bar{x}}}$ (99% Certainty, with *n* =  10?)
 $\mu = \bar{x} \pm t_{df}{s_{\bar{x}}}$ (99% Certainty, with *n* =  50?)
 
 
-
-
-
-
-
-
-
-
 # Hypothesis Testing and Power
 ## Statistical Hypothesis Testing
 
-+ State a testable hypothesis
+Although thoroughly criticized, null hypothesis significance testing (NHST) remains the statistical method of choice used to provide evidence for an effect, in biological, biomedical and social sciences.
+
+The approach plays into the primary method for making progress in science.
+
+Observations -> Models -> Hypothesis -> Null Hypothesis -> Experiment
+
+1.) Observations - make an observation of patterns in nature. These could be large in spatial or temporal scale, or small.
+
+2.) Given the observation, construct a *model*. Models are a framework that provide an explanation about why the pattern(s) that you observe, exists.
+
+3.) Hypotheses derive from models. What *must* be true for the model to have explanatory power (and thus be accurate)?
+
+4.) Having established a prediction about what would happen under some experimental condition, it must be tested. 
+
+Inductive reasoning is used here: we can prove something to be true, instead, we can only disprove things. This is termed the *falsificationist procedure*.
+
+5.) Perform the well-conducted experiment.
+
+6.) Observe and interpret the outcome.
+
+If you retain (fail to reject null Hypothesis) -> Make more observations and develop alternative models.
+
+If you reject the null hypothesis -> Model is supported, does it support additional hypotheses that can be tested?
+
+## NHST
+
+NHST is a method of statistical inference by which an experimental factor is tested against a hypothesis of no effect (the null hypothesis) or no relationship based on a given observation.
+
++ The first step is to state a testable hypothesis:
 
 + $H_0$   Null hypothesis
 + $H_A$   Alternative hypothesis
 
-+ Declare $\alpha$ level
++ Declare $\alpha$ level (this determines your quantile value)
+
+t is recommended to set a level of significance (a theoretical *p*-value) that acts as a reference point to identify significant results, that is to identify results that differ from the null-hypothesis of no effect. This is the $\alpha$ level.
+
+Fisher recommended using $\alpha =0.05$ to judge whether an effect is significant or not. 
+
+This alpha level is roughly two standard deviations away from the mean for the normal distribution.
+
+‘The value for which p=.05, or 1 in 20, is 1.96 or nearly 2; it is convenient to take this point as a limit in judging whether a deviation is to be considered significant or not’). 
+
+How small the level of significance is, is left to researchers (domain knowledge).
 
 + Collect Data
 
-+ Compare the test statistic to the critical value (determined by alpha)
++ Compare the test statistic to the critical value (determined by $\alpha$)
 
-+ State the resulting probability
++ State the resulting probability (the *p*-value)
+
+The p-value is the *probability* of obtaining test results at least as extreme as the results actually observed.
+
+The p-value is *not* an indication of the strength or magnitude of an effect. 
+
+A (small) p-value is *not* an indication favoring a given hypothesis.
+
+The p-value is *not* the probability of the null hypothesis p($H_0$), of being true.
 
 + State testable hypothesis
 
@@ -1002,7 +1313,6 @@ abline(v = -1.645)
 
 ## Type-1 and Type-2 Errors
 
-
 Sometimes we:
 
 + Reject the null hypothesis when it is true. 
@@ -1030,8 +1340,6 @@ plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xla
 abline(v = c(1.96,-1.96))
 #Needs "-1.96", "1.45", and "1.96" arrows on x axis 
 ```
-
-*Figure 4.8.1*
 
 <Br>
 
@@ -1067,13 +1375,31 @@ Thought experiments:
 
 *Table 4.8.2: \ Long-term Probabilities of Outcomes in Hypothesis Testing* 
 
-<Br>
 
-### Power 
 
-Power: the probability that a statistical test will reject a null hypothesis when it is false (proper rejection).
+### Statistical Power 
 
-<Br>
+Power: the *probability* that a statistical test will reject a null hypothesis when it is false (proper rejection).
+
+There are multiple ways to interpret power correctly:
+
++ Power is the probability of rejecting the null hypothesis when, in fact, it is false.
+
++ Power is the probability of making a correct decision (to reject the null hypothesis) when the null hypothesis is false.
+
++ Power is the probability that a test of significance will pick up on an effect that is present.
+
++ Power is the probability that a test of significance will detect a deviation from the null hypothesis, should such a deviation exist.
+
++ Power is the probability of avoiding a Type II error.
+
+Power is 1 – $\beta$.
+
+The power of a hypothesis test is between 0 and 1; 
+
+If the power is close to 1, the hypothesis test is very good at detecting a false null hypothesis. 
+
+Beta is commonly set at 0.2, but may be set by the researchers to be smaller. Consequently, power may be as low as 0.8, but may be higher. Powers lower than 0.8, while not impossible, would typically be considered too low for most areas of research.
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 # Histogram for fig 4.8.1
@@ -1088,10 +1414,6 @@ abline(v = c(1.96,-1.96))
 
 ```
 
-*Figure 4.9.1*
-
-<Br>
-<Br>
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 # Histogram for fig 4.8.1
@@ -1106,9 +1428,6 @@ abline(v = c(1.96,-1.96))
 
 ```
 
-*Figure 4.9.2*
-
-<Br>
 
 ### Leaf's power simulation in R
 
@@ -1116,12 +1435,36 @@ abline(v = c(1.96,-1.96))
 
 ### What Influences Statistical Power?
 
+These are listed in Zar, we can take them step by step to learn why power is influenced.
 
+0. Significance level (or alpha)
+
+1. Sample Size
+
+Power depends on sample size. Other things being equal, larger sample size yields higher power. 
+
+2. Variance
+
+Power also depends on variance: smaller variance yields higher power.
+
+3. Experimental Design
+
+Power can sometimes be increased by adopting a different experimental design that has lower error variance. For example, stratified sampling can reduce error variance and hence increase power. However,
+
++ The power calculation will depend on the experimental design. 
+
++ The statistical analysis will depend on the experimental design. 
+
+4. Magnitude of the effect of the variable.
 
 # Parameteric and Non-Parameteric Correlation
 ## Correlation 
 
-Correlations is a way of measuring the extent to which two variables are related.
+We often have information on two numeric characteristics for each member of a group and are interested in finding the degree of association between these characteristics. 
+
+For instance, an obstetrician may decide to look up the records of women who delivered in her hospital in the previous year to find out whether there is a relationship between their family incomes and the birth weights of their babies. 
+
+The relationship here means whether the two variables fluctuate together, i.e., does thebirth weight increase (or decrease) as the income increases.
 
 Parametric approaches
 
@@ -1132,26 +1475,9 @@ Nonparametric approaches
 + Spearman's rho
 + Kendall's tau
 
-Interpreting correlations
+## Interpreting correlations
 
-Small Relationship 
-
-```{r, results='hide',message=FALSE, echo=FALSE}
-par(mfrow = c(1,1))  
-x <- rnorm(100, 50, 35)
-y <- rnorm(100, 0, 55)
-plot(x,y, xlim = c(0,100), pch = 16, xlab = "x.val", ylab = "y.val")
-line <- lm(y~x)
-sum <- summary(line)
-slope <- sum$coefficients[2,1]
-b <- sum$coefficients[1,1]
-curve(slope*x+b, from = min(x), to = max(x), add = T)
-box()
-
-```
-
-
-Positive Relationship
+### Positive Relationship
 
 ```{r, echo=FALSE}
 library(MASS)
@@ -1173,7 +1499,7 @@ curve(slope*x+b, from = 10, to = 60, add = T, lwd = 2)
 ```
 
 
-Negative Relationship
+### Negative Relationship
 
 ```{r, echo=FALSE}
 library(MASS)
@@ -1195,34 +1521,49 @@ curve(slope*x+b, from = 10, to = 60, add = T, lwd = 2)
 ```
 
 
+### No Relationship 
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,1))  
+x <- rnorm(100, 50, 35)
+y <- rnorm(100, 0, 55)
+plot(x,y, xlim = c(0,100), pch = 16, xlab = "x.val", ylab = "y.val")
+line <- lm(y~x)
+sum <- summary(line)
+slope <- sum$coefficients[2,1]
+b <- sum$coefficients[1,1]
+curve(slope*x+b, from = min(x), to = max(x), add = T)
+box()
+
+```
+
 ## Quantifying the magnitude of correlation
 
-+ As one variable increases, does the other increase, decrease or stay the same?
++ As one variable increases, does the other increase, decrease or not change at all (stay the same)?
 
-+ This can be done by calculating the covariance.
++ This can be done by understood by calculating the covariance.
 
-+ We look at how much each score deviates from the mean.
++ We look at how much each score deviates from their respective mean values.
 
-+ If both variables deviate from the mean by the same amount, they are likely to be related.
++ If both variables deviate from the mean in a similar way, they are likely to be related (or 'covary').
 
 Here is the results (bivariate) of an experiment aimed at understanding the efficacy of advertising:
 
-| Participant | 1 | 2 | 3 | 4 | 5 | Mean | SD |
+| Participant number (*i*) | 1 | 2 | 3 | 4 | 5 | Mean | SD |
 |---|---|---|---|---|---|---|---|
-| Adverts Watched | 5 | 4 | 4 | 6 | 8 | 5.4 | 1.67 |
-| Packets Bought  | 8 | 9 | 10| 13| 15| 11  | 2.92 |
+| Adverts Watched (*x*) | 5 | 4 | 4 | 6 | 8 | 5.4 | 1.67 |
+| Packets Bought (*y*)  | 8 | 9 | 10| 13| 15| 11  | 2.92 |
 
 Residual error values:
 
-| Participant | 1 | 2 | 3 | 4 | 5 | Mean | SD |
+Remember residuals are the value of the observation - expectation. 
+
+| Participant number (*i*) | 1 | 2 | 3 | 4 | 5 | Mean | SD |
 |---|---|---|---|---|---|---|---|
 | Adverts Watched | 5 | 4 | 4 | 6 | 8 | 5.4 | 1.67 |
 | Packets Bought  | 8 | 9 | 10| 13| 15| 11  | 2.92 |
 | Advertiser Residual | -0.4 | -1.4 | -1.4 | 0.6 | 2.6 |
 | Packets residual | -3 |-2 | -1 | 2 | 4 |
-
-
-<Br>
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 par(mfrow = c(1,1), mar = c(4,4,1,4)) # This tells R to put 1 row, 2 columns
@@ -1258,28 +1599,32 @@ legend('topleft', legend = "Residual value of packets bought", bty = 'n')
 
 ## Covariance and a re-examination of variance
 
-+ Remember the variance tells us by how much scores deviate from the mean for a single variable.
++ Remember the variance tells us how much scores deviate from the mean for a single variable.
 
-+ It is closely linked to the sum of squares.
++ It is closely linked to the sum of squares, indeed we use the sum of squares to calculate the variance.
 
 + Covariance is similar - it tells is by how much scores on two variables differ from their respective means.
 
-$variance=\frac{\Sigma(x_i - \bar{X})}{N-1}^2$
+$s^2=\frac{\Sigma(x_i - \bar{X})}{n-1}^2$
 
-$variance=\frac{\Sigma(x_i - \bar{X})(x_i - \bar{X})}{N-1}$
+$s^2=\frac{\Sigma(x_i - \bar{X})(x_i - \bar{X})}{n-1}$
 
-+ Calculate the error between the mean and each subject's score for the first variable (*X*).
+## Here we are examining the 'covariance' so the calculation changes a bit.
 
-+ Calculate the error between the mean and their score for the second variable (*Y*).
++ Calculate the error (residual value) between the mean and each subject's score for the first variable (*x*).
 
-+ Multiply these error values.
++ Calculate the error (residual value) between the mean and their score for the second variable (*y*).
+
++ Multiply the error values (the residual values).
 
 + Add these values and you get the cross product deviations.
 
-+ The covariance is the average cross-product deviations:
++ The covariance is the mean (average) of the cross-product deviations:
 
 
-$cov(x,y)=\frac{\Sigma(x_i - \bar{x})(y_i - \bar{y})}{N-1}$
+$cov(x,y)=\frac{\Sigma(x_i - \bar{x})(y_i - \bar{y})}{n-1}$
+
+From our example, and plugging in the values: 
 
 $cov(x,y)=\frac{(-0.4)(-3)+(-1.4)(-2)+(-1.4)(-1)+(0.6)(2)+(2.6)(4)}{4}$
 
@@ -1293,19 +1638,15 @@ $cov(x,y)=4.25$
 
 The magnitude of the covariance is dependent on the units of measurement.
 
-+ e.g. the covariance of two variables measured in miles might be 4.25, but if the same scores are converted to kilometres, the covariance is 11.
++ e.g. the covariance of two variables measured in miles might be 4.25, but if the same scores are converted to kilometres, the covariance is changed...
 
-+ Standardize: Divide by the standard deviations of both variables.
-
-+ The standardized version of covariance is known as the correlation coefficient.
-
-+ It is unaffected by units of measurement.
++ To address this issue we can standarize the covariance value by standardization: Divide by the standard deviations of both variables. The standardized version of covariance is known as the correlation coefficient. It is unaffected by units of measurement.
 
 ## The Correlation Coefficient
 
 $r=\frac{cov_xy}{s_xs_y}$
 
-$r=\frac{\Sigma(x_i - \bar{x})(y_i - \bar{y})}{(N-1)s_xs_y}$
+$r=\frac{\Sigma(x_i - \bar{x})(y_i - \bar{y})}{(n-1)s_xs_y}$
 
 $r=\frac{cov_xy}{s_xs_y}$
 
@@ -1315,9 +1656,9 @@ $r=0.87$
 
 Termed Pearson-product moment correlation coefficient
 
-It varies between -1 and +1
+It ranges between -1 and +1
 
-+ 0 = no relationship
++ A value of zero, indicates that there is no relationship
 
 It is a testable hypothesis
 
@@ -1344,6 +1685,12 @@ Testing $H_0: \rho=0$ versus $H_A: \rho\ne0$
 Coefficient of determination, r^2
 
 + By squaring the value of r you get the proportion of variance in one variable shared by the other.
+
+## 
+
+Square of correlation coefficient ($r^2$), known as coefficient of determination, represents the proportion of variation in one variable that is accounted for by the variation in the other variable. 
+
+For example, if height and weight of a group of persons have a correlation coefficient of ($\rho = 0.80$), one can estimate that 64% (0.80 × 0.80 = 0.64) of variation in their weights is accounted for by the variation in their heights.
 
 ## Non-parametric Correlation
 
