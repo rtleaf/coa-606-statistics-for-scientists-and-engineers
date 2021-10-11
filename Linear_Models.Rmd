@@ -44,7 +44,7 @@ We will use these quantities to understand two things:
 
 + X is measured without error
 
-## Describing a Straight Line
+## Model for Linear Relationship
 
 $Y_i=\beta_0 + \beta_1X_i + \varepsilon_i$
 
@@ -125,6 +125,8 @@ lines(x3, y3, xlim = c(0,12), ylim = c(0,100), pch = 16, type = 'l', xlab = "Pre
 
 ## The Method of Least Squares
 
+This is the approach we will use for parameter estimation and inference in this course.
+
 ```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(2,3,4,6,7,8,10,11,14,15,17,18,20,21,23)
 y <- c(5,10,7,11,20,13,15,30,27,37,35,30,32,35,40)
@@ -134,15 +136,13 @@ segments(x0 = 0, y0 = 3, x1 = 23, y1 = 41)
 
 ```
 
-
 This figure shows a scatterplot of some data with a line representing the general trend. The vertical lines (dotted) represent the differences (or residuals) between the line (predictions) and the observations. 
 
-$RSS(\beta)=\sum_{i=1}^{N}(Y_i - \hat{y_i})^2$
 
 ## Sums of Squares Components
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
-par(mfrow = c(2,2), mar = c(4,4,1,4)) # This tells R to put 1 row, 2 columns
+par(mfrow = c(2,2), mar = c(3,3,3,3)) 
 x <- c(1,2,3,4,5,6,7,8)
 y <- c(2,8,5,8,12,11,18,15)
 plot(x,y, main = "", xlab = "x", ylab = "y", xlim = c(1,8), ylim = c(1,18), pch=1)
@@ -155,6 +155,7 @@ segments(x0 = 6, y0 = 11, x1 = 6, y1 = 10, lty = 2)
 segments(x0 = 7, y0 = 18, x1 = 7, y1 = 10, lty = 2)
 segments(x0 = 8, y0 = 15, x1 = 8, y1 = 10, lty = 2)
 abline(h = 10)
+legend('topleft',bty = 'n', legend = 'Total SS')
 box()
 
 
@@ -172,6 +173,7 @@ segments(x0 = 5, y0 = 12, x1 = 5, y1 = 11, lty = 2)
 segments(x0 = 6, y0 = 11, x1 = 6, y1 = 13, lty = 2)
 segments(x0 = 7, y0 = 18, x1 = 7, y1 = 15, lty = 2)
 segments(x0 = 8, y0 = 15, x1 = 8, y1 = 16, lty = 2)
+legend('topleft',bty = 'n', legend = 'Residual SS')
 box()
 
 
@@ -189,6 +191,7 @@ segments(x0 = 5, y0 = 10, x1 = 5, y1 = 11, lty = 2)
 segments(x0 = 6, y0 = 10, x1 = 6, y1 = 13, lty = 2)
 segments(x0 = 7, y0 = 10, x1 = 7, y1 = 15, lty = 2)
 segments(x0 = 8, y0 = 10, x1 = 8, y1 = 17, lty = 2)
+legend('topleft',bty = 'n', legend = 'Model SS')
 box()
 #Arrow and word boxes
 ```
@@ -269,6 +272,8 @@ box()
 
 + regression SS $=\sum(\hat{Y}_i - \bar{Y})^2$
 
++ How do we get large SSM?
+
 ```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(1,2,3,4,5,6,7,8)
 y <- c(2,8,5,8,12,11,18,15)
@@ -289,14 +294,7 @@ box()
 
 ```
 
-
 ## SST = SSR + SSM
-
-+ How do we get large SSM?
-
-+ What happens if the SSM is large?
-
-+ Regression model is much different from using the mean (null model) as the outcome, therefore regression model improves the outcome.
 
 + So, we can calculate the proportion of improvement due to the model.
 
@@ -322,15 +320,14 @@ Evaluate the amount of systematic variance (regression/model) divided by the amo
 
 2. Use the SSM and SSR
 
-3. Divide the SSM and SSR by their 	respective degrees of freedom (DF).
+3. Divide the SSM and SSR by their 	respective degrees of freedom (DF). These terms can be expressed as averages, divided by DF terms.
 
-+ DF for SSM
-      + The number of parameters in the model - 1
-+ DF for SSR 
-      + number of obs - number of parameters in the model.
++ DF for SSM (The number of parameters in the model - 1)
 
-+ They can be expressed as averages, divided by DF terms.
-+ These are called mean squares, MS: MS *Model* and MS *Residual*
++ DF for SSR (number of obs - number of parameters in the model)
+
+These are called mean squares, MS: MS *Model* and MS *Residual*
+
 + MS~M~ = SS~M~/DF~M~
 + MS~R~ = SS~R~/DF~R~
 
@@ -338,17 +335,19 @@ Evaluate the amount of systematic variance (regression/model) divided by the amo
 
 $F=\frac{MS_M}{MS_R}$
 
-## Test Beta1 = 0
+## Test $\beta_1 = 0$
 
-+ After determining the model parameters values we can estimate the standard error of the slope.
+To test whether $\beta_1 = 0$ we will use the t-distribution.
 
-+ The approach is to determine the confidence interval of the slope for a given value of alpha.
+After determining the model parameters values we can estimate the standard error of the slope.
+
+The approach is to determine the confidence interval of the slope for a given value of alpha.
 
 Look at the following equation, what values will we need?
 
 $SE_{\beta_1}=\frac {\sqrt{(\sum{{Y_i - \hat{Y_i}}})^2/(n - 2)}}{\sqrt{\sum{(X_i - \bar{X})^2}}}$  
 
-+ Degrees of freedom. For simple linear regression (one independent and one dependent variable), the degrees of freedom (DF) is equal to, n - 2.
+Degrees of freedom. For simple linear regression (one independent and one dependent variable), the degrees of freedom (DF) is equal to, n - 2.
 
 Our calculated test statistic is:
 
@@ -384,26 +383,25 @@ plot(x,y, main = "", xlab = "Age. X. in days", ylab = "Wave length. Y. in cm", x
 segments(x0 = 3, y0 = 1.5, x1 = 17, y1 = 5.2)
 ```
 
-We find that the TSS is = 19.656923
+We find that the TSS is = 19.65
 
-We find that the Model SS = 19.132214
+We find that the Model SS = 19.13
 
 |Source of Variation|Sum of Squares (SS)|DF|Mean Squares (MS)|
 |---|---|---|---|
-|Total $[Y_i-\bar{Y}]$|$\sum y^2$|$n-1$|   |
-|Linear regression $[\hat{Y}_i-\bar{Y}]$]|$\frac{(\sum xy)^2}{\sum x^2}$|1|$\frac{\mbox{regression SS}}{\mbox{regression DF}}$|
-|Residual $[Y_i-\hat{Y}]$|total SS - regression SS|$n-2$|$\frac{\mbox{residual SS}}{\mbox{residual DF}}$|
+|Total |$\sum(Y_i-\bar{Y})^2$|  
+|Model (or Regression) |$\sum(\hat{Y}_i-\bar{Y})^2$ |The number of parameters in the model - 1 |SS~M~/DF~M~
+|Residual (or Error)| $\sum(Y_i-\hat{Y})^2$| The number of obs - the number of parameters in the model|SS~R~/DF~R~
+ 
+### Summary of the Calculations for Model Fit
 
-*Summary of the Calculations for testing $H_0:\beta=0$ against $H_A:\beta\ne0$ by an Analysis of Variance*
+We are falsifying the null hypothesis: $H_0$: There is no statistically significant relationship between variables x and y.
 
-+ DF for Regression (model DF) is 1 in simple linear regression, It is the number of parameters - 1
-+ Residual DF (Error DF) is equal n - 2 (why?)
-
-|Source of Varience|SS|DF|MS|
+|Source of Variance|SS|DF|MS|
 |---|---|---|---|
-|Total|19.656923|12|   |
-|Linear Regression|19.132214|1|19.132214|
-|Residual|0.524709|11|0.047701|
+|Total|19.65|12|   |
+|Model (or Regression)|19.13|1|19.13|
+|Residual (or Error)|0.52|11|0.047|
 
 
 $F=\frac{19.132214}{0.047701}=401.1$
@@ -460,6 +458,163 @@ Record Sales~i~ = 134.14 + (0.09612 x Advertising Budget~i~)
 = 134.14 + (0.09612 x 100)
 
 = 143.75
+
+
+## Analysis of the slope coeffient 
+
+Using the fact that $\beta_1$ is approximately normally distributed in large samples, we can test the hypothesis that $\beta_1 = 0$.
+
+From our reading, we learned that the calculated value of the *t*-statistic is: 
+
+$t = \frac{Value_{observed} - {Value_{expected}}}{{SE_{estimate}}}$.
+
+For the hypothesis testing: 
+
+1. Compute the standard error of $\beta_1$, $SE_{\beta_1}$:
+
+$SE_{\beta_1}=\frac {\sqrt{(\sum{{Y_i - \hat{Y_i}}})^2/(n - 2)}}{\sqrt{\sum{(X_i - \bar{X})^2}}}$  
+
+2. Compute the *t*-statistic, in this case, we are comparing our observed value of $\beta_1$ to the expected value, if the null hypothesis is true. So, our expected value is $\beta_1 = 0$. And we divide this difference by $SE_{\beta_1}$.
+
+$t = \frac{\hat{\beta_1} - 0}{SE_{\beta_1}}$.
+
+This is our computed *t* value.
+
+3. We calculate the critical value of t, which is derived using the degrees of freedom. For simple linear regression (one independent and one dependent variable), the degrees of freedom (DF) is equal to, n - 2.
+
+
+4. To determine the 95% CI of $\beta_1$, we can rearrange the above equation:
+
+$t = \frac{\hat{\beta_1} - 0}{SE_{\beta_1}}$.
+
+$t SE_{\beta_1} = \hat{\beta_1}$.
+
+$\hat{\beta_1} = t_{\alpha, df} SE_{\beta_1}$.
+
+If $\alpha = 0.05$, then we would get the 95% confidence interval of $\beta_1$.
+
+## An R example
+
+```{r}
+data(mtcars)
+plot(mtcars$mpg ~ mtcars$hp)
+model. <- lm(mtcars$mpg ~ mtcars$hp)
+
+summary(model.)$coef
+```
+
+
+The second column of the coefficients’ summary, reports $SE_{\beta_1}$ and $SE_{\beta_0}$.
+
+In the third column t value, we find the *t* statistics suitable for tests of the separate hypotheses:
+
+$\beta_o = 0$ and
+
+$\beta_1 = 0$.
+
+Furthermore, the output provides us with *p*-values corresponding to both tests against the two-sided hypothesis in the fourth column of the table.
+
+Given these results 
+
+$\beta_1 = -0.06822828$
+
+$SE_{\beta_1} = 0.0101193$
+
+$t = \frac{\hat{\beta_1} - 0}{SE_{\beta_1}}$
+
+$t = \frac{ -0.06822828}{0.0101193}$.
+
+$t = -6.742391$.
+
+95% CI of $\beta_1$:
+
+$t_{\alpha=0.05, df = (n - k -1)}$
+
+$t_{\alpha=0.05, df = (32 - 2 -1)}$
+
+$t_{\alpha=0.05, df = (29)}$
+
+$t_{\alpha=0.05, df = (29)} = -1.699127$
+
+95% CI of $\beta_1$ = $t_{\alpha=0.05, df = 29}SE_{\beta_1}$ }
+
+$\beta_1 = -0.06822828 \pm 0.01719398$
+
+$\beta_1 = -0.0682 \pm 0.0172$
+
+## Prediction and confidence intervals
+
+Sometimes (often) we will want to use the model to predict future values.
+
+For example, suppose we fit a simple linear regression model using hours studied as a predictor variable and exam score as the response variable. 
+
+Using this model, we might predict that a student who studies for 6 hours will receive an exam score of 91.
+
+However, because there is uncertainty around this prediction, we might create a prediction interval that says there is a 95% chance that a student who studies for 6 hours will receive an exam score between 85 and 97.
+
+This range of values is known as a 95% *prediction interval* and it’s often more useful to us than just knowing the exact predicted value.
+
+Two type of intervals available:
+
+1.) Confidence interval
+
+2.) Prediction interval
+
+The prediction interval predicts in what range a future individual observation will fall, while a confidence interval shows the likely range of values associated with some statistical parameter of the data, such as the population mean.
+
+A prediction interval captures the uncertainty around a single value. A confidence interval captures the uncertainty around the mean predicted values. Thus, a prediction interval will always be wider than a confidence interval for the same value.
+
+
+Confidence interval: 
+
+$\hat{y} = s_yt_{(\alpha, df = n-2)}(\frac{1}{n}+\frac{(x^*-\bar{x})^2}{(n-1)s^2_x})^{0.5}$
+
+Here, $s_y= \sqrt{\frac{\sum(y_i-\hat{y_i})^2}{n-2}}$
+
+$s_y$ is called residual standard error in R regression output.
+
+Prediction intervals are similar in their calculation 
+
+$\hat{y} = s_yt_{(\alpha, df = n-2)}(1+\frac{1}{n}+\frac{(x^*-\bar{x})^2}{(n-1)s^2_x})^{0.5}$
+
+Here, $s_y= \sqrt{\frac{\sum(y_i-\hat{y_i})^2}{n-2}}$
+
+The formula is very similar, except the variability is higher since there is an added 1 in the formula.
+
+## An R example - confidence intervals
+
+```{r}
+data(mtcars)
+mt <- mtcars[order(mtcars$hp),]
+plot(mt$mpg ~ mt$hp)
+model. <- lm(mt$mpg ~ mt$hp)
+
+new_hp <- data.frame(hp = mt$hp)
+pred.vals <- predict(model., newdata = new_hp, interval = "confidence")
+
+lines(cbind(new_hp, pred.vals)[,c(1,2)])
+lines(cbind(new_hp, pred.vals)[,c(1,3)], col = "red")
+lines(cbind(new_hp, pred.vals)[,c(1,4)], col = "red")
+
+```
+
+## An R example - prediction intervals
+
+```{r}
+data(mtcars)
+mt <- mtcars[order(mtcars$hp),]
+plot(mt$mpg ~ mt$hp)
+model. <- lm(mt$mpg ~ mt$hp)
+
+new_hp <- data.frame(hp = mt$hp)
+pred.vals <- predict(model., newdata = new_hp, interval = "prediction")
+
+lines(cbind(new_hp, pred.vals)[,c(1,2)])
+lines(cbind(new_hp, pred.vals)[,c(1,3)], col = "red")
+lines(cbind(new_hp, pred.vals)[,c(1,4)], col = "red")
+
+```
+
 
 # Multiple Linear Regression
 
