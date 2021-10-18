@@ -2434,22 +2434,31 @@ lines(cbind(new_hp, pred.vals)[,c(1,4)], col = &quot;red&quot;)</code></pre>
 <div id="determination-of-predictors-to-include" class="section level2">
 <h2><span class="header-section-number">2.10</span> Determination of Predictors to Include?</h2>
 <p>One of the most widespread ways is to use “stepwise” methods, you specify a direction either forward or backward.</p>
-<p>Forward style:</p>
+<p>Stepwise regression is an appropriate analysis when you have many variables and you’re interested in identifying a useful subset of the predictors.</p>
+<p>A fundamental problem with stepwise regression is that some real explanatory variables that have causal effects on the dependent variable may happen to not be statistically significant, while nuisance variables may be coincidentally significant.</p>
+<p>Forward stepwise selection:</p>
+<p>+A forward-selection rule starts with no explanatory variables and then adds variables, one by one, based on which variable is the most statistically significant, until there are no remaining statistically significant variables.</p>
+<p>Backward stepwise selection:</p>
+<p>A backward-elimination rule starts with all possible explanatory variables and then discards the least statistically significant variables, one by one.</p>
 <ul>
-<li>Initial model with only the constant b0 is made</li>
-<li>Add single predictor that best predicts the outcome by selecting the one with the greatest correlation with the outcome</li>
-<li>If fit is improved, then the predictor is retained</li>
-<li>Repeat</li>
+<li><p>The discarding stops when each variable remaining in the equation is statistically significant.</p></li>
+<li><p>Backward elimination is challenging if there is a large number of candidate variables and impossible if the number of candidate variables is larger than the number of observations.</p></li>
 </ul>
-<p>Backward selection.</p>
+<p>Bi-directional stepwise selection:</p>
 <ul>
-<li>As above but remove coefficients one at a time.</li>
+<li>Bi-directional stepwise procedure is a combination of forward selection and backward elimination. As with forward selection, the procedure starts with no variables and adds variables using a pre-specified criterion. The wrinkle is that, at every step, the procedure also considers the statistical consequences of dropping variables that were previously included.</li>
 </ul>
-<p>Computer intensive - simultaneous backward and forward.</p>
-<p>In these approaches parsimony is generally ignored.</p>
+<div id="criticism-of-step-approaches" class="section level3">
+<h3><span class="header-section-number">2.10.1</span> Criticism of step approaches</h3>
+<p>“If you torture the data long enough, Nature will confess,” said 1991 Nobel-winning economist Ronald Coase.</p>
+<p>First, “long enough” may, in practice, be “too long” in many applications and thus unacceptable.</p>
+<p>Second, to get “confession” from large data sets one needs to use state-of-the-art “torturing” tools.</p>
+<p>Third, Nature is very stubborn—not yielding easily or unwilling to reveal its secrets at all.</p>
+<p>Variables should be included in a model because, on theoretical grounds, they should be in the model, not based on the size of their t-values.</p>
 </div>
-<div id="model-design-considerations-1" class="section level2">
-<h2><span class="header-section-number">2.11</span> Model Design Considerations 1</h2>
+</div>
+<div id="model-design-considerations" class="section level2">
+<h2><span class="header-section-number">2.11</span> Model Design Considerations</h2>
 <ul>
 <li><p>Predictor variables must be quantitative (continuous, unbounded, interval data) or categorical.</p></li>
 <li><p>Predictors should have non-zero variance.</p></li>
@@ -2458,15 +2467,106 @@ lines(cbind(new_hp, pred.vals)[,c(1,4)], col = &quot;red&quot;)</code></pre>
 <li><p>Avoid proxy variables and make direct and explicit relationships</p></li>
 </ul>
 </div>
-<div id="model-design-considerations-2" class="section level2">
-<h2><span class="header-section-number">2.12</span> Model Design Considerations 2</h2>
+<div id="more-design-considerations" class="section level2">
+<h2><span class="header-section-number">2.12</span> More Design Considerations</h2>
 <p>It is desirable to employ a regression that is parsimonious - as few as necessary but as many as needed.</p>
-<p>What strategies are available to get the best regression:</p>
-<ul>
-<li>Fit all possible subsets - choose the one resulting in the lowest coefficient of determination.</li>
-<li>Forward, backward, or “both” variable selection.</li>
-<li>Use an independent inclusion criteria.</li>
-</ul>
+<div id="model-overfitting" class="section level3">
+<h3><span class="header-section-number">2.12.1</span> Model overfitting</h3>
+<p>Overfitting a model is a condition where a statistical model begins to describe the random error in the data rather than the relationships between variables.</p>
+<p>This problem occurs when the model is too complex (too many parameters).</p>
+<p>When choosing a regression model, our goal is to approximate the true model for the whole population.</p>
+<p>If we accomplish this goal, our model should fit most random samples drawn from that population. Thus, our results are more generalizable—we can expect that the model will fit other samples.</p>
+</div>
+<div id="how-to-detect-overfit-models" class="section level3">
+<h3><span class="header-section-number">2.12.2</span> How to Detect Overfit Models</h3>
+<p>Generalizability suffers in an overfit model.</p>
+<p>You can detect overfitting by determining whether your model fits new data as well as it fits the data used to estimate the model. In statistics, we call this cross-validation, and it often involves partitioning your data.</p>
+<p>However, for linear regression, we can use <em>predicted R-squared</em>.</p>
+<p>Statistical software calculates predicted R-squared using the following automated procedure:</p>
+<p>It removes a data point from the dataset.</p>
+<p>Calculates the regression equation.</p>
+<p>Evaluates how well the model predicts the missing observation.</p>
+<p>And, repeats this for all data points in the dataset.</p>
+<p>Predicted R-squared has several cool features. First, you can just include it in the output as you fit the model without any extra steps on your part.</p>
+<p>Second, it’s easy to interpret. You simply compare predicted R-squared to the regular R-squared and see if there is a big difference.</p>
+<p>If there is a large discrepancy between the two values, your model doesn’t predict new observations as well as it fits the original dataset.</p>
+<p>The results are not generalizable, and there’s a good chance you’re overfitting the model.</p>
+</div>
+</div>
+<div id="additional-considerations---centering-and-standardizing-variables" class="section level2">
+<h2><span class="header-section-number">2.13</span> Additional Considerations - centering and standardizing variables</h2>
+<div id="centering" class="section level3">
+<h3><span class="header-section-number">2.13.1</span> Centering</h3>
+<p>In regression, it is often recommended to center the variables so that the predictors have mean 0.</p>
+<p>Another practical reason for scaling in regression is when one variable has a very large scale, e.g. if you were using population size of a country as a predictor.</p>
+<p>In that case, the regression coefficients may be on a very small order of magnitude (e.g. 10−6) which can be a little annoying when you’re reading computer output, so you may convert the variable to, for example, population size in millions.</p>
+</div>
+<div id="standarize-center-and-scale" class="section level3">
+<h3><span class="header-section-number">2.13.2</span> Standarize (center and scale)</h3>
+<p>Another approach in applied regression is to “standardize” each input variable by subtracting its mean and dividing by its standard deviation.</p>
+<p>Subtracting the mean typically improves the interpretation and dividing by the standard deviation puts all predictors on a common scale.</p>
+<pre class="r"><code>head(mtcars)</code></pre>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<pre class="r"><code>non.stand.mod &lt;- lm(mtcars$mpg ~ mtcars$disp + mtcars$wt + mtcars$hp)
+summary(non.stand.mod)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = mtcars$mpg ~ mtcars$disp + mtcars$wt + mtcars$hp)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.891 -1.640 -0.172  1.061  5.861 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 37.105505   2.110815  17.579  &lt; 2e-16 ***
+## mtcars$disp -0.000937   0.010350  -0.091  0.92851    
+## mtcars$wt   -3.800891   1.066191  -3.565  0.00133 ** 
+## mtcars$hp   -0.031157   0.011436  -2.724  0.01097 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.639 on 28 degrees of freedom
+## Multiple R-squared:  0.8268, Adjusted R-squared:  0.8083 
+## F-statistic: 44.57 on 3 and 28 DF,  p-value: 8.65e-11</code></pre>
+<pre class="r"><code>head(mtcars)</code></pre>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<pre class="r"><code>stand.mod &lt;- lm(mtcars$mpg ~ scale(mtcars$disp) + scale(mtcars$wt) + scale(mtcars$hp))
+summary(stand.mod)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = mtcars$mpg ~ scale(mtcars$disp) + scale(mtcars$wt) + 
+##     scale(mtcars$hp))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.891 -1.640 -0.172  1.061  5.861 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         20.0906     0.4665  43.067  &lt; 2e-16 ***
+## scale(mtcars$disp)  -0.1161     1.2827  -0.091  0.92851    
+## scale(mtcars$wt)    -3.7190     1.0432  -3.565  0.00133 ** 
+## scale(mtcars$hp)    -2.1362     0.7841  -2.724  0.01097 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.639 on 28 degrees of freedom
+## Multiple R-squared:  0.8268, Adjusted R-squared:  0.8083 
+## F-statistic: 44.57 on 3 and 28 DF,  p-value: 8.65e-11</code></pre>
+</div>
 </div>
 </div>
 <div id="comparing-two-means" class="section level1">
