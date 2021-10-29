@@ -9,20 +9,7 @@ output:
 
 # Linear Regression
 
-"Simple" linear regression with has a single predictor variable
-
-A critical need is for us to understand the fit of a regression model, to do this we will evaluate the following quantities:
-
-+ Total sum of squares
-+ Model sum of squares
-+ Residual sum of squares
-+ R^2^
-
-We will use these quantities to understand two things: 
-
-1. Is $\beta_1 = 0$ (using the confidence intervals)? We would like to know if *X* is a good predictor of *Y* and this is determined by evaluating the null hypothesis, $\beta_1 = 0$.
-
-2. Is the model significant (using an *F*-test)? We would like to know: Does the regression model fit the data better than the null model (more on this below).
+Analysis with a one independent (X) and dependent variable (Y) is termed "Simple" linear regression.
 
 ## What is Regression?
 
@@ -30,71 +17,64 @@ We will use these quantities to understand two things:
 
 + It is a model of the relationship between two variables.
 
-+ The modeled relationship is linear
++ The modeled relationship is linear.
 
-+ Therefore, we describe the relationship using the equation of a straight line.
++ Therefore, we describe the relationship using the equation for a straight line.
+
+To do the fitting and the hypothesis testing, we will evaluate the following quantities:
+
++ Total sum of squares (TSS or $SS_T$)
++ Model sum of squares (Regression SS, $SS_M$)
++ Residual sum of squares (RSS or $SS_R$)
+
+We will use these quantities to understand two things: 
+
+1. Is $\beta_1 = 0$ (using the confidence intervals)? We would like to know if *X* is a good predictor of *Y* and this is determined by evaluating the null hypothesis, $\beta_1 = 0$.
+
+2. Is the model significant (using an *F*-test)? Specifically does the fit of model fit the data better than does the null model (more on this below).
 
 ## Assumptions of Simple Linear Regression
 
 + For each value of *X*, *Y* are randomly sampled and independent.
 
-+ For any value of *X* in the pop'l there exists a normal distribution of Y values
++ For any value of *X* in the population there exists a normal distribution of Y values
 
 + There is homogeneity of variance in the population. i.e. the variance of the normal distribution of *Y* values in population are equal for all of values of *X*.
 
-+ X is measured without error
++ *X* is measured without error
 
-## Model for Linear Relationship
++ The exptected value of *Y* at the $i^{th}$ value of *X* is $E(Y_i)=\beta_0 + \beta_1X_i$
 
-$Y_i=\beta_0 + \beta_1X_i + \varepsilon_i$
+## Model for Linear Relationship is a two-parameter model
 
-$\beta_1$
+The first parameter is $\beta_1$
 
-+ Regression coefficient for the predictor
++ Gradient (slope) of the regression line.
 
-+ Gradient (slope) of the regression line
++ This indicates the direction of the relationship.
 
-+ Direction/strength of relationship
+The second parameter is $\beta_0$
 
-$\beta_0$
++ Intercept (value of *Y* when *X* = 0).
 
-+ Intercept (value of *Y* when *X* = 0)
-
-+ Point at which the regression line crosses the *Y*-axis (ordinate)
++ Location where the regression line crosses the *Y*-axis (ordinate).
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 par(mfrow = c(1,1), mar = c(4,4,2,4)) # This tells R to put 1 row, 2 columns
 x <- c(0,4,5,8,11,14)
 y <- c(7,19,22,31,40,49)
-plot(x,y, main = "(b) An example of a linear equation", xlab = "Variable X (arbitrary units)", ylab = "Variable y (arbitrary units)", xlim = c(0,20), ylim = c(0,60), type = 'l', pch=16, xaxt = "n", yaxt = "n",lwd = 2)
+plot(x,y, main = "Plot of Simple Linear Regression Model", xlab = "X", ylab = "Y", xlim = c(0,20), ylim = c(0,60), type = 'l', pch=16, xaxt = "n", yaxt = "n",lwd = 2)
 segments(x0 = 5, y0 = 22, x1 = 11, y1 = 22)
 segments(x0 = 11, y0 = 22, x1 = 11, y1 = 40)
 par(new=T)
 box()
-#needs formulas and labels of points
-
-```
-
-```{r, results='hide',message=FALSE, echo=FALSE}
-par(mfrow = c(1,1), mar = c(4,4,2,4)) # This tells R to put 1 row, 2 columns
-x <- c(0,4,5,8,11,14,16)
-y <- c(7,19,22,31,40,49,55)
-plot(x,y, main = "(b) An example of a linear equation", xlab = "Variable x (arbitrary units)", ylab = "Variable y (arbitrary units)", xlim = c(0,20), ylim = c(0,60), type = 'b', pch=16)
-segments(x0 = 0, y0 = 31, x1 = 8, y1 = 31, lty = 2)
-segments(x0 = 8, y0 = 0, x1 = 8, y1 = 31, lty = 2)
-segments(x0 = 11, y0 = 40, x1 = 14, y1 = 40, lty = 2)
-segments(x0 = 14, y0 = 49, x1 = 14, y1 = 40, lty = 2)
-par(new=T)
-box()
-#needs formulas and labels of points
 
 ```
 
 ## Intercepts and Gradients
 
-$Y_i=\beta_0 + \beta_1X_i + \varepsilon_i$
-
 ```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(1,2))
 x1 <- c(0,3,8,12,15)
 y1 <- c(0.71,1.97,4.07,5.75,7.01)
 x2 <- c(0,3,8,12,16)
@@ -106,10 +86,7 @@ plot(x1, y1, xlim = c(0,18), ylim = c(0,8), pch = 16, type = 'l', xlab = "X", yl
 lines(x2, y2, xlim = c(0,18), ylim = c(0,8), pch = 16, type = 'l', xlab = "X", ylab = "Y")
 lines(x3, y3, xlim = c(0,18), ylim = c(0,8), pch = 16, type = 'l', xlab = "X", ylab = "Y")
 #Equations needed on lines
-```
 
-
-```{r, results='hide',message=FALSE, echo=FALSE}
 x1 <- c(0,2,4,6,8,10,12)
 y1 <- c(70,75,80,85,90,95,100)
 x2 <- c(0,2,4,6,8,10,12)
@@ -117,9 +94,9 @@ y2 <- c(40,45,50,55,60,65,70)
 x3 <- c(0,2,4,6,8,10,12)
 y3 <- c(25,30,35,40,45,50,55)
 
-plot(x1, y1, xlim = c(0,12), ylim = c(0,100), pch = 16, type = 'l', xlab = "Predictor", ylab = "Outcome", xaxt = "n")
-lines(x2, y2, xlim = c(0,12), ylim = c(0,100), pch = 16, type = 'l', xlab = "Predictor", ylab = "Outcome", xaxt = "n")
-lines(x3, y3, xlim = c(0,12), ylim = c(0,100), pch = 16, type = 'l', xlab = "Predictor", ylab = "Outcome", xaxt = "n")
+plot(x1, y1, xlim = c(0,12), ylim = c(0,100), pch = 16, type = 'l', xlab = "X", ylab = "Y", xaxt = "n")
+lines(x2, y2, xlim = c(0,12), ylim = c(0,100), pch = 16, type = 'l')
+lines(x3, y3, xlim = c(0,12), ylim = c(0,100), pch = 16, type = 'l')
 
 ```
 
@@ -127,19 +104,80 @@ lines(x3, y3, xlim = c(0,12), ylim = c(0,100), pch = 16, type = 'l', xlab = "Pre
 
 This is the approach we will use for parameter estimation and inference in this course.
 
+This figure shows a scatterplot of some data with a line representing the best fit model. 
+
 ```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(2,3,4,6,7,8,10,11,14,15,17,18,20,21,23)
 y <- c(5,10,7,11,20,13,15,30,27,37,35,30,32,35,40)
-
-plot(x, y, xlim = c(0,25), ylim = c(0,45), pch = 1, xlab = "Size of Spider", ylab = "Anxiety (GSR)")
+plot(x, y, xlim = c(0,25), ylim = c(0,45), pch = 1, xlab = "Size of Spider", ylab = "Anxiety")
 segments(x0 = 0, y0 = 3, x1 = 23, y1 = 41)
+```
+
+This figure shows the residual (observed - expected) value of the best fit model.
+
+Our task is to minimize the $SS$ value.
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+x <- c(2,3,4,6,7,8,10,11,14,15,17,18,20,21,23)
+y <- c(5,10,7,11,20,13,15,30,27,37,35,30,32,35,40)
+plot(x, lm(y ~x)$residuals, 
+     xlim = c(0,25), pch = 1, xlab = "Size of Spider", ylab = "Residual Values",
+     type = 'h')
+abline(h = 0)
+legend('topright', legend = paste0('SS = ',round(sum(lm(y ~x)$residuals^2),2)),bty = 'n')
+legend('topleft', legend = paste0('B0 = ',round(lm(y ~x)$coef[1],2),", B1 = ",round(lm(y ~x)$coef[2],2)),bty = 'n')
 
 ```
 
-This figure shows a scatterplot of some data with a line representing the general trend. The vertical lines (dotted) represent the differences (or residuals) between the line (predictions) and the observations. 
+Let's look at a some cases for alternatvie candidate model parameters:
 
+Our task is to minimize the $SS$ value.
 
-## Sums of Squares Components
+```{r, results='hide',message=FALSE, echo=FALSE}
+par(mfrow = c(2,2),
+    mar = c(0,0,0,0))
+x <- c(2,3,4,6,7,8,10,11,14,15,17,18,20,21,23)
+y. <- c(5,10,7,11,20,13,15,30,27,37,35,30,32,35,40)
+plot(x, y., xlim = c(0,25), ylim = c(0,45), pch = 1,xaxt = 'n', yaxt = 'n')
+y = (y.)+runif(n = length(y.), -20, 20)
+lines(x,predict(lm(y. ~ x)), col = "darkgray", lwd = 2)
+lines(x,predict(lm(y ~ x)))
+
+legend('bottomright', legend = paste0('SS = ',round(sum((y. - predict(lm(y ~ x)))^2),2)),bty = 'n')
+legend('topleft', legend = paste0('B0 = ',round(lm(y ~x)$coef[1],2),", B1 = ",round(lm(y ~x)$coef[2],2)),bty = 'n')
+
+plot(x, y., xlim = c(0,25), ylim = c(0,45), pch = 1,xaxt = 'n', yaxt = 'n')
+y = (y.)+runif(n = length(y.), -20, 20)
+lines(x,predict(lm(y. ~ x)), col = "darkgray", lwd = 2)
+lines(x,predict(lm(y ~ x)))
+
+legend('bottomright', legend = paste0('SS = ',round(sum((y. - predict(lm(y ~ x)))^2),2)),bty = 'n')
+legend('topleft', legend = paste0('B0 = ',round(lm(y ~x)$coef[1],2),", B1 = ",round(lm(y ~x)$coef[2],2)),bty = 'n')
+
+plot(x, y., xlim = c(0,25), ylim = c(0,45), pch = 1,xaxt = 'n', yaxt = 'n')
+y = (y.)+runif(n = length(y.), -20, 20)
+
+lines(x,predict(lm(y. ~ x)), col = "darkgray", lwd = 2)
+lines(x,predict(lm(y ~ x)))
+
+legend('bottomright', legend = paste0('SS = ',round(sum((y. - predict(lm(y ~ x)))^2),2)),bty = 'n')
+legend('topleft', legend = paste0('B0 = ',round(lm(y ~x)$coef[1],2),", B1 = ",round(lm(y ~x)$coef[2],2)),bty = 'n')
+
+plot(x, y., xlim = c(0,25), ylim = c(0,45), pch = 1,xaxt = 'n', yaxt = 'n')
+y = (y.)+runif(n = length(y.), -20, 20)
+
+lines(x,predict(lm(y. ~ x)), col = "darkgray", lwd = 2)
+lines(x,predict(lm(y ~ x)))
+legend('bottomright', legend = paste0('SS = ',round(sum((y. - predict(lm(y ~ x)))^2),2)),bty = 'n')
+legend('topleft', legend = paste0('B0 = ',round(lm(y ~x)$coef[1],2),", B1 = ",round(lm(y ~x)$coef[2],2)),bty = 'n')
+
+```
+
+## Sum of Squares Components
+
+Once the best fit model is derived, we can make inference about the quality of the model (relative to the null model) and the hypothesis $\beta_1 = 0$.
+
+Let's take a close look at the three sum of squares components.
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 par(mfrow = c(2,2), mar = c(3,3,3,3)) 
@@ -198,7 +236,7 @@ box()
 
 ## Total SS (SS~T~, SST)
 
-+ Total variability (variability between scores and the mean).
+Total variability (variability between scores and the mean) in the observations.
 
 + TSS is the sum of the squared residuals when the most basic model is applied to the data. 
 
@@ -208,7 +246,7 @@ box()
 
 + SS~T~ uses the differences between the observed data and the mean value of *Y* (the null model)
 
-+ Total SS $=\sum(Y_i - \bar{Y})^2$
++ $TSS =\sum(Y_i - \bar{Y})^2$
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 par(mfrow = c(1,1), mar = c(4,4,1,4)) # This tells R to put 1 row, 2 columns
@@ -232,17 +270,15 @@ box()
 
 ## Residual SS or Error SS (SS~R~)
 
-+ SS~R~
+SS~R~ is the error that is derived between the regression model and the actual data).
+
++ Difference between the observation and the model
+
++ Represents the degree of inaccuracy when fitting the model to the data.
 
 + Residual/error variability (variability between the regression model and the actual data).
 
-+ Difference between the observed data and the model
-
-+ Represents the degree of inaccuracy when fitting the *best fit* model to the data.
-
-+ Residual/error variability (variability between the regression model and the actual data).
-
-+ RSS $=\sum(Y_i - \hat{Y})^2$
++ $RSS =\sum(Y_i - \hat{Y})^2$
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(1,2,3,4,5,6,7,8)
@@ -264,15 +300,11 @@ box()
 
 ## Model SS or Regression SS (SS~M~)
 
-+ SS~M~ 
-
-+ Model variability (difference in variability between the model and the mean).
+SS~M~ is the difference between the prediction from the regression model and the mean (null model).
 
 + This is the improvement we get from fitting the model to the data relative to the null model.
 
-+ regression SS $=\sum(\hat{Y}_i - \bar{Y})^2$
-
-+ How do we get large SSM?
++ $SS_M=\sum(\hat{Y}_i - \bar{Y})^2$
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(1,2,3,4,5,6,7,8)
@@ -294,42 +326,38 @@ box()
 
 ```
 
-## SST = SSR + SSM
+## The SS components are related and useful for understanding the model
 
-+ So, we can calculate the proportion of improvement due to the model.
+The total variabilty is partitioned between the model and the residual:
 
-+ SSM/SST, percentage of variation explained by the model.
+$SS_T = SS_M + SS_R$
 
-## Evaluating the Quality of the Model: R^2^
+We calculate the sum of squares components to evaluate the amount of systematic variance (regression/model) and the amount of unsystematic (residual) variance.
 
-R^2^
+If we have a good model, the total variance in the observations will be described to a great extent by the model.
 
-+ The proportion of variance accounted for by the regression model
+The proportion of improvement due to the model.
 
-+ The Pearson Correlation Coefficient Squared
++ $R^2 = SS_M/SS_T$, percentage of variation explained by the model.
 
-$R^2=\frac{SS_M}{SS_T}$
+## Variance Ratio Test
 
-## SS for Model Testing
+We will evalute the model using an *F* test - "termed variance ratio test".
 
-Evaluate the amount of systematic variance (regression/model) divided by the amount of unsystematic (residual) variance.
+We will be evaluating the ratio of SSM and SSR.
 
-*F* test - "termed variance ratio test"
+1. We will use the SSM and SSR to calculate quantities "mean squares"
 
-1. Calculate quantities "mean squares"
+2. This will be done by dividing the SSM and SSR by their respective degrees of freedom (df). These terms can be expressed as averages, divided by df terms.
 
-2. Use the SSM and SSR
++ df for SSM (The number of parameters in the model - 1)
 
-3. Divide the SSM and SSR by their 	respective degrees of freedom (DF). These terms can be expressed as averages, divided by DF terms.
++ df for SSR (number of obs - number of parameters in the model)
 
-+ DF for SSM (The number of parameters in the model - 1)
+These quantities are called mean squares.
 
-+ DF for SSR (number of obs - number of parameters in the model)
-
-These are called mean squares, MS: MS *Model* and MS *Residual*
-
-+ MS~M~ = SS~M~/DF~M~
-+ MS~R~ = SS~R~/DF~R~
++ Mean Squares Model; MS~M~ = SS~M~/df~M~
++ Mean Squares Residual: MS~R~ = SS~R~/df~R~
 
 *F*-test is termed the "variance ratio test"
 
@@ -339,15 +367,18 @@ $F=\frac{MS_M}{MS_R}$
 
 To test whether $\beta_1 = 0$ we will use the t-distribution.
 
-After determining the model parameters values we can estimate the standard error of the slope.
+After determining the model parameters values we can estimate the standard error of the slope paramter.
 
-The approach is to determine the confidence interval of the slope for a given value of alpha.
+The approach is to determine the confidence interval of the slope ($\beta_1$) for a given value of $\alpha$.
 
 Look at the following equation, what values will we need?
 
-$SE_{\beta_1}=\frac {\sqrt{(\sum{{Y_i - \hat{Y_i}}})^2/(n - 2)}}{\sqrt{\sum{(X_i - \bar{X})^2}}}$  
 
-Degrees of freedom. For simple linear regression (one independent and one dependent variable), the degrees of freedom (DF) is equal to, n - 2.
+$SE_{\beta_1}=\frac {\sqrt{\frac{(\sum{{Y_i - \hat{Y_i}}})^2}{df}}}{\sqrt{\sum{(X_i - \bar{X})^2}}}$  
+
+$SE_{\beta_1}=\frac {\sqrt{\frac{(\sum{{Y_i - \hat{Y_i}}})^2}{(n - 2)}}}{\sqrt{\sum{(X_i - \bar{X})^2}}}$  
+
+Degrees of freedom: For simple linear regression (one independent and one dependent variable), the degrees of freedom (df) is equal to, n - 2.
 
 Our calculated test statistic is:
 
@@ -355,7 +386,7 @@ $t = \frac{\beta_1}{SE_{\beta_1}}$
 
 We will compare this to the critical value:
 
-$t_{\alpha, tailed, d.f.}$
+$t_{\alpha, 2-tailed, df}$
 
 ## Worked Example
 
@@ -379,7 +410,7 @@ $t_{\alpha, tailed, d.f.}$
 ```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(3,4,5,6,8,9,10,11,12,14,15,16,17)
 y <- c(1.4,1.5,2.2,2.4,3.1,3.2,3.2,3.9,4.1,4.7,4.5,5.2,5.0)
-plot(x,y, main = "", xlab = "Age. X. in days", ylab = "Wave length. Y. in cm", xlim = c(1,18), ylim = c(1,6), pch=16)
+plot(x,y, main = "", xlab = "Age. X, in days", ylab = "Wave length. Y, in cm", xlim = c(1,18), ylim = c(1,6), pch=16)
 segments(x0 = 3, y0 = 1.5, x1 = 17, y1 = 5.2)
 ```
 
@@ -387,17 +418,17 @@ We find that the TSS is = 19.65
 
 We find that the Model SS = 19.13
 
-|Source of Variation|Sum of Squares (SS)|DF|Mean Squares (MS)|
+|Source of Variation|Sum of Squares (SS)|df|Mean Squares (MS)|
 |---|---|---|---|
 |Total |$\sum(Y_i-\bar{Y})^2$|  
-|Model (or Regression) |$\sum(\hat{Y}_i-\bar{Y})^2$ |The number of parameters in the model - 1 |SS~M~/DF~M~
-|Residual (or Error)| $\sum(Y_i-\hat{Y})^2$| The number of obs - the number of parameters in the model|SS~R~/DF~R~
+|Model (or Regression) |$\sum(\hat{Y}_i-\bar{Y})^2$ |The number of parameters in the model - 1 |SS~M~/df~M~
+|Residual (or Error)| $\sum(Y_i-\hat{Y_i})^2$| The number of obs - the number of parameters in the model|SS~R~/df~R~
  
 ### Summary of the Calculations for Model Fit
 
 We are falsifying the null hypothesis: $H_0$: There is no statistically significant relationship between variables x and y.
 
-|Source of Variance|SS|DF|MS|
+|Source of Variance|SS|df|MS|
 |---|---|---|---|
 |Total|19.65|12|   |
 |Model (or Regression)|19.13|1|19.13|
@@ -414,9 +445,9 @@ P < 0.0005
 
 ## Regression: An Example
 
-A record company boss was interested in predicting record sales from advertising.
+A record company executive is interested in predicting record sales from advertising.
 
-Data
+Data are:
 
 + 200 different album releases
 
@@ -426,7 +457,7 @@ Outcome variable:
 
 Predictor variable:
 
-+ The amount (in units of ?1000) spent promoting the record before release. 
++ The amount (in units of $1,000) spent promoting the record before release. 
 
 ## Output of a Simple Regression 
 
@@ -434,31 +465,21 @@ In R:
 
 |Coefficients:|Estimate|Std. Error|t value|Pr(>|t|)|
 |---        |---      |---|---|---|
-|(intercept)|1.341e+02|7.537e+00|17.799|<2e-16 ***|
-|Adverts    |9.612e-02|9.632e-03|9.979 |<2e-16 ***|
+|(intercept)|134|7.53|17.799|< $2\times10^{-16}$ ***|
+|Adverts    |0.096|0.00963|9.979 |< $2\times10^{-16}$ ***|
 
 + Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 + Residual standard error: 65.99 on 198 degrees of freedom
 + Multiple R-squared: 0.3346, Adjusted R-squared: 0.3313 
-+ F-statistic: 99.59 on 1 and 198 DF,  p-value: < 2.2e-16
++ F-statistic: 99.59 on 1 and 198 df,  p-value: < 2.2e-16
 
 ## Using the Model
 
-\begin{align}
-Record \: Sales_i&=b_0+b_1Advertising \: Budget_i\\
+Expected Record Sales~i~ = 134.14 + (0.096 x Advertising Budget~i~)
 
-&=134.14+(0.09612\times Advertising \: Budget_i)
-\end{align}
+E(Record sales if Budget = 100) = 134.14 + (0.096 x 100)
 
-<Br>
-<Br>
-
-Record Sales~i~ = 134.14 + (0.09612 x Advertising Budget~i~)
-
-= 134.14 + (0.09612 x 100)
-
-= 143.75
-
+E(Record sales if Budget = 100) = 143.75
 
 ## Analysis of the slope coeffient 
 
@@ -466,22 +487,23 @@ Using the fact that $\beta_1$ is approximately normally distributed in large sam
 
 From our reading, we learned that the calculated value of the *t*-statistic is: 
 
-$t = \frac{Value_{observed} - {Value_{expected}}}{{SE_{estimate}}}$.
+$t = \frac{\beta_{observed} - {\beta_{expected}}}{{SE_{\beta}}}$.
 
-For the hypothesis testing: 
+For the hypothesis testing, we: 
 
 1. Compute the standard error of $\beta_1$, $SE_{\beta_1}$:
 
-$SE_{\beta_1}=\frac {\sqrt{(\sum{{Y_i - \hat{Y_i}}})^2/(n - 2)}}{\sqrt{\sum{(X_i - \bar{X})^2}}}$  
+$SE_{\beta_1}=\frac {\sqrt{\frac{\sum{{Y_i - \hat{Y_i}}})^2}{{n - 2}}}}{\sqrt{\sum{(X_i - \bar{X})^2}}}$  
 
 2. Compute the *t*-statistic, in this case, we are comparing our observed value of $\beta_1$ to the expected value, if the null hypothesis is true. So, our expected value is $\beta_1 = 0$. And we divide this difference by $SE_{\beta_1}$.
 
 $t = \frac{\hat{\beta_1} - 0}{SE_{\beta_1}}$.
 
+$t = \frac{\hat{\beta_1}}{SE_{\beta_1}}$.
+
 This is our computed *t* value.
 
-3. We calculate the critical value of t, which is derived using the degrees of freedom. For simple linear regression (one independent and one dependent variable), the degrees of freedom (DF) is equal to, n - 2.
-
+3. We calculate the critical value of *t*, which is derived using the degrees of freedom. For simple linear regression (one independent and one dependent variable), the degrees of freedom (df) is equal to, n - 2.
 
 4. To determine the 95% CI of $\beta_1$, we can rearrange the above equation:
 
@@ -514,7 +536,7 @@ $\beta_1 = 0$.
 
 Furthermore, the output provides us with *p*-values corresponding to both tests against the two-sided hypothesis in the fourth column of the table.
 
-Given these results 
+Given these results:
 
 $\beta_1 = -0.06822828$
 
@@ -522,9 +544,9 @@ $SE_{\beta_1} = 0.0101193$
 
 $t = \frac{\hat{\beta_1} - 0}{SE_{\beta_1}}$
 
-$t = \frac{ -0.06822828}{0.0101193}$.
+$t = \frac{ -0.068}{0.0101}$.
 
-$t = -6.742391$.
+$t = -6.742$.
 
 95% CI of $\beta_1$:
 
@@ -534,40 +556,35 @@ $t_{\alpha=0.05, df = (32 - 2 -1)}$
 
 $t_{\alpha=0.05, df = (29)}$
 
-$t_{\alpha=0.05, df = (29)} = -1.699127$
+$t_{\alpha=0.05, df = (29)} = -1.699$
 
 95% CI of $\beta_1$ = $t_{\alpha=0.05, df = 29}SE_{\beta_1}$ }
 
-$\beta_1 = -0.06822828 \pm 0.01719398$
-
-$\beta_1 = -0.0682 \pm 0.0172$
+$\beta_1 = -0.068 \pm 0.017$
 
 ## Prediction and confidence intervals
 
-Sometimes (often) we will want to use the model to predict future values.
+Sometimes (often) we will want to use the model to predict values.
 
-For example, suppose we fit a simple linear regression model using hours studied as a predictor variable and exam score as the response variable. 
-
-Using this model, we might predict that a student who studies for 6 hours will receive an exam score of 91.
+For example, suppose we fit a simple linear regression model using hours studied as a predictor variable and exam score as the response variable. Using this model, we might predict that a student who studies for 6 hours will receive an exam score of 91.
 
 However, because there is uncertainty around this prediction, we might create a prediction interval that says there is a 95% chance that a student who studies for 6 hours will receive an exam score between 85 and 97.
 
-This range of values is known as a 95% *prediction interval* and it’s often more useful to us than just knowing the exact predicted value.
+This range of values is known as a 95% *prediction interval* and it’s often more useful to us than just knowing the predicted value. The predicted value $\hat{Y_i}$ is called a point and is useful. We would like to report the variability around this value..
 
 Two type of intervals available:
 
 1.) Confidence interval
 
+A confidence interval captures the uncertainty around the mean predicted values. 
+
 2.) Prediction interval
 
-The prediction interval predicts in what range a future individual observation will fall, while a confidence interval shows the likely range of values associated with some statistical parameter of the data, such as the population mean.
-
-A prediction interval captures the uncertainty around a single value. A confidence interval captures the uncertainty around the mean predicted values. Thus, a prediction interval will always be wider than a confidence interval for the same value.
-
+The prediction interval predicts in what range a future individual observation will fall. A prediction interval will always be wider than a confidence interval for the same value.
 
 Confidence interval: 
 
-$\hat{y} = s_yt_{(\alpha, df = n-2)}(\frac{1}{n}+\frac{(x^*-\bar{x})^2}{(n-1)s^2_x})^{0.5}$
+$\hat{y} = s_yt_{(\alpha, df = n-2)}\sqrt{\frac{1}{n}+\frac{(X^*-\bar{X})^2}{(n-1)s^2_X}}$
 
 Here, $s_y= \sqrt{\frac{\sum(y_i-\hat{y_i})^2}{n-2}}$
 
@@ -575,13 +592,13 @@ $s_y$ is called residual standard error in R regression output.
 
 Prediction intervals are similar in their calculation 
 
-$\hat{y} = s_yt_{(\alpha, df = n-2)}(1+\frac{1}{n}+\frac{(x^*-\bar{x})^2}{(n-1)s^2_x})^{0.5}$
+$\hat{y} = s_yt_{(\alpha, df = n-2)}\sqrt{1+\frac{1}{n}+\frac{(X^*-\bar{X})^2}{(n-1)s^2_X}}$
 
 Here, $s_y= \sqrt{\frac{\sum(y_i-\hat{y_i})^2}{n-2}}$
 
 The formula is very similar, except the variability is higher since there is an added 1 in the formula.
 
-## An R example - confidence intervals
+## An R example - Confidence Intervals
 
 ```{r}
 data(mtcars)
@@ -598,7 +615,7 @@ lines(cbind(new_hp, pred.vals)[,c(1,4)], col = "red")
 
 ```
 
-## An R example - prediction intervals
+## An R example - Prediction Intervals
 
 ```{r}
 data(mtcars)
@@ -622,27 +639,33 @@ Model is fit by minimizing the sum of squared differences between the line and t
 
 We still use our base equation:
 
-$outcome_i=model_i+error_i$
+$outcome=model+error$
 
 But this time the model it is a bit more complicated. 
 
-When we add predictors, we add coefficients ($\beta$ terms). 
+When we add predictors, we add parameters ($\beta$ terms). 
 
-So each predictor variable has its own coefficient and the outcome variable is predicted from a combination of all variables multiplied by their respective coefficients plus a residual term.
+So each predictor variable has its own coefficient (parameter) and the outcome is predicted from a combination of all variables multiplied by their respective coefficients ($\beta$ terms).
 
 ## Multiple Predictors
 
 *Y* is the outcome variable, $\beta_1$ is the coefficient of X1,$\beta_n$ is the coefficient of $X_n$.
 
-We seek to find combinations of $\beta$ values (paramteers).
+We seek to find combinations of $\beta$ values (parameters) that minimize the sum of squares error:
 
 $outcome_i=model_i+error_i$
 
+$error_i = outcome_i - model_i$
+
+As you know, we quantify the error the model fitting using $SS$.
+
 $Y_i=(b_0 + b_1X_{1i}+b_2X_{2i}+\ldots+b_nX_{ni})+\varepsilon_i$
+
+$\varepsilon_i=Y_i-(b_0 + b_1X_{1i}+b_2X_{2i}+\ldots+b_nX_{ni})$
 
 ## Album Sales Model
 
-From our record sales data we know that advertising accounts for 33% of the variation in album sales.
+From our previous example above of record sales data, we know that advertising accounts for 33% of the variation in album sales.
 
 Remember: 
 
@@ -652,19 +675,15 @@ $R^2=0.3313$
 
 Therefore a large proportion of variation remains unexplained.
 
-Lets bring a new predictor variable into the mix: 
-
-+ How many times the song was played on the radio during the week prior to its release. 
+Lets bring a new predictor variable into the mix to see if we can increase the amount of residual variation described by the model: How many times the song was played on the radio during the week prior to its release. 
 
 ## Multiple Predictors Model
 
-Incorporate "airplay"
+We will incorporate a new "airplay" variable.
 
 So we have a model with three parameters and two slope coefficients. Because there are two predictors, so we can view the model in two dimensions:
 
-$Album \:Sales_i=(b_0+b_1advertising \: budget_i+b_2 airplay_i)+\varepsilon_i$
-
-<Br>
+$E(Album \:Sales_i)=\beta_0+\beta_1X_{advertising \: budget_i}+\beta_2X_{airplay_i}$
 
 ## Regression "Plane"
 
@@ -693,7 +712,7 @@ plot3d$plane3d(my.lm, lty.box = "solid")
 
 ```
 
-## 2.6 Multiple Linear Regression
+## Multiple Linear Regression
 
 |Cities               |Y  |X~1~|X~2~|X~3~|X~4~|X~5~ |X~6~|
 |---                  |---|--- |--- |--- |--- |---  |--- |
@@ -724,134 +743,104 @@ plot3d$plane3d(my.lm, lty.box = "solid")
 |Buffalo              |11 |47.1|391 |463 |12.4|36.11|166 |
 |Cincinnati           |23 |54.0|462 |453 |7.1 |39.04|132 | 
 
-*Table 2.6.1: \ Air pollution in 41 U.S. cities associatied with six environmental vairables*
-
-<Br>
+*Table of air pollution in 41 U.S. cities associatied with six environmental variables*
 
 ## Model Interpretation
 
 We regress SO~2~ content in the air on average temperature X~1~ and the number of manufacturing enterprises, X~2~
 
-$\bar{y} = 77.231 + 1.0480X_1 + 0.02431X_2$
+$\hat{Y} = 77.231 + 1.0480X_1 + 0.02431X_2$
 
-A one unit change in X2 results in a 0.02431 increase in Y
+A one unit change in $X_2$ results in a 0.02431 increase in *Y*.
 
-A one unit change in X1 results in a 1.048 increase in Y
+A one unit change in $X_1$ results in a 1.048 increase in *Y*.
 
 ## Test of Null Hypothesis
 
-We can analyze the null hypothesis that all of the regression coefficients are equal to zero using an ANOVA analysis 
-
-+ analogous to that of the simple linear regression.
+We can analyze the null hypothesis that all of the regression coefficients are equal to zero using an ANOVA analysis. This approach is analogous to that used in simple linear regression.
 
 ## Significance Testing
 
 In general, a significant *F* value will be associated with the rejection of the null hypothesis for some regression coefficients. 
 
-+ Sometimes it is possible to have a significant *F* without significant regression coefficients - this situation occurs when there is multicollinearity among variables.
+## Multicollinearity
+
+Sometimes it is possible to have a significant *F* without significant regression coefficients. Multicollinearity occurs when there is multicollinearity among variables.
 
 + This happens when two variables are highly correlated. 
 
-+ Singularity is an extreme amount of multicollinearity: there is perfect correlation between two or more variables.
-
-## Multicollinearity
-
-Result in untrustworthy coefficients - serves to increase the variance of the estimate of the mean coefficient value.
-
-Limits the magnitude of the coefficient of determination - 
++ Result in untrustworthy coefficients - serves to increase the variance of the estimate of the $\beta$ values.
 
 + Example: inclusion of one predictor results in R2 = 0.80. 
+
 + When you add a highly correlated variable, the variance it accounts for is already described by the first variable - it does not account for unique variance. 
+
 + So we only get a slight increase in our *R* value.
 
-Importance of predictors - Difficult to discern which predictor is the most important.
-
 + We can deal with this by evaluating the variables prior to inclusion into the model.
-
-+ Use stepwise inclusion or exclusion approaches.
 
 ## Determination of Predictors to Include?
 
 One of the most widespread ways is to use "stepwise" methods, you specify a direction either forward or backward.
 
-Forward style:
+Forward selection:
 
 + Initial model with only the constant b0 is made
 + Add single predictor that best predicts the outcome by selecting the one with the greatest correlation with the outcome
 + If fit is improved, then the predictor is retained
 + Repeat
 
-Backward selection. 
+Backward selection: 
 
 + As above but remove coefficients one at a time.
 
-Computer intensive - simultaneous backward and forward.
-
-In these approaches parsimony is generally ignored.
-
 ## Model Design Considerations 1
 
-+ Predictor variables must be quantitative (continuous, unbounded, interval data) or categorical.
++ Predictor variables must be either continuous or categorical.
 
 + Predictors should have non-zero variance.
 
-+ Predictors should not be highly correlated.
++ Predictors should not be highly correlated (avoid multicollinearity).
 
-+ Predictors should not be correlated with external variables.
++ It is desirable to employ a regression that is parsimonious - as few as necessary but as many as needed.
 
-+ Avoid proxy variables and make direct and explicit relationships
-
-## Model Design Considerations 2
-
-It is desirable to employ a regression that is parsimonious - as few as necessary but as many as needed.
-
-What strategies are available to get the best regression:
-
-+ Fit all possible subsets - choose the one resulting in the lowest coefficient of determination.
-+ Forward, backward, or "both" variable selection.
-+ Use an independent inclusion criteria.
-
-# Comparing Two Means
-
-*t*-tests:
+# Comparing Two Means using *t*-tests
 
 A common situation is the comparison of the means of two populations.
 
-An example of a two sample *t*-test for the two tailed hypothesis is to evaluate the population of mean blood clotting times administered with drug B the same as the population mean for blood-clotting times of specimens given drug G.
+An example of a *t*-test is to evaluate the mean blood clotting times between populations that were given two drugs.  
 
-+ Null hypothesis: $\mu_B = \mu_G$, where $\mu$ is the blood clotting time (minutes, hours)
++ $H_0: \mu_B = \mu_G$, where $\mu$ is the mean blood clotting time (in minutes)
 
-## *t*-test
-
-If the two samples came from two normally distributed populations and the variances of the populations are equal we can use a two sample *t*-test.
-
-+ Null hypothesis: $\mu_1 = \mu_2$.
+If the samples came from two normally distributed populations and the variances of the populations are equal ,we can use a two sample *t*-test. These conform to the assumptions of parametric statistics.
 
 + Two samples of data are collected and the sample means calculated. 
 
-+ These means might differ by either a little or a lot.
++ The calculated means might differ by either a little or a lot.
 
-+ If the samples come from the same population, then we expect their means to be roughly equal. 
+## Small differences in mean samples values
 
-+ Although it is possible (even likely) for their means to differ by chance alone, we would expect large differences between sample means to occur very infrequently.
+We expect their means to be equal or very close. In this case, it is possible (even likely) for the population means to differ by chance alone (due to sampling error). We wwould expect that large differences in the mean values would occur very infrequently.
 
-+ We are interested in understanding the difference between the sample means that we would expect to obtain if there were no effect (i.e. if the null hypothesis were true). 
+$H_0: \mu_B = \mu_G$
+
+Alternatively, we can pose this as the difference in the mean:
+
+$H_0: \mu_B - \mu_G = 0$.
+
++ We are interested in understanding the magnitude of difference between the sample means.
 
 + We use the standard error as a gauge of the variability between sample means. 
 
-## Large differences in mean values
+## Large differences in mean samples values
 
-If the difference between the samples we have collected is larger than what we would expect based on the standard error then we can infer one of two things:
+If the difference between the samples we have collected is large, then we can infer one of two things:
 
-+ There is no effect and sample means in our population fluctuate a lot (sampling error).
-
-+ By chance, collected two samples that are atypical of the population from which they came.
+1.) There is no effect of the two blood clotting medicine and by chance we calculated two sample means that are atypical of the population from which they came.
       
-+ The two samples come from different populations but are typical of their respective parent population. 
+2.) The two samples come from different populations (populations with different mean values). In this scenario, the difference between samples represents a genuine difference between the samples (and we falsify the null hypothesis).
 
-+ In this scenario, the difference between samples represents a genuine difference between the samples (and so the null hypothesis is incorrect).
-
-We are trying to infer - did the samples come from the same population?
+So, this is the null model we are testing; did the samples come from the same population or did the samples come from the different populations?
 
 If the observed difference between the sample means is large: The more confident we become that the second explanation is correct (i.e. that the null hypothesis should be rejected).
 
@@ -861,93 +850,141 @@ If the observed difference between the sample means is large: The more confident
 
 + 24 arachnophobic individuals
 
-Manipulation:
+Experimental Manipulation:
 
-+ 12 participants were exposed to a real spider
-+ 12 were exposed to a picture of the same spider
++ n = 12 randomly chosen participants were exposed to a real spider.
 
-+ Outcome is the anxiety produced
++ n = 12 randomly chosen participants were exposed to a picture of the same spider.
 
-## The *t*-test as a GLM
++ We monitor the anxiety produced.
 
-Outcome = model + error
+## We will evaluate these data using a linear model
 
-Consider an experiment where Groups were exposed to a "Picture of a Spider" and an "Actual Spider"
+Consider an experiment where 'Groups' were exposed to a "Picture of a Spider" and an "Actual Spider"
 
 The response variable is the level of Anxiety (A)
 
-$A_i=b_0+b_1G_i+\varepsilon_i$
-
-$Anxiety_i+=b_0+b_1group_i+\varepsilon_i$
+$\hat{A_i}=b_0+b_1G_i$
 
 The independent variable *G* has only two values "Group 1" and "Group 2" ie. The "real" and "picture" groups.
 
-```{r, results='hide',message=FALSE, echo=FALSE}
+```{r,message=FALSE, echo=FALSE}
 
-df. <- data.frame(Group = c(rep("Picture", 25), rep("Real Spider", 25)), Anxiety = c(runif(25,25,55),runif(25,30,65)))
-head(df.)
-boxplot(Anxiety~Group, data = df.)
+a1 = c(20.67124, 36.79956, 38.36280, 26.76544, 36.46704, 15.36294, 20.63903, 23.93972, 40.35177, 41.79260, 31.16043, 28.42174)
+a2 = c(23.68506, 59.23398, 35.84786, 47.14871, 44.51467, 52.42887, 61.94535, 52.43209, 39.05075, 57.72527, 48.60876, 41.13388)
+df. <- data.frame(Group = c(rep("Picture", 12), 
+                            rep("Real Spider", 12)), 
+                  Anxiety = c(a1,a2))
 
+df.$G <- c(rep(0,12),rep(1,12))
+
+print(df.)
+
+par(mfrow = c(2,1))
+par(mar = c(3,5,3,1))
+hist(df.[which(df. == "Picture"),2], 
+     main = "Picture",
+     breaks = seq(10,64,by = 4))
+abline(v = mean(df.[which(df. == "Picture"),2]), col = 'red', lwd = 3)
+hist(df.[which(df. == "Real Spider"),2], 
+     main = "Real Spider",
+     breaks = seq(10,64,by = 4))
+abline(v = mean(df.[which(df. == "Real Spider"),2]), col = 'red', lwd = 3)
+     
 ```
 
 ## Picture Group
 
-We can code the "dummy" variable, *G* 
+We can code the variable, *G*, as a 'dummy' variable. It will take on the values one or zero. We can assign one group to have a value of zero, and one group to have a value of one. In the case of the 'picture' group, we will assign a value of *G* to be zero. 
 
-The group variable = 0
- 
-Intercept = mean of baseline group
+$G_{picture}=0$
 
+$\hat{A_i}=b_0+b_1G_i$
 
-$\bar{X}_{Picture}=b_0+(b_1\times0)$
+The expected anxiety of group "picture" is the mean of anxiety of group "picture".
 
-$b_0=\bar{X}_{Picture}$
+$\bar{A}_{Picture}=b_0+b_1G_{picture}$
 
-$b_0=40$
+$\bar{A}_{Picture}=b_0+b_1\times0$
 
-
-<Br>
+$\bar{A}_{Picture}=b_0$
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 
-df. <- data.frame(Group = c(rep("Picture", 25), rep("Real Spider", 25)), Anxiety = c(runif(25,25,55),runif(25,30,65)))
-head(df.)
-boxplot(Anxiety~Group, data = df.)
+a1 = c(20.67124, 36.79956, 38.36280, 26.76544, 36.46704, 15.36294, 20.63903, 23.93972, 40.35177, 41.79260, 31.16043, 28.42174)
+a2 = c(23.68506, 59.23398, 35.84786, 47.14871, 44.51467, 52.42887, 61.94535, 52.43209, 39.05075, 57.72527, 48.60876, 41.13388)
+df. <- data.frame(Group = c(rep("Picture", 12), 
+                            rep("Real Spider", 12)), 
+                  Anxiety = c(a1,a2))
+
+plot(x = jitter(c(rep(1,12),rep(2,12))), y = df.$Anxiety, 
+     type = 'n', xaxt = 'n',xlab = "",ylab = "Anxiety")
+points(x = jitter(c(rep(1,12),rep(2,12)),0.2), y = df.$Anxiety, pch = 21)
+segments(x0 = 0.75, y0 = mean(a1),
+         x1 = 1.25, lwd = 2)
+text(labels = paste("B0 =",round(mean(a1),2),"mean picture anxiety"), x= 1.25, y = mean(a1), pos = 3)
+
 
 ```
 
 ## Real Spider Group
 
-The group variable = 1
+Again, we can code the variable, *G*, as a 'dummy' variable. It can take on the values one or zero. 
+
+We have assigned a value of *G* to be zero for the "picture" group. So, for the "real" group, we will assign the dummy variable *G* to equal one. 
+
+$G_{real}=1$
+
+$\hat{A_{G=1}}=b_0+b_1G_i$
+
+$\hat{A_i}=30.06+b_1\times1$
+
+$\hat{A_i}=30.06+b_1$
+
+$b_1 = \hat{A_i}-30.06$
 
 $b_1$ = Difference between means
 
-$b_1 =\bar{Y}_{Real}=b_0+(b_1\times1)$
+$b_1=\bar{A}_{Real}-\bar{A}_{Picture}$
 
-$b_1=\bar{Y}_{Real}=\bar{Y}_{Picture}+b_1$
-
-$b_1=\bar{Y}_{Real}-\bar{Y}_{Picture}$
-
-$b_1=47-40$
-
-$b_1=7$
+Our task is to understand if this $\beta_1$ value is significantly different from zero.
 
 
 ````{r, results='hide',message=FALSE, echo=FALSE}
 
-df. <- data.frame(Group = c(rep("Picture", 25), rep("Real Spider", 25)), Anxiety = c(runif(25,25,55),runif(25,30,65)))
-head(df.)
-boxplot(Anxiety~Group, data = df.)
+
+a1 = c(20.67124, 36.79956, 38.36280, 26.76544, 36.46704, 15.36294, 20.63903, 23.93972, 40.35177, 41.79260, 31.16043, 28.42174)
+a2 = c(23.68506, 59.23398, 35.84786, 47.14871, 44.51467, 52.42887, 61.94535, 52.43209, 39.05075, 57.72527, 48.60876, 41.13388)
+df. <- data.frame(Group = c(rep("Picture", 12), 
+                            rep("Real Spider", 12)), 
+                  Anxiety = c(a1,a2))
+
+plot(x = jitter(c(rep(1,12),rep(2,12))), y = df.$Anxiety, 
+     type = 'n', xaxt = 'n',xlab = "",ylab = "Anxiety")
+points(x = jitter(c(rep(1,12),rep(2,12)),0.2), y = df.$Anxiety, pch = 21)
+
+segments(x0 = 0.75, y0 = mean(a1),
+         x1 = 1.25, lwd = 2)
+text(labels = paste("Mean Picture =",round(mean(a1),2)), x= 1, y = mean(a1), pos = 3)
+
+
+segments(x0 = 1.75, y0 = mean(a2),
+         x1 = 2.25, lwd = 2)
+text(labels = paste("Mean Real =",round(mean(a2),2)), x= 1.75, y = mean(a2), pos = 3)
+
 
 ```
 
 ## Output from a Regression
 
+Let's see how this is analyzed in the linear regression approach using R:
+
 ```{r, echo=FALSE}
-df. <- data.frame(Group = c(rep("Picture", 12), rep("Real Spider", 12)))
-Anxiety <-  c(runif(12,25,55))
-Anxiety <- c(Anxiety, Anxiety+7)
-df.$Anxiety <- Anxiety
+a1 = c(20.67124, 36.79956, 38.36280, 26.76544, 36.46704, 15.36294, 20.63903, 23.93972, 40.35177, 41.79260, 31.16043, 28.42174)
+a2 = c(23.68506, 59.23398, 35.84786, 47.14871, 44.51467, 52.42887, 61.94535, 52.43209, 39.05075, 57.72527, 48.60876, 41.13388)
+df. <- data.frame(Group = c(rep("Picture", 12), 
+                            rep("Real Spider", 12)), 
+                  Anxiety = c(a1,a2))
 
 df.$Group <- as.factor(df.$Group)
 
@@ -957,38 +994,38 @@ anova(lm(df.$Anxiety~df.$Group))
 
 ```
 
-## The Independent *t*
+## The Independent *t-test*
 
-*Note: I am using the variable Y as the observation values - this is a departure from Zar's presentation*
+I am using the variable *Y* for the observations - this is a departure from Zar's presentation but the mechanics are identical.
 
 $t=\frac{\bar{Y}_1-\bar{Y}_2}{\sqrt{\frac{S^2_p}{n_1}+\frac{S^2_p}{n_2}}}$
 
-The numerator is the difference between sample means
++ The numerator is the difference between sample means.
 
-Denominator is the standard error of the difference between the sample means
-
-+ This quanitty is a measure of the variability of the data within the two samples.
-
-## The Independent *t*-test 3
++ The denominator is the standard error of the difference between the sample means. This quantity is a measure of the variability of the data within the two samples.
 
 $S^2_p=\frac{(n_1-1)S^2_1+(n_2-1)S^2_2}{n_1+n_2-2}$
 
 $S^2_p=\frac{SS_1+SS_2}{v_1+v_2}$
 
-Where v~1~ and v~2~ are the degrees of freedom, v~1~ = n~1~ - 1 and v~2~ = n~2~ -1
+Here v~1~ and v~2~ are the degrees of freedom, v~1~ = n~1~ - 1 and v~2~ = n~2~ -1
 
 The test value is compared to the critical value at a given $\alpha$
 
-$t_\alpha(2),(v_1+v_2)$
+$t_{\alpha,2,df}$
   
-  + Need to set Alpha vaule
-  + (2): One or two-tailed test?
+  + Need to set $\alpha$ value.
+  + One or two-tailed test?
   + v~1~ = n~1~ - 1 and v~2~ = n~2~ - 1
 
-## Zar Example
+## Lets use the data from Zar as a worked example.
 
 $H_0: \mu_1 = \mu_2$
 $H_A: \mu_1\ne\mu_2$
+
+
+$H_0: \mu_1 - \mu_2 = 0$
+$H_A: \mu_1-\mu_2\ne0$
 
 |Given drug B|Given drug G|
 |---|---|
@@ -1005,39 +1042,29 @@ $H_A: \mu_1\ne\mu_2$
 |$\bar{Y}_1=$ 8.75 min | $\bar{Y}_2=$ 9.74 min|
 |SS~1~ = 1.6950 min^2^ | \ SS~2~ = 4.0171 min^2^|
 
-*Table 3.18.1: \ Zar example*
-
-<Br>
-
 $S^2_p=\frac{SS_1+SS_2}{v_1+v_2}=\frac{1.6950+4.0171}{5+6}=\frac{5.7121}{11}=0.5193 \: \mbox{min}^2$
-
-<Br>
-
 
 $s_{\bar{Y_1}-\bar{Y}_2}=\sqrt{\frac{S^2_p}{n_1}+\frac{S^2_p}{n_2}}=\sqrt{\frac{0.5193}{6}+\frac{0.5193}{7}}=\sqrt{0.0866+0.0742}$
 
-<Br>
-
 $=\sqrt{0.1608}=0.40\mbox{min}$
 
-
-<Br>
-
 $t=\frac{\bar{Y}_1-\bar{Y}_2}{s_{\bar{Y}_1-\bar{Y}_2}}$
-
-<Br>
 
 ## Determine test value
 
 $t=\frac{\bar{Y}_1-\bar{Y}_2}{s_{\bar{Y}_1-\bar{Y}_2}}=\frac{8.75-9.74}{0.40}=\frac{-0.99}{0.40}=-2.475$
 
-$t_{0.05(2),v}=t_{0.05(2),11}=2.201$
+$|t|=|\frac{\bar{Y}_1-\bar{Y}_2}{s_{\bar{Y}_1-\bar{Y}_2}}|=2.475$
 
-+ Determine critical value
+## Determine critical value
+
+$t_{0.05(2),v}=t_{0.05(2),11}=2.201$
 
 Therefore, reject H~0~
 
-+ $0.02<P(|t|\ge2.175)<0.05 \: \: [P=0.031]$
+$P(|t|\ge2.475)<0.05$
+$\: \:$ 
+$P=0.031$
 
 ## When Assumptions are Broken
 
@@ -1063,7 +1090,6 @@ H~A~: Male and female students are not the same height.
 
 $\alpha=0.05$
 
-
 |Height of males|Height of females|Ranks of male heights|Ranks of female heights|
 |---|---|---|---|
 |193 cm |178 cm |1   |6   |
@@ -1088,15 +1114,11 @@ $U^1=n_1n_2-U$
 
 $(7)(5)-32$
 
-$=3$
-
 $U_{0.05(2),5,7}=30$
 
-As 32>30, H~0~ is rejected.
+Because 32>30, H~0~ is rejected.
 
 Therefore, we conclude that height is different for male and female students. 
-
-<Br>
 
 # Comparing Several Means: One-Way ANOVA
 
@@ -1216,7 +1238,7 @@ Signif. Codes: \ 0 '***' 0.001 '**' 0.01 '*' 0.05'.' 0.1 '' 1
 
 + residual standard error: \ 1.402 on 12 degrees of freedom. 
 + Multiple R-squared: \ 0.4604, Adjusted R-squared: \ 0.3704
-+ *F*-statistic: \ 5.119 on 2 and 12 DF, p-value: \ 0.02469
++ *F*-statistic: \ 5.119 on 2 and 12 df, p-value: \ 0.02469
 
 ## Theory of ANOVA
 
@@ -1384,7 +1406,7 @@ Degrees of freedom (df) are the number of values that are free to vary.
 
 In general, the df are one less than the number of values used to calculate the SS.
 
-DF~Total~ =  N - 1 
+df~Total~ =  N - 1 
 
 ## Model Sum of Squares (SS~M~)
 
@@ -1537,7 +1559,7 @@ $SS_T=SS_R+SS_M$
 
 $43.74=20.14+23.60$
 
-$DF_T=DF_R+DF_M$
+$df_T=df_R+df_M$
 
 $14=2+12$
 

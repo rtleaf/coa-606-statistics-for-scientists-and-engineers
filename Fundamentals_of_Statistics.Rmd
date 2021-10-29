@@ -9,128 +9,99 @@ output:
 
 # Introduction to statistical analysis
 
-Kachigan (1986) defines statistical analysis as the:
+Kachigan (1986) defines statistical analysis as the process of data
 
-+ Data Collection,
++ Collection,
 
-+ Organization (including project and data management), and
++ Organization, and
 
-+ Interpretation of data according to well-defined procedures
++ Interpretation.
 
-In this course we will use Kachigan's definition as a framework and focus on aspects of collection (experimental design), organization (using descriptive and inferential approaches), and interpretation.
+In this course we will use the framework above and focus on aspects of collection (experimental design and random sampling), organization (using descriptive and inferential approaches), and interpretation.
 
 One of the primary facets of quantitative analysis is the need to be creative in your approaches - the methods outlined in this class provide the foundation for analysis but the practitioner is encouraged to explore the methods and practices in their discipline to best address the needs for interpretation.
 
-Indeed, this is one of the features of statistical analysis that I would like to highlight: We cannot be constrained to cookbook approaches to analysis. Every problem, every research approach, will require consideration of the means of collection, processing of data, and statistical analysis. 
+It is my sincere hope that the aspects of collection, organization, and interpretation of data that are presented in this class provide the foundation you will need to establish statistical expertise in your own scientific practice.
 
-Prior to study we need to understand clearly and succinctly what the specific research focus is. Once this is unambiguous to the scientist, then the process of data collection can begin. At this stage, it is necessary to define the variables (observations) that will be collected. 
+One of the features of statistical analysis that I would like to highlight: Every problem, every research approach, will require consideration of the means of collection, processing of data, and statistical analysis. 
 
+# Data organization and best practices
 
-# Practical aspects of Statistical Analysis
-## Data Organization (Broman and Woo, 2018)
+Broman and Woo (2018) highlight the challenges and best practices for using spreadsheets. The design principles that they outline are useful for your work in MS Excel as well as a variety of specialized statistical programs (i.e. Matlab, R, and many others).
 
-+ Spreadsheets continue to to be a primary way for data storage, analysis, and visualization
++ Spreadsheets continue to to be a primary way for data storage, analysis, and visualization.
 
-+ Multipurpose (positive and negative)
++ Multipurpose (positive and negative).
 
-+ Can be error prone to make large sweeping changes - hard to retrace your steps. Though stand by for some guidance on this.
++ Can be error prone to make large sweeping changes - hard to retrace your steps.
 
-+ Organization is critical for reproducible research and archiving
++ Organization is critical for reproducible research and archiving. A common scenario in your scientific practice is to have multiple time-sensitive projects occurring simultaneously, organization is critical.
 
 ## Consistency and conventions
 
-1. Use consistent codes for categorical variables
++ Use consistent codes for categorical variables.
 
-1. Use a consistent fixed code for any missing values (e.g. 'NA', 'NaN', or an unfilled cell)
++ Use a consistent fixed code for any missing values (e.g. 'NA' or an unfilled cell).
 
-1. Use consistent variable names (generally these are column names)
++ Use consistent variable names (these are column names).
 
-1. Use a consistent data layout in multiple files (same column names). This allows data to be merged in a seamless way.
++ Use a consistent data layout in multiple files (same column names). This allows data to be merged in a seamless way. So, each sheet will use similar naming conventions.
 
-1. Use a consistent format for all dates (YMD, DMY, MS Excel will often read non-traditional date values as a character code that must be post-processed for analysis.)
++ Use a consistent format for all dates (e.g. YMD, DMY).
 
-1. Use consistent phrases in your notes. *Notes are data.* So, treating these as variables that have a binary, nominal, or ordinal value will allow you to treat these them quantitatively.
++ Use consistent phrases in your notes. *Notes are data.* So, treating these as variables that have a binary, nominal, or ordinal value will allow you to treat these them quantitatively.
 
-1. Be careful about extra spaces within cells. Again, MS Excel will read these as character codes that must be post-processed for analysis.
++ Be careful about extra spaces within cells. Again, MS Excel will read these as character codes that must be post-processed for analysis.
 
-1. One variable is recorded in each cell (remember, in our scheme, a comment is a variables)
++ One variable is recorded in each cell (remember, in our scheme, a comment is a variables).
 
-1. Strive for a rectangular data layout
++ Strive for a rectangular data layout.
 
-1. Avoid font and cell colors as annotation
++ Avoid font and cell colors as annotation
 
-1. Use .csv or some other file back up. ASCII files, like .csv promote distribution to non-MS Excel users (yes, they do exist)
++ Use .csv or some other file back up.
 
 ## Data Managment (Adapted from Malin Pinsky at Rutgers University)
 
-1. Keep lab notebooks to record what you did, learned, or produced each day. Can be physical notebooks, text files, Evernote, Jupyter notebooks, etc.
++ Keep lab notebooks to record what you did, learned, or produced each day. Can be physical notebooks, text files, Evernote, Jupyter notebooks, etc.
 
-2. Establish a mechanism to facilitate collaboration and sharing within the lab. 
++ Establish mechanisms that facilitate collaboration and sharing. 
 
-+ This could be a shared directory or project
++ Given the resources available here it is sensible to work directly in the cloud (Dropbox, OneDrive)
 
-+ Given the resources available here it is often most useful to work directly in the cloud (Dropbox, OneDrive)
++ Use descriptive (non-ambiguous) file names
 
-3. Use descriptive (non-ambiguous) file names
-
-4. Keep raw (unprocessed, un-formatted) data in a file and associated directory that is not overwritten. Instead, processing should be performed on this data and saved in an appropriately named file.
++ Keep raw (unprocessed, un-formatted) data in a file and associated directory that is not overwritten. Instead, processing should be performed on this data and saved in an appropriately named file.
 
 + If we 'clean' the data, we often use a folder called something like “data-raw” and a folder called “data-clean” to differentiate data in its original form from data that has been manipulated. Have "master" or "original" and "tidy" versions of files and name them appropriately.
 
-5. Store raw data with metadata describing the contents of the file (i.e. what do the columns mean, how was the data collected, etc.)
++ Store raw data with metadata describing the contents of the file (i.e. what do the columns mean, how was the data collected, etc.)
 
-6. If using data downloaded from another data source, we often have a folder called “data_dl” for downloaded data. Include the data source in a README file for reproducibility (this is like meta data and provides useful description). 
-
- ```{r eval=FALSE, echo=FALSE}
-# Theoretical aspects of Statistical Analysis
-
-In 'The Ecological Detective' (on reserve for this class), Hilborn and Mangel describe the challenges for understanding the natural world and the book is focused on how to link the data collected by ecologists with mathematical and statistical representations (models) that allow inference.
-
-Hilborn and Mangel outline an approach for the ecological science:
-
-1. Construction of hypotheses (plural): 
-
-+ In this step, the experimenter will come up with a suite of different descriptions of how the world works. These competeing descriptions will be evaluated using data. 
-
-2. Data
-
-+ This component includes the measurements (the values of variables) that will be used in hypothesis testing.
-
-3. Goodness of Fit (GOF)
-
-+ Here, we are concerned with understanding how well the description (model) fits the data.
-
-4. Numerical procedures
-
-+ How does the GOF derived in #3 compare to it's competitor's values (multi-model selection).
-
- ```
++ If using data downloaded from another data source, we often have a folder called “data_dl” for 'downloaded data'. Include the data source in a README file for reproducibility (this is like meta data and provides useful description). 
 
 # Types of Variables 
 
-Properties and characteristics of an object that can assume two or more different values are called *variables*.
+Properties and characteristics of an object that can assume two or more different values are called *variables*. These are the values that comprise our data.
 
-We need to understand the structure of variables - different types of measurements will necessitate the appropriate methods of analysis.
+We need to understand the structure of variables - different types of measurements will require different methods of analysis.
 
-The next step after the completion of data collection is to organize the data into a meaningful form so that patterns, if any, emerging out of the data can be seen easily. 
+The next step after data collection is to organize the data into a meaningful form so that patterns and contrasts can be seen easily. 
 
-One of the common methods for organizing data is to construct frequency distributions either in a table or as a figure.
-
-Frequency distribution is an organized representation of the number of observations in each category on the scale of measurement.
-
-These allow researchers to have a glance at the entire data conveniently. 
+One of the common methods for organizing univariate data is to construct frequency distributions either in a table or as a figure. The frequency distribution is an organized representation of the number of observations in each category on the scale of measurement. These allow researchers to have a glance at the entire data conveniently. 
 
 It shows whether the observations are high or low and also whether they are concentrated in one area or spread out across the entire scale. 
 
-Thus, frequency distribution presents a picture of how the individual observations are distributed in the measurement scale.
+## Categorical Variables
 
-## Categorical Variables (entities are divided into distinct categories):
+Entities are divided into distinct categories.
 
-Binary variable: There are only two categories.
+### Binary variable
 
-+ Dead or alive,
+There are only two categories, e.g.
 
-+ Present or absent,
++ dead or alive,
+
++ present or absent,
 
 + positive or negative (e.g. for a disease),
 
@@ -138,19 +109,23 @@ Binary variable: There are only two categories.
 
 + or the value of some quantity of interest exceeds some threshold value.
 
-Nominal variable: There are more than two categories. 
+### Nominal variable
+
+There are more than two categories, e.g.
 
 + Whether the subject is an omnivore, vegetarian, vegan, or carnivore.
 
 + The subject's taxonomic group, 
 
-Ordinal variable: Similar to a nominal variable but the categories are ordered.
+### Ordinal variable
+
+Similar to a nominal variable but the categories are ordered.
 
 + Whether people got a fail, a pass, a merit or a distinction in their exam.
 
 + Intensity of infection (e.g. none, mild, moderate, severe)
 
-## Frequency Distribution of a Categorical Variable 
+### Frequency Distribution of a Categorical Variable 
 
 + A tally of how frequently occurring a value is among categories.
 
@@ -158,23 +133,19 @@ Ordinal variable: Similar to a nominal variable but the categories are ordered.
 barplot(longley$GNP[1:10] ~ state.abb[1:10], xlab = 'State', ylab = 'Frequency Mentions in the News')
 ```
 
-## Continuous Variables (entities or objects get a score on the ratio scale):
+## Continuous Variables
 
-Interval variable: Equal intervals on the variable represent equal differences in the property being measured.
+Equal intervals on the variable represent equal differences in the property being measured, e.g.
 
-+ e.g. the difference between 6 and 8 is equivalent to the difference between 13 and 15.
-
-Some examples of measurements that are continuous are: 
++ the difference between 6 and 8 is equivalent to the difference between 13 and 15,
 
 + Density or frequency of organisms in a transect or at a sampling station, 
 
 + Body Mass Index or some measure of condition of an organism.
 
-## Frequency Distribution of a Continuous Variable
+### Frequency Distribution of a Continuous Variable
 
-+ A question often asked: What interval to choose? Your knowledge of the domain will guide this. 
-
-The width of the class can be determined by dividing the range of observations by the number of classes. 
+A question often asked: What interval to choose? Your knowledge of the domain will guide this. The width of the class can be determined by dividing the range of observations by the number of classes. 
 
 The following are some guidelines regarding class widths:
 
@@ -203,54 +174,15 @@ Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Conti
 Total frequency = 130 = n
 </center>
 
-<Br>
-
 ```{r, results='hide',message=FALSE, echo=FALSE}
 # Histogram for fig 2.2.3
 par(mfrow = c(1,1)) # This tells R to put 1 row, 2 columns
 stuff.to.plot <- c(rep(8.1,2), rep(8.3,6), rep(8.4,8), rep(8.5,11), rep(8.6,17), rep(8.7,17), rep(8.8,24), rep(8.9,18), rep(9.0,13), rep(9.1,10), rep(9.2,4))
-hist(stuff.to.plot, main = "", xlab = "Phosphorous (mg/g of leaf)", xlim = c(8.1,9.3), freq = T)
+hist(stuff.to.plot, 
+     main = "", xlab = "Phosphorous (mg/g of leaf)", 
+     xlim = c(8.1,9.3), freq = T)
 box()
 ```
-
-
-## Other Descriptions of Continuous Frequency Distributions
-
-### Range 
-
-+ The smallest score subtracted from the largest
-
-Example:
-
-+ Number of friends of 11 Facebook users.
-+ 22, 40, 53, 57, 93, 98, 103, 108, 116, 121, 252
-+ Range = 252 - 22 = 230
-+ Very biased by outliers, why?
-
-### The Interquartile Range
-
-+ The values that split the sorted data into four equal parts.
-+ *First* or *lower quartile* (the range values of the first 25% of values in ordered sequence)
-+ *Second* quartile (the range values of the first 25 to 50% of values in ordered sequence)
-+ *Third* quartile (the range values of the first 50 to 75% of values in ordered sequence)
-+ *Fourth* quartile (the range values of the first 75 to 100% of values in ordered sequence)
-
-```{r, results='hide',message=FALSE, echo=FALSE}
-# Histogram for fig 2.2.1 and 2.2.2
-par(mfrow = c(1,2)) # This tells R to put 1 row, 2 columns
-stuff.to.plot <- rnorm(n = 1000, mean = 50, sd = 15)
-hist(stuff.to.plot, main = "Large Deviation (from the mean)", xlab = "Score", xlim = c(0,100))
-box()
-abline(h = 0)
-
-stuff.to.plot <- rnorm(n = 1000, mean = 50, sd = 8)
-hist(stuff.to.plot, main = "Small Deviation (from the mean)", xlab = "Score", xlim = c(0,100))
-box()
-abline(h = 0)
-
-```
-
-<Br>
 
 ## Cumulative Distribution of a Continuous Variable
 ```{r, results='hide',message=FALSE, echo=FALSE}
@@ -297,21 +229,7 @@ Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Conti
 
 Total frequency = 130 = n
 
-## Measures of central tendency 
-
-### The Mode
-
-+ The most frequently occurring value in the population or sample. 
-
-### The Median 
-
-+ The 50th percentile in the ordered data. 
-
-### The Mean
-
-+ We will spend a lot of time on this.
-
-## Skew and Kurtosis
+### Skew and Kurtosis of a Continuous Variable
 
 + A left-skewed distribution has a long left tail.
 
@@ -340,9 +258,7 @@ abline(v = c(mean(x),median(x)),  col=c("green", "red"), lty=c(2,2), lwd=c(3, 3)
 legend('topleft', legend = c('Mean', 'Median'), col = c('green', 'red'), lwd = c(2,2))
 ```
 
-## Some additional visual representations of frequency
-
-### Frequency polygon
+### Frequency Polygon of a Continuous Variable
 
 A frequency polygon is constructed by connecting all midpoints of the top of the bars in a histogram by a straight line without displaying the bars. 
 
@@ -366,10 +282,9 @@ plot(x$mids, x$counts, xlab = 'Midpoint', ylab = 'Frequency')
 lines(x$mids, x$counts)
 ```
 
-### Box and whisker Plot
+### Box and Whisker Plot of a Continuous Variable
 
 This graph, first described by Tukey in 1977, can also be used to illustrate the distribution of data. 
-
 There is a vertical or horizontal rectangle (box), the ends of which correspond to the upper and lower quartiles (75th and 25th percentile, respectively). 
 
 Hence the middle 50% of observations are represented by the box. 
@@ -379,23 +294,25 @@ The length of the box indicates the variability of the data. The line inside the
 The position of the median indicates whether the data are skewed or not. If the median is closer to the upper quartile, then they are negatively skewed and if it is near the lower quartile, then positively skewed.
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
-par(mfrow = c(2,1))
-boxplot(rnorm(n = 150,3,2), horizontal=TRUE)
-boxplot(rnorm(n = 150,5,1), horizontal=TRUE)
+par(mfrow = c(1,2))
+par(mar = rep(0,4))
+a. <- rnorm(n = 150,3,4)
+b. <- rnorm(n = 150,5,1)
+boxplot(a., horizontal=F, xaxt = 'n', yaxt = 'n', ylim = range(c(a.,b.)))
+boxplot(b., horizontal=F, xaxt = 'n', yaxt = 'n', ylim = range(c(a.,b.)))
 ```
 
-
-### Violin 
+### Violin Plots
 
 Violin plots are an alternative to box plots that solves the issues regarding displaying the underlying distribution of the observations, as these plots show a kernel density estimate of the data. 
 
 same summary statistics as box plots:
 
-* the white dot represents the median
++ the white dot represents the median.
 
-* the thick gray bar in the center represents the interquartile range
++ the thick gray bar in the center represents the interquartile range.
 
-* the thin gray line represents the rest of the distribution, except for points that are determined to be “outliers” using a method that is a function of the interquartile range.
++ the thin gray line represents the rest of the distribution, except for points that are determined to be “outliers” using a method that is a function of the interquartile range.
 
 On each side of the gray line is a kernel density estimation to show the distribution shape of the data. Wider sections of the violin plot represent a higher probability that members of the population will take on the given value; the skinnier sections represent a lower probability.
 
@@ -413,6 +330,58 @@ boxplot(bimodal,uniform,normal)
 
 ```
 
+## Descriptive Statistics of Continuous Frequency Distributions
+
+### Range 
+
+The smallest score subtracted from the largest score in the observation, e.g. 
+
++ Number of friends of 11 Facebook users.
++ 22, 40, 53, 57, 93, 98, 103, 108, 116, 121, 252
++ Range = 252 - 22 = 230
+
+### The Interquartile Range
+
+Identify the values that split the sorted data into four equal parts.
+
++ *First* or *lower quartile* (the range values of the first 25% of values in ordered sequence)
+
++ *Second* quartile (the range values of the first 25 to 50% of values in ordered sequence)
+
++ *Third* quartile (the range values of the first 50 to 75% of values in ordered sequence)
+
++ *Fourth* quartile (the range values of the first 75 to 100% of values in ordered sequence)
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Histogram for fig 2.2.1 and 2.2.2
+par(mfrow = c(1,2)) # This tells R to put 1 row, 2 columns
+a. <- rnorm(n = 1000, mean = 50, sd = 15)
+hist(a., main = "Large Deviation (from the mean)", xlab = "Score", xlim = c(0,100))
+box()
+abline(h = 0)
+abline(v = quantile(a.), col = "red", lwd = 2)
+text(labels = seq(1,4), 
+     x = caTools::runmean(quantile(a.),2,endrule = 'trim'), 
+     y = rep(median(x$counts), 4), col = "red")
+
+b. <- rnorm(n = 1000, mean = 50, sd = 8)
+hist(b., main = "Small Deviation (from the mean)", xlab = "Score", xlim = c(0,100))
+box()
+abline(h = 0)
+abline(v = quantile(b.), col = "red", lwd = 2)
+
+text(labels = seq(1,4), 
+     x = caTools::runmean(quantile(b.),2,endrule = 'trim'), 
+     y = rep(median(x$counts), 4), col = "red")
+```
+
+### Measures of central tendency 
+
++ The mode is the most frequently occurring value in the population or sample. 
+
++ The median is the 50th percentile in the ordered data. 
+
++ The mean (much more about this below).
 
 # The Normal Distribution
 + The normal distribution is probably the most common distribution in all of probability and statistics. 
@@ -422,21 +391,47 @@ boxplot(bimodal,uniform,normal)
 
 The probability density function for the normal distribution is defined as:
 
-<center>
-$y_i = \frac{1}{\sigma\sqrt2\pi}e^{-(x_i-\mu)^2/2\sigma^2}$
-</center>
+$y_i = \frac{1}{\sigma\sqrt2\pi}e^{-(X_i-\mu)^2/2\sigma^2}$
 
 We can think of the model in this way (mathematical approach):
 
-<center>
-$f(x) = \frac{1}{\sigma\sqrt2\pi}e^{-(x_i-\mu)^2/2\sigma^2}$
-</center>
+$f(X) = \frac{1}{\sigma\sqrt2\pi}e^{-(X_i-\mu)^2/2\sigma^2}$
 
 Where the parameters (the symbols ) represent the mean, $\mu$ (the point on the x-axis where the center of the distribution is) and the standard deviation, $\sigma$ (how spread out the distribution is) of the population.
 
 + What are some of the general characteristics of this model? *Can you describe its shape?*
 + What are the parameters of the model? *These are the quantities we will estimate in the fitting process.*
 + What are the variables used in the model? *These are the observations.*
+
+
+```{r, results='hide',message=FALSE, echo=FALSE}
+# Figures 30 and 31 (went out of order)
+par(mfrow = c(1,2))
+par(mar = rep(1,4))
+xlim. <- c(-3.5,5.5)
+plot(x = seq(xlim.[1],xlim.[2], length.out = 100), y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), 
+     xlab = "", ylab = "Y", type = "l", yaxt = 'n', xlim = xlim.,
+     main = "Different Means, Identical SD")
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100) + 1, y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), lwd = 2)
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100) + 2, y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), lwd = 3)
+
+
+xlim. <- c(-4,4)
+
+plot(x = seq(xlim.[1],xlim.[2], length.out = 100), 
+     y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100), mean = 0, sd = 0.5), 
+     xlab = "", ylab = NA, type = "l", yaxt = 'n', xlim = xlim.,
+     main = "Same Mean, Different SD")
+
+lines(x = seq(xlim.[1],xlim.[2], length.out = 100), 
+      y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100), mean = 0, sd = 1.5), 
+      col = 'darkgray', lwd = 2)
+
+labels <- c(expression(paste(mu,"-3",sigma)), expression(paste(mu,"-2",sigma)))
+
+```
+
+
 
 Below, two distributions are plotted from the 'Standard Normal Distribution', in this formulation:
 
@@ -483,69 +478,41 @@ $\int_{-\infty}^{\infty}f(x)dx = 1$.
 
 One last thing here: The probability of the random variable being equal to a specific outcome is 0, because the integral over x values of x to x is equal to zero.
 
-## Different Means, Identical Standard Deviation 
-
-```{r, results='hide',message=FALSE, echo=FALSE}
-# Figures 30 and 31 (went out of order)
-par(mar = rep(1,4))
-xlim. <- c(-3.5,5.5)
-plot(x = seq(xlim.[1],xlim.[2], length.out = 100), y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), 
-     xlab = "", ylab = "Y", type = "l", yaxt = 'n', xlim = xlim.)
-lines(x = seq(xlim.[1],xlim.[2], length.out = 100) + 1, y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), lwd = 2)
-lines(x = seq(xlim.[1],xlim.[2], length.out = 100) + 2, y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100)), lwd = 3)
-```
-
-
-## Same Mean, Different Standard Deviation 
-
-```{r, results='hide',message=FALSE, echo=FALSE}
-par(mar = rep(1,4)) 
-
-xlim. <- c(-4,4)
-
-plot(x = seq(xlim.[1],xlim.[2], length.out = 100), 
-     y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100), mean = 0, sd = 0.5), 
-     xlab = "", ylab = NA, type = "l", yaxt = 'n', xlim = xlim.)
-
-lines(x = seq(xlim.[1],xlim.[2], length.out = 100), 
-      y = dnorm(seq(xlim.[1],xlim.[2],length.out = 100), mean = 0, sd = 1.5), 
-      col = 'orangered2', lwd = 2)
-
-labels <- c(expression(paste(mu,"-3",sigma)), expression(paste(mu,"-2",sigma)))
-
-```
-
 ```{r, eval=FALSE, echo=FALSE}
 ## Taking samples from a Normal Distribution
 
 Normal distribution sampling theorem:
-
-+ Sampling distribution is normal when the population distribution is normal.
+  
+  + Sampling distribution is normal when the population distribution is normal.
 + Sample mean = population mean
 + Sample sd = population *s*
-
-## Central limit theorem
-
-+ The central limit theorem (CLT) states that the distribution of sample means approximates a normal distribution as the sample size becomes larger regardless of the population distribution shape.
+  
+  ## Central limit theorem
+  
+  + The central limit theorem (CLT) states that the distribution of sample means approximates a normal distribution as the sample size becomes larger regardless of the population distribution shape.
 
 ```
 
 
 ## *Z*-scores
-### Properties of *Z*-scores - Centering and Scaling
+
+*Z*-scores are a way to center and scale the observations.
+
+$Z_i = \frac{X_i-\bar{X}}{sd}$
 
 + Standardizing a score with respect to the other scores in the group.
 + Expresses a score in terms of how many standard deviations it is away from the mean.
 + Converts a distribution to a z-score distribution.
 + Z-scores have mean = 0 and standard deviation = 1.
 
-<center>
-$z_i = \frac{x_i-\bar{x}}{s}$
-</center>
-
 ```{r, message=FALSE, echo=FALSE}
 library(knitr)
 vals <- rnorm(10)
+
+dt <- data.frame(mean = mean(vals),
+                 sd = sd(vals))
+dt <- print(round(dt,3))
+
 dt <- data.frame(observation = vals,
                  centered.obs = vals - mean(vals),
                  scaled.centered.osb = (vals - mean(vals))/sd(vals),
@@ -555,13 +522,10 @@ dt <- round(dt,3)
 names(dt) <- c('Obs', 
                'Centered Obs (difference between the value and the mean)', 
                'Scaled Centered Obs (Centered value divided by standard deviation, Z-score)', 
-               'Prob (obs < Z)', 'Prob (Obs > Z)')
+               'Prob (obs < Z)', '1-Prob (Obs > Z)')
 knitr::kable(dt)
 
-dt <- data.frame(mean = mean(vals),
-                 sd = sd(vals))
-dt <- round(dt,3)
-knitr::kable(dt)
+
 ```
 
 
@@ -583,77 +547,51 @@ knitr::kable(dt)
 ```{r, results='hide',message=FALSE, echo=FALSE}
 par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
 plot(x = seq(-4,4, length.out = 100), 
-     y = dnorm(seq(-4,4,length.out = 100)), ylab = "", type = "l", yaxt = 'n', xlab = "Quantile")
-abline(v = c(-1.96, 1.96), lwd = 2)
-abline(v = c(-2.58, 2.58), lwd = 2)
-abline(v = c(-3.29, 3.29), lwd = 2)
+     y = dnorm(seq(-4,4,length.out = 100)), ylab = "", type = "l", yaxt = 'n', xlab = "Quantile", lwd = 2)
+abline(v = c(-1.96, 1.96), lwd = 2, col = "green")
+abline(v = c(-2.58, 2.58), lwd = 2, col = "blue")
+abline(v = c(-3.29, 3.29), lwd = 2, col = "red")
 
 #x axis labels and percentages need to be added 
 ```
 
 # Model Fitting
 
-```{r, eval=FALSE, echo=FALSE}
-+ Achieve an unbiased estimate - Long-run (infinite sampling) 
-+ Derive an efficient estimator - Fewest number samples to obtain accurate value
+The normal distribution is our first statistical model.
 
-## The normal distribution, your first statistical model  
+The mean is the hypothetical value of the most common outcome. However, it is not a perfect representation of the characteristics of the data. The Standard Deviation is the measure of dispersion (precision). 
 
-$outcome_i = (model) + error_i$  
+So, we will be fitting observations to understand how well the mean represents reality.
 
-$Y_{i,obs} = \frac{1}{\sigma\sqrt2\pi}e^{-(X_i-\mu)^2/2\sigma^2} + error_{i}$
-
-+ In statistics we fit models to our data (i.e. we use a statistical model to represent what is happening in the world)
-
-+ The mean, the measure of central tendency
-
-+ The mean is the hypothetical value of the most common outcome. However, it is not a perfect representation of the characteristics of the data.
-
-+ The Standard Deviation is the measure of dispersion (precision)
-
-+ How can we assess how well the mean represents reality?
-
-``` 
-
-## The Residual and Objective Function
+## The Objective Function
 
 The residuals for a particular model:
 
-$outcome_i = (model) + error_i$  
+$outcome = model + error$  
+
+$error_i = observation_i - expected_i$  
 
 To ‘thread the model through the middle of the noise’, we want the magnitudes of all residuals to be small. A reasonable way (not the only way) to achieve this is to define our objective function to minimize error.  
 
 ## Quantifying Error
 
-+ A deviation is the difference between the mean (*expected*) and the *observed* data (the outcome of the sample).
+A deviation is the difference between the mean (*expected*) and the *observed* data (the outcome of the sample). The deviation of *observed* and *expected* value is called: the residual, error, or residual error
 
-+ The deviation of *observed* and *expected* value is also called: the residual, error, or residual error
-
-+ Deviations can be calculated by taking each score and subtracting the mean from it:
+In the context of the normal distribution, we can calculate the deviations by calculating the difference between the observations and predictions.
 
 When the normal fitting models: 
 
-<center>
-$deviation = x_i - \bar{x}$
-</center>
-
-<center>
-$error_i = outcome_i - (model_i)$  
-</center>
-
-+ In the figure below the expected value is zero, and the residual error for each of the five samples is plotted.
-
-<br>
+$deviation = X_i - \bar{X}$
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
 par(mfrow = c(1,1), mar = c(4,4,1,4))  
-x <- c(1,2,3,4,5)
-y <- rnorm(length(x), mean = 0, sd = 1)
+
+y <- round(c(-0.2762588, -0.1360962,  1.0356247,  0.6471835,  0.2600352,  1.5552141),2)
+x <- seq(1, length(y))
 y <- y - mean(y)
 plot(x,y, 
      main = "", xlab = "Sample from Lecturer in my Department", 
-     ylab = "Deviation", xlim = c(1,5), 
-     ylim = c(-max(abs(range(y))), max(abs(range(y)))), 
+     ylab = "Deviation", 
      pch=16, type = 'h')
 points(x,y, pch = 20)
 abline(h = 0)
@@ -662,90 +600,91 @@ abline(h = 0)
 
 Should we use the Total Error as an estimate of uncertainty?
 
-+ We could sum $i^{th}$ error terms from 1 to n.
+We could sum $i^{th}$ error terms from 1 to n.
 
-|Score|Mean|Deviation|
-|---|---|---|
-| 1 | 2.6  |-1.6 |
-| 2 |   |-0.6 |
-| 3 |   |0.4  |
-| 3 |   |0.4  |
-| 4 |   |1.4  |
-|   | Sum = |0 |
+```{r, results='hide',message=FALSE, echo=FALSE}
 
+y <- round(c(-0.2762588, -0.1360962,  1.0356247,  0.6471835,  0.2600352,  1.5552141),2)
+x <- seq(1, length(y))
+y <- y - mean(y)
 
-<center>
-$\Sigma(x_i - \bar{x}) = 0$
-</center>
-
-## Sum of Squared Errors
-
-+ We could add the deviations to find out the total error, but the deviations 'cancel out' (some are positive and others negative)
-
-+ Therefore, we square each deviation.
-
-+ If we add these squared deviations we get the sum of squared errors (SS).
-
-<Br>
-
-|Score|Mean|Deviation|Sqaured Deviation|
-|---|---  |---    |---   |
-| 1 | 2.6 | -1.6  | 2.56 |
-| 2 |  | -0.6  | 0.36 |
-| 3 |  | 0.4   | 0.16 |
-| 3 |  | 0.4   | 0.16 |
-| 4 |  | 1.4   | 1.96 |
-|   |     | Total | 5.20 |
-
-<center>
-$SS = \Sigma(X - \bar{X})^2 = 5.20$
-</center>
-
-+ The sum of squares is a good measure of overall variability, but is dependent on the number of scores.
-
-
-## Let's fit a model to some data using the sum of squares criteria:
-
-Data from 10 tree heights. We want to estimate the mean value. 
-
-```{r}
-tree.ht <- c(2,4,9,3,5,1,2,12,8,10)
-candidate.mu <- seq(min(tree.ht), max(tree.ht), length.out = 30)
-SS.est <- c()
-for (j in 1:length(candidate.mu))
-
-  SS.est[j] <- sum((tree.ht - candidate.mu[j])^2)
-  
-plot(candidate.mu, SS.est, type = 'n')
-lines(candidate.mu, SS.est, lwd = 2 )
 ```
 
 
+
+|*i*|Score|Score - mean(Score)|
+| :----: |    :----:   |          :----: |
+| 1 | -0.28  |-0.795 |
+| 2 |  -0.14 |-0.655 |
+| 3 |   1.04|0.525  |
+| 4 | 0.65  |0.135   |
+| 5 |  0.26 |-0.255  |
+|  6 | 1.56 |1.045 |
+
+$\Sigma(X_i - \bar{X}) = 0$
+
+## Sum of Squared Errors
+
+We could add the deviations to find out the total error, but the deviations 'cancel out' (some are positive and others negative)
+
+Therefore, we square each deviation. If we add these squared deviations we get the sum of squared errors (SS).
+
+|*i*|Score|Deviation|Squared Deviation 
+| :----: |    :----:   |  :----: |:----: |
+| 1 | -0.28  |-0.795 |0.632|
+| 2 |  -0.14 |-0.655 |0.429|
+| 3 |   1.04|0.525  |0.276|
+| 3 | 0.65  |0.135   |0.018|
+| 4 |  0.26 |-0.255  |0.065|
+|  5 | 1.56 |1.045 |1.092|
+
+$SS = \Sigma(X_i - \bar{X})^2 = 2.512$
+
+The sum of squares is a good measure of overall variability, but is dependent on the number of scores.
+
+## Let's fit a model to some data using the sum of squares criteria:
+
+Let's look at data from 10 tree heights. We want to estimate the mean value. To do this we will plot the resulting $SS$ (SS.est) resulting from changing the value of $\bar{X}$.
+
+The code and figure is a simulation that displays what happens to the *SS* as a result of trying to fit the normal model with different values of $\bar{X}$.
+
+Look at the curve. You will notice that the best estimate of $\bar{X}$ is found when *SS* is minimized.
+
+```{r}
+tree.ht <- c(2,4,9,3,5,1,2,12,8,10)
+candidate.mean <- seq(min(tree.ht), max(tree.ht), length.out = 300)
+SS.est <- c()
+for (j in 1:length(candidate.mean))
+  
+  SS.est[j] <- sum((tree.ht - candidate.mean[j])^2)
+
+plot(candidate.mean, SS.est, type = 'n')
+lines(candidate.mean, SS.est, lwd = 2 )
+legend(legend = paste("Mean of tree height: ",round(mean(tree.ht),2)),'topleft',bty = 'n')
+abline(v = mean(tree.ht), lwd = 2)
+```
+
 ## Variance
 
+In statistics, when we talk about population, we mean the entire universe of possible values of a stochastic (random) variable. Population variance: 
 
-In statistics, when we talk about population, we mean the entire universe of possible values of a stochastic (random) variable.
+$\sigma^2 = \frac{SS}{N} = \frac{\Sigma^n_{i=1}(X_i-\mu)^2}{N}$
 
-<center>
-Population variance: $\sigma^2 = \frac{SS}{N} = \frac{\Sigma^n_{i=1}(x_i-\mu)^2}{N}$
-</center>
+Most of the time, we don’t sample the entire population because it is too complex or simply not feasible. Think, for instance, at a problem when you want to analyze the heights of the oak trees in a forest. You can, of course, measure every single tree of the forest and so have collected statistics about the entire forest, but this could be very expensive and would take a very long time. So, we don't generally know $\mu$.
 
-Most of the time, we don’t sample the entire population because it is too complex or simply not feasible. Think, for instance, at a problem when you want to analyze the heights of the oak trees in a forest. You can, of course, measure every single tree of the forest and so have collected statistics about the entire forest, but this could be very expensive and would take a very long time. 
+We calculate the average variability (average variability of each sample).
 
-+ We calculate the average variability (average variability of each sample.
+So,  obtain a sample of, let’s say, 20 trees and try to relate sample statistics and population statistics. 
 
-So,  can obtain a sample of, let’s say, 20 trees and try to relate sample statistics and population statistics. 
-
-
-<center>
-Sample variance: $s^2 = \frac{SS}{n-1} = \frac{\Sigma(x_i-\bar{x})^2}{n-1}$
-</center>
+Sample variance: $s^2 = \frac{SS}{n-1} = \frac{\Sigma(X_i-\bar{X})^2}{n-1}$
 
 Why n-1 instead of N? 
 
 When we use N instead of n-1, we have an error called statistical bias, which means that the sample variance (the estimator) is systematically different from the true population parameter (in this case, the variance).
 
-Let’s see an example. Imagine a forest of 10,000 oak trees: This is the entire population. We want to estimate the distribution of heights. 
+Let’s see an example:
+
+Imagine a forest of 10,000 oak trees: This is the entire population. We want to estimate the distribution of heights. 
 
 Suppose we don’t know that the heights are normally distributed with an average of 10 m and a standard deviation (square root of variance) of 2 m. These are the statistical parameters of the entire population. We try to estimate these values through a sample of 20 random oak trees. We repeat the experiment 100 times. 
 
@@ -753,15 +692,13 @@ Given that 20 samples are a tiny subset of 10,000 items of population, every tim
 
 ## Standard Deviation 
 
-+ The variance has one problem: it is measured in units^2^ (The original units, like the numbers are squared.).
+The variance has one problem: it is measured in units^2^ (The original units, like the numbers are squared.).
 
-+ This isn't a very meaningful metric so we take the square root value.
+This isn't a very meaningful metric so we take the square root value.
 
-+ This is the sample standard deviation: 
+This is the sample standard deviation (*sd* or *s*): 
 
-$s = \sqrt\frac{\Sigma^n_{i=1}(x_i-\bar{x})^2}{n-1}$
-
-<Br>
+$s = \sqrt\frac{\Sigma^n_{i=1}(X_i-\bar{X})^2}{n-1}$
 
 ## Summary of Variance Estimates
 
@@ -770,8 +707,7 @@ The sum of squares, variance, and standard deviation represent the same thing:
 + The fit of the mean to the data, how well the mean represents the observed data
 + The variability in the data when modeled using the mean 
 
-
-## Central limit theorem
+## Central Limit Theorem (CLT)
 
 The central limit theorem (CLT) states that the distribution of sample means approximates a normal distribution as the sample size becomes larger regardless of the population distribution shape.
 
@@ -789,8 +725,7 @@ This distribution is the 'sampling distribution'  It:
 
 3.) The expected value (the mean) of the sample distribution will be the mean of the population distribution.
 
-
-## Example 1 
+## Example of the CLT (1 of 2)
 
 A fair die can be modelled with a discrete random variable with outcome 1 through 6, each with the equal probability of 1/6.
 
@@ -806,11 +741,11 @@ We will take samples of size 10 , from the above 10000 observation of outcome of
 ```{r}
 x10 <- c()
 k =10000
- for ( i in 1:k) {
- x10[i] = mean(sample(1:6,10, replace = TRUE))}
- hist(x10, col ="pink", main="Sample size =10",xlab ="Outcome of die roll")
- abline(v = mean(x10), col = "Red")
- abline(v = 3.5, col = "blue")
+for ( i in 1:k) {
+  x10[i] = mean(sample(1:6,10, replace = TRUE))}
+hist(x10, col ="pink", main="Sample size =10",xlab ="Outcome of die roll")
+abline(v = mean(x10), col = "Red")
+abline(v = 3.5, col = "blue")
 
 ```
 
@@ -819,37 +754,37 @@ By theory , we know as the sample increases, we get better bell shaped curve. As
 
 ```{r}
 x30 <- c()
- x100 <- c()
- x1000 <- c()
- k =10000
- for ( i in 1:k){
- x30[i] = mean(sample(1:6,30, replace = TRUE))
- x100[i] = mean(sample(1:6,100, replace = TRUE))
- x1000[i] = mean(sample(1:6,1000, replace = TRUE))
- }
- par(mfrow=c(1,3))
- hist(x30, col ="green",main="n=30",xlab ="die roll")
- abline(v = mean(x30), col = "blue")
+x100 <- c()
+x1000 <- c()
+k =10000
+for ( i in 1:k){
+  x30[i] = mean(sample(1:6,30, replace = TRUE))
+  x100[i] = mean(sample(1:6,100, replace = TRUE))
+  x1000[i] = mean(sample(1:6,1000, replace = TRUE))
+}
+par(mfrow=c(1,3))
+hist(x30, col ="green",main="n=30",xlab ="die roll")
+abline(v = mean(x30), col = "blue")
 
- hist(x100, col ="light blue", main="n=100",xlab ="die roll")
- abline(v = mean(x100), col = "red")
+hist(x100, col ="light blue", main="n=100",xlab ="die roll")
+abline(v = mean(x100), col = "red")
 
- hist(x1000, col ="orange",main="n=1000",xlab ="die roll")
- abline(v = mean(x1000), col = "red")
+hist(x1000, col ="orange",main="n=1000",xlab ="die roll")
+abline(v = mean(x1000), col = "red")
 
 ```
 
-### Example 2
+### Example of the CLT (1 of 2)
 
 Flipping a fair coin many times the probability of getting a given number of heads in a series of flips should follow a normal curve, with mean equal to half the total number of flips in each series. Here 1 represent heads and 0 tails.
 
 ```{r}
 x <- c()
 k =10000  
- for ( i in 1:k) {  
- x[i] = mean(sample(0:1,100, replace = TRUE))}  
- hist(x, col ="light green", main="Sample size = 100",xlab ="flipping coin ")  
- abline(v = mean(x), col = "red")
+for ( i in 1:k) {  
+  x[i] = mean(sample(0:1,100, replace = TRUE))}  
+hist(x, col ="light green", main="Sample size = 100",xlab ="flipping coin ")  
+abline(v = mean(x), col = "red")
 ```
 
 # Sampling and Parameter Estimation
@@ -986,7 +921,7 @@ $n_i$ = number of sample units within stratum *i*
 
 Estimates from stratified random samples are simply the weighted average or the sum of estimates from a series of simple random samples, each generated within a unique stratum. 
 
-$\bar{x} = \frac{1}{n}\sum_{i = 1}^{L}n_{i}\bar{x}_i$
+$\bar{X} = \frac{1}{n}\sum_{i = 1}^{L}n_{i}\bar{X}_i$
 
 $s^2 = \frac{1}{n^2}\sum_{i = 1}^{L}n_i^2(\frac{n - n_i}{n})(\frac{s_i^2}{n_i})$
 
@@ -1006,7 +941,7 @@ Using stratified random sampling requires that we decide how to divide a fixed a
 
 + One aspect of parameter estimation is to get a *point estimate*, an approximation of the true value of the population parameter. However this estimated does not provide information about the precision of the estimate.
 
-+ The best estimate of $\mu$ is $\bar{x}$.
++ The best estimate of $\mu$ is $\bar{X}$.
 
 + The best estimate of $\sigma$ is $s$.
 
@@ -1044,13 +979,13 @@ Statistic = Parameter  $\pm$ Error (From Kachigan, p. 138)
 
 Parameter = Statistic  $\pm$ Error
 
-$\mu = \bar{x}  \pm Error$
+$\mu = \bar{X}  \pm Error$
 
 + We will never know the magnitude of the true error. 
 
 What we can understand is the  combined effect of sampling and process error. so, we attach a probability that the error is a certain size. Now, we want to solve for the Statistic.
 
-$\bar{x}  = \mu \pm Error$
+$\bar{X}  = \mu \pm Error$
 
 + If we take an infinite number of samples from the population, we will get an estimate of the error term, $\sigma$. 
 
@@ -1070,9 +1005,9 @@ abline(v = c(-1.96, 1.96), lwd = 2)
 #x axis labels and percentages need to be added 
 ```
 
-$\mu = \bar{x} \pm 1.96\sigma$ (95% Certainty)
+$\mu = \bar{X} \pm 1.96\sigma$ (95% Certainty)
 
-$\mu = \bar{x} \pm ?  \sigma$ (99% Certainty)
+$\mu = \bar{X} \pm ?  \sigma$ (99% Certainty)
 
 + The above presumes that we have a very good knowledge of the population parameter $\sigma$, which is generally not the case. We do not sample populations and infinite number of times. 
 
@@ -1092,11 +1027,11 @@ $\mu = \bar{x} \pm ?  \sigma$ (99% Certainty)
 
 + Let's look at a [t Table](http://www.ttable.org/)
 
-$\mu = \bar{x} \pm t_{df}{s_{\bar{x}}}$ (95% Certainty, with *n* =  10?)
+$\mu = \bar{X} \pm t_{df}{s_{\bar{X}}}$ (95% Certainty, with *n* =  10?)
 
-$\mu = \bar{x} \pm t_{df}{s_{\bar{x}}}$ (99% Certainty, with *n* =  10?)
+$\mu = \bar{X} \pm t_{df}{s_{\bar{X}}}$ (99% Certainty, with *n* =  10?)
 
-$\mu = \bar{x} \pm t_{df}{s_{\bar{x}}}$ (99% Certainty, with *n* =  50?)
+$\mu = \bar{X} \pm t_{df}{s_{\bar{X}}}$ (99% Certainty, with *n* =  50?)
 
 
 # Hypothesis Testing and Power
@@ -1199,18 +1134,15 @@ Hypothetical *Z*-scores
 
 <Br>
 
-```{r, results='hide',message=FALSE, echo=FALSE}
+```{r}
 par(mfrow = c(1,1)) # This tells R to put 1 row, 1 columns
 plot(x = seq(-4,4, length.out = 100), y = dnorm(seq(-4,4,length.out = 100)), xlab = "Z", ylab = NA, type = "l", yaxt = 'n', xaxt = 'n')
 abline(v = 1.96)
 
 ```
 
-<Br>
-<Br>
-
 | z | .00 | .01   | .02   | .03   | .04   | .05   | .06   | .07   | .08   | .09   |
-|---|---|---|---|---|---|---|---|---|---|---|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 0.0 | .5000 | .5040 | .5080 | .5120 | .5160 | .5199 | .5239 | .5279 | .5319 | .5359 |
 | 0.1 | .5398 | .5438 | .5478 | .5517 | .5557 | .5596 | .5636 | .5675 | .5714 | .5753 |
 | 0.2 | .5793 | .5832 | .5871 | .5910 | .5948 | .5987 | .6026 | .6064 | .6103 | .6141 |
@@ -1221,7 +1153,33 @@ abline(v = 1.96)
 | 0.7 | .7580 | .7611 | .7642 | .7673 | .7704 | .7734 | .7764 | .7794 | .7823 | .7852 |
 | 0.8 | .7881 | .7910 | .7939 | .7967 | .7995 | .8023 | .8051 | .8078 | .8106 | .8133 |
 
-<Br>
+```{r}
+par(mfrow = c(4,4)) # This tells R to put 1 row, 1 columns
+par(mar = rep(0,4))
+par(oma = rep(0,4))
+
+for (j in 1:16) {
+  
+  xp <- c(seq(-4,4,by = 0.01))
+  yp <- dnorm(xp)
+  plot(xp, yp, type = "l", yaxt = 'n', xaxt = 'n',xlab ="",ylab = "")
+  
+  xp <- c(seq(-4,seq(0,1.99,length.out = 16)[j],by = 0.1))
+  yp <- c(dnorm(xp), rep(0,c(length(xp))))
+  xp <- c(xp, rev(xp))
+
+  polygon(x = xp, y = yp, col = 'steelblue')  
+  
+  legend("topleft", 
+         paste0('z =',round(max(xp),2)),
+         bty = 'n')  
+    legend("topright", 
+         paste0('Area =',round(pnorm(max(xp)),2)),
+         bty = 'n')  
+  abline(v = 0, lwd = 2)
+}
+
+```
 
 ## Is it meaningful?
 
@@ -1239,7 +1197,6 @@ abline(v = 1.96)
 #Needs "-1.96", "1.45", and "1.96" arrows on x axis 
 ```
 
-<Br>
 
 ## Statistical Hypothesis Testing
 
@@ -1550,16 +1507,16 @@ box()
 Here is the results (bivariate) of an experiment aimed at understanding the efficacy of advertising:
 
 | Participant number (*i*) | 1 | 2 | 3 | 4 | 5 | Mean | SD |
-|---|---|---|---|---|---|---|---|
-| Adverts Watched (*x*) | 5 | 4 | 4 | 6 | 8 | 5.4 | 1.67 |
-| Packets Bought (*y*)  | 8 | 9 | 10| 13| 15| 11  | 2.92 |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Adverts Watched (*X*) | 5 | 4 | 4 | 6 | 8 | 5.4 | 1.67 |
+| Packets Bought (*Y*)  | 8 | 9 | 10| 13| 15| 11  | 2.92 |
 
 Residual error values:
 
 Remember residuals are the value of the observation - expectation. 
 
 | Participant number (*i*) | 1 | 2 | 3 | 4 | 5 | Mean | SD |
-|---|---|---|---|---|---|---|---|
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | Adverts Watched | 5 | 4 | 4 | 6 | 8 | 5.4 | 1.67 |
 | Packets Bought  | 8 | 9 | 10| 13| 15| 11  | 2.92 |
 | Advertiser Residual | -0.4 | -1.4 | -1.4 | 0.6 | 2.6 |
@@ -1605,13 +1562,13 @@ legend('topleft', legend = "Residual value of packets bought", bty = 'n')
 
 + Covariance is similar - it tells is by how much scores on two variables differ from their respective means.
 
-$s^2=\frac{\Sigma(x_i - \bar{X})}{n-1}^2$
+$s^2=\frac{\Sigma(X_i - \bar{X})}{n-1}^2$
 
-$s^2=\frac{\Sigma(x_i - \bar{X})(x_i - \bar{X})}{n-1}$
+$s^2=\frac{\Sigma(X_i - \bar{X})(X_i - \bar{X})}{n-1}$
 
 ## Here we are examining the 'covariance' so the calculation changes a bit.
 
-+ Calculate the error (residual value) between the mean and each subject's score for the first variable (*x*).
++ Calculate the error (residual value) between the mean and each subject's score for the first variable (*X*).
 
 + Calculate the error (residual value) between the mean and their score for the second variable (*y*).
 
@@ -1622,17 +1579,17 @@ $s^2=\frac{\Sigma(x_i - \bar{X})(x_i - \bar{X})}{n-1}$
 + The covariance is the mean (average) of the cross-product deviations:
 
 
-$cov(x,y)=\frac{\Sigma(x_i - \bar{x})(y_i - \bar{y})}{n-1}$
+$cov(X,Y)=\frac{\Sigma(X_i - \bar{X})(Y_i - \bar{Y})}{n-1}$
 
 From our example, and plugging in the values: 
 
-$cov(x,y)=\frac{(-0.4)(-3)+(-1.4)(-2)+(-1.4)(-1)+(0.6)(2)+(2.6)(4)}{4}$
+$cov(X,Y)=\frac{(-0.4)(-3)+(-1.4)(-2)+(-1.4)(-1)+(0.6)(2)+(2.6)(4)}{4}$
 
-$cov(x,y)=\frac{1.2+2.8+1.4+1.2+10.4}{4}$
+$cov(X,Y)=\frac{1.2+2.8+1.4+1.2+10.4}{4}$
 
-$cov(x,y)=\frac{17}{4}$
+$cov(X,Y)=\frac{17}{4}$
 
-$cov(x,y)=4.25$
+$cov(X,Y)=4.25$
 
 ## Limitations of Covariance
 
@@ -1644,11 +1601,11 @@ The magnitude of the covariance is dependent on the units of measurement.
 
 ## The Correlation Coefficient
 
-$r=\frac{cov_xy}{s_xs_y}$
+$r=\frac{cov_{X,Y}}{s_Xs_Y}$
 
-$r=\frac{\Sigma(x_i - \bar{x})(y_i - \bar{y})}{(n-1)s_xs_y}$
+$r=\frac{\Sigma(X_i - \bar{X})(Y_i - \bar{Y})}{(n-1)s_Xs_Y}$
 
-$r=\frac{cov_xy}{s_xs_y}$
+$r=\frac{cov_{XY}}{s_Xs_Y}$
 
 $r=\frac{4.25}{1.67 * 2.92}$
 
@@ -1685,8 +1642,6 @@ Testing $H_0: \rho=0$ versus $H_A: \rho\ne0$
 Coefficient of determination, r^2
 
 + By squaring the value of r you get the proportion of variance in one variable shared by the other.
-
-## 
 
 Square of correlation coefficient ($r^2$), known as coefficient of determination, represents the proportion of variation in one variable that is accounted for by the variation in the other variable. 
 
