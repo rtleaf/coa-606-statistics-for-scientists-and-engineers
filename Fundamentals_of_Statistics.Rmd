@@ -7,7 +7,7 @@ output:
     number_sections: true
 ---
 
-# Introduction to statistical analysis
+# Introduction to statistical analysis 
 
 Kachigan (1986) defines statistical analysis as the process of data
 
@@ -25,7 +25,7 @@ It is my sincere hope that the aspects of collection, organization, and interpre
 
 One of the features of statistical analysis that I would like to highlight: Every problem, every research approach, will require consideration of the means of collection, processing of data, and statistical analysis. 
 
-# Data organization and best practices
+# Data organization and best practices (Broman and Woo, 2018)
 
 Broman and Woo (2018) highlight the challenges and best practices for using spreadsheets. The design principles that they outline are useful for your work in MS Excel as well as a variety of specialized statistical programs (i.e. Matlab, R, and many others).
 
@@ -79,7 +79,7 @@ Broman and Woo (2018) highlight the challenges and best practices for using spre
 
 + If using data downloaded from another data source, we often have a folder called “data_dl” for 'downloaded data'. Include the data source in a README file for reproducibility (this is like meta data and provides useful description). 
 
-# Types of Variables 
+# Types of Variables (Zar 4th ed. 1.1, 1.3, 1.4)
 
 Properties and characteristics of an object that can assume two or more different values are called *variables*. These are the values that comprise our data.
 
@@ -129,7 +129,7 @@ Similar to a nominal variable but the categories are ordered.
 
 + A tally of how frequently occurring a value is among categories.
 
-```{r, results='hide',message=FALSE, echo=FALSE}
+```{r, results='hide',message=FALSE, echo=FALSE, warning=FALSE}
 barplot(longley$GNP[1:10] ~ state.abb[1:10], xlab = 'State', ylab = 'Frequency Mentions in the News')
 ```
 
@@ -159,7 +159,7 @@ The following are some guidelines regarding class widths:
 Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Continuous Data
 
 | Phosphorous concentration |  Frequency |
-| ---           | ---|
+| :---:            | :---: |
 | 8.1 to 8.2  | 2  |
 | 8.2 to 8.3  | 6  |
 | 8.3 to 8.4  | 8  |
@@ -174,7 +174,7 @@ Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Conti
 Total frequency = 130 = n
 </center>
 
-```{r, results='hide',message=FALSE, echo=FALSE}
+```{r, results='hide',message=FALSE, echo=FALSE, warning=FALSE}
 # Histogram for fig 2.2.3
 par(mfrow = c(1,1)) # This tells R to put 1 row, 2 columns
 stuff.to.plot <- c(rep(8.1,2), rep(8.3,6), rep(8.4,8), rep(8.5,11), rep(8.6,17), rep(8.7,17), rep(8.8,24), rep(8.9,18), rep(9.0,13), rep(9.1,10), rep(9.2,4))
@@ -185,7 +185,7 @@ box()
 ```
 
 ## Cumulative Distribution of a Continuous Variable
-```{r, results='hide',message=FALSE, echo=FALSE}
+```{r, results='hide',message=FALSE, echo=FALSE, warning=FALSE}
 # Histogram for fig 2.2.3
 par(mfrow = c(1,1), mar = c(4,4,1,4)) # This tells R to put 1 row, 2 columns
 x <- c(8.1, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9.0, 9.1, 9.2)
@@ -212,8 +212,8 @@ box()
 
 Determination of the Amount of Phosphorous in Leaves: A Frequency Table of Continuous Data
 
-|                           |           |                Cummulative Frequency                 |
-|---                        |---        | ---                      |  ---                      |             
+|                           |           |                Cumulative Frequency                 |
+|:---:                        |:---:        | :---:                      |  :---:                      |             
 | Phosphorous concentration | Frequency | Starting with Low Values | Starting with High Values |
 | 8.15 to 8.25  | 2  |   2 | 130 |
 | 8.25 to 8.35  | 6  |   8 | 128 |
@@ -258,7 +258,7 @@ abline(v = c(mean(x),median(x)),  col=c("green", "red"), lty=c(2,2), lwd=c(3, 3)
 legend('topleft', legend = c('Mean', 'Median'), col = c('green', 'red'), lwd = c(2,2))
 ```
 
-### Frequency Polygon of a Continuous Variable
+### Frequency Polygons of a Continuous Variable
 
 A frequency polygon is constructed by connecting all midpoints of the top of the bars in a histogram by a straight line without displaying the bars. 
 
@@ -266,12 +266,11 @@ A frequency polygon aids in the easy comparison of two frequency distributions.
 
 When the total frequency is large and the class intervals are narrow, the frequency polygon becomes a smooth curve known as the frequency curve. 
 
-```{r, results='hide',message=FALSE, echo=FALSE}
+```{r, results='hide',message=FALSE, echo=FALSE, warning=FALSE}
 par(mfrow = c(2,1))
-par(mar = c(4,4,1,1))
+par(mar = c(2,0,0,0))
 x= rnorm(n = 150,3,2)
-x = hist(x, plot = F)
-
+x = hist(x, plot = F, xaxt = 'n')
 plot(x$mids, x$counts, xlab = '', ylab = 'Frequency', xaxt = 'n')
 lines(x$mids, x$counts)
 
@@ -375,7 +374,7 @@ text(labels = seq(1,4),
      y = rep(median(x$counts), 4), col = "red")
 ```
 
-### Measures of central tendency 
+### Measures of central tendency (Zar 4th edition 3.1 to 3.5)
 
 + The mode is the most frequently occurring value in the population or sample. 
 
@@ -787,7 +786,7 @@ hist(x, col ="light green", main="Sample size = 100",xlab ="flipping coin ")
 abline(v = mean(x), col = "red")
 ```
 
-# Sampling and Parameter Estimation
+# Sampling and Parameter Estimation  (Zar 4th ed. 2.1 to 2.4)
 
 ## Simple Random Samples
 
@@ -1309,13 +1308,13 @@ Type 2 error or '$\beta$ error' is equal to $\beta$.
 
 
 |   | If H~0~ is true | If H~0~ is false |
-|---|---|---|
+|:---:|:---:|:---:|
 | If H~0~ is rejected  | Type I error   | No error   |
 | If H~0~ is not rejected  | No error   | Type II error  |
 
 *Table 4.8.1: \ Two Types of Errors in Hypothesis Testing*
 
-<Br>
+
 
 Thought experiments:
 
@@ -1323,16 +1322,12 @@ Thought experiments:
 + Ex. Pharmaceutical testing 
 
 
-<Br>
-
 |   | If H~0~ is true | If H~0~ is false |
-|---|---|---|
+|:---:|:---:|:---:|
 | If H~0~ is rejected  | $\alpha$   | $1-\beta$ ("power") No error   |
 | If H~0~ is not rejected  | No error $1-\alpha$   | $\beta$ |
 
 *Table 4.8.2: \ Long-term Probabilities of Outcomes in Hypothesis Testing* 
-
-
 
 ### Statistical Power 
 
@@ -1385,10 +1380,6 @@ abline(v = c(1.96,-1.96))
 
 ```
 
-
-### Leaf's power simulation in R
-
-<Br>
 
 ### What Influences Statistical Power?
 
@@ -1649,41 +1640,33 @@ For example, if height and weight of a group of persons have a correlation coeff
 
 ## Non-parametric Correlation
 
-Spearman's rho $\rho$
+Spearman Rank Correlation Coefficient $\rho$
 
-+ Pearson's correlation on the ranked data
+Used to perform correlation on ranked data
 
-Kendall's tau ($\tau$)
+See the evolution of the data ranking and calculation of d.
 
-+ "Better" than Spearman's for small samples
+|Data 1|Data 2|Rank 1|Rank 2|d|d^2^|
+|:---|:---:|:---|:---:|:---|:---:|
+|6|2|-|-|-|-|
+|4|9|-|-|-|-|
+|7|3|-|-|-|-|
 
-## Spearman Rank Correlation Coefficient
+|Data 1|Data 2|Rank 1|Rank 2|d|d^2^|
+|:---|:---:|:---|:---:|:---|:---:|
+|6|2|2|1|-|-|
+|4|9|1|3|-|-|
+|7|3|3|2|-|-|
 
 *d* is the difference between two numbers in each pair of ranks
 
-*n* = number of pairs of data
-
-$r=1-(\frac{6\Sigma d^2}{n(n^2 - 1)})$
-
-|Data 1|Data 2|
-|---|---|
-|6|2|
-|4|9|
-|7|3|
-
 |Data 1|Data 2|Rank 1|Rank 2|d|d^2^|
-|---|---|---|---|---|---|
-|6|2|2|1|
-|4|9|1|3|
-|7|3|3|2|
-
-|Data 1|Data 2|Rank 1|Rank 2|d|d^2^|
-|---|---|---|---|---|---|
+|:---|:---:|:---|:---:|:---|:---:|
 |6|2|2|1|1|1|
 |4|9|1|3|2|4|
 |7|3|3|2|1|1|
 
-$r=1-(\frac{6\Sigma d^2}{n(n^2 - 1)})$
+*n* = number of pairs of data
 
 $=1-(\frac{6*6}{3(3^2 - 1)})$
 

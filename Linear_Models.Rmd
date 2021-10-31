@@ -1028,7 +1028,7 @@ $H_0: \mu_1 - \mu_2 = 0$
 $H_A: \mu_1-\mu_2\ne0$
 
 |Given drug B|Given drug G|
-|---|---|
+|:---:|:---:|
 |8.8|9.9|
 |8.4|9.0|
 |7.9|11.1|
@@ -1091,7 +1091,7 @@ H~A~: Male and female students are not the same height.
 $\alpha=0.05$
 
 |Height of males|Height of females|Ranks of male heights|Ranks of female heights|
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 |193 cm |178 cm |1   |6   |
 |188   |173   |2   |8   |
 |185   |168   |3   |10   |
@@ -1120,74 +1120,51 @@ Because 32>30, H~0~ is rejected.
 
 Therefore, we conclude that height is different for male and female students. 
 
-# Comparing Several Means: One-Way ANOVA
+# Analysis of Variance (ANOVA)
 
-Understand the basic principles of ANOVA
+In this module we will understand the basic principles of ANOVA. We will be analyzing one-way ANOVA, also called 'one-factor' ANOVA or 'single factor Analysis of Variance'. We will be analyzing the impact to the mean value among *k* groups, where $k >2$. ANOVA is a parametric test.
 
-## When and why to use ANOVA designs
+We will stick with Zar's terminology (p 178, 4th edition).
 
-When we want to compare means we can use a *t*-test. This test has limitations:
+## When and why to use ANOVA
 
-+ You can test the equality of two mean values: often we would like to compare means from three or more groups.
-+ It can be used only with one predictor/independent variable.
+When we want to compare means we can use a *t*-test but this test has limitations, we can only test the equality of two mean values. Often we would like to compare means from three or more groups.
 
-The ANOVA is an innovation that allows: 
+The ANOVA is an extension of regression (and hence is a general linear model).
 
-+ Compares several means
-+ Can be used when you have manipulated more than one independent variable
-+ It is an extension of regression (and hence is a general linear model)
-
-## 5.3 ANOVA
-
-$H_0: \mu_1=\mu_2=\mu_3$
-
-Fisher: British statistician and geneticists. Introduced this analysis 
-
-Let us assume that we test four different feeds and want to see if it impacted the mean body weights in pigs.
-
-We are going to test the effect of one factor - feed type. The analysis is termed a one-factor test or one-way ANOVA (Only a single thing, the factor, is different amont the groups).
-
-A population of pigs is assigned, at random, to each of the four treatments (treatments are levels of the factor).
-
-Parametric test
-
-## Why Not Use Lots of *t*-tests?
-
-If we want to compare several means why don't we compare pairs of means with *t*-tests?
+### Why Not Use Lots of *t*-tests?
 
 + Inflates the Type I error rate
-+ Type one error rate = 1 - 0.95^n^
++ $1 - (1- \alpha)^n$
 
 ## What Does ANOVA Tell Us?
 
 Null hypothesis:
 
-+ Like a *t*-test, ANOVA tests the null hypothesis that the means are the same.
++ Like a *t*-test, *one way* ANOVA tests the null hypothesis that the means are the same among groups.
 
-Experimental (alternative) hypothesis:
-
-+ The means differ.
-
-ANOVA is an omnibus test
+ANOVA is an *omnibus* test:
 
 + It test for an overall test for evaluating the equality of means among groups.
 + It tells us that the group means are different.
 + It doesn't tell us which mean(s) differ.
 
-$H_0: \mu_1=\mu_2=\mu_3=\mu_4$
-
-H~A~: The mean weights of pigs on the four diets are not all equal 
-
-If H~0~ is rejected, there is at least one difference among the four means.
-
 ## ANOVA as Regression
 
-$\mbox{outcome}_i = (\mbox{model})+\mbox{error}_i$
+Let us assume that we test three different medicine levels and want to see if it impacts (results in contrast, i.e. significant differences) the illness level in pigs.
+
+We are going to test the effect of the three groups (*k* = 3), in this case medicine type. The three groups are 'placebo', 'high', and 'low'.
+
+The analysis is termed a one-factor test or one-way ANOVA (only a single thing, the medicine, is different).
+
+Pigs are assigned, at random, to each of the three groups. These are the replicates of each group. 
 
 $\mbox{illness}_i=b_0+b_2\mbox{high}_i+b_1\mbox{low}_i+\varepsilon_i$
 
+Here $high$ and $low$ are dummy variables, just like *G* in the *t*-test.
+
 |Group|Dummy variable 1 (High)|Dummy variable 2 (Low)|
-|---|---|---|
+|:---:|:---:|:---:|
 |Placebo|0|0|
 |Low dose medicine|0|1|
 |High dose medicine|1|0|
@@ -1229,7 +1206,7 @@ $b_1=\bar{Y}_{low}-\bar{Y}_{placebo}$
 ## Output from Regression
 
 |Coefficients:|Estimate|Std. Error|t value|Pr(>|t|)|
-|---|---|---|---|---|
+|:---:|:---:|:---:|:---:|:---:|
 |(intercept)   |2.2000   |0.6272   |3.508   |0.00432 **|
 |dummy 1       |2.8000   |0.8869   |3.157   |0.00827 **|
 |dummy 2       |1.0000   |0.8869   |1.127   |0.28158   |
@@ -1260,7 +1237,7 @@ If the model explains a lot more variability than it can't explain, then the exp
 
 + SS~M~ will be greater than SS~R~
 
-## ANOVA by Hand
+## ANOVA Calculation
 
 Testing the effects of medicine on illness using three groups:
 
@@ -1273,7 +1250,7 @@ The outcome/dependent variable (DV) was an objective measure of illness.
 ## The Data
 
 |   |Placebo|Low Dose|High Dose|
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 |   |3  |5   |7 |
 |   |2  |2   |4 |
 |   |1  |4   |5 |
@@ -1384,7 +1361,7 @@ legend("bottomright", legend = c("Placebo", "Low Dose", "Low Dose"), pch = c(16,
 ```
 
 |   |Placebo|Low Dose|High Dose|
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 |   |3  |5   |7 |
 |   |2  |2   |4 |
 |   |1  |4   |5 |
@@ -1578,14 +1555,14 @@ $F=\frac{MS_M}{MS_R}=\frac{10.067}{1.967}=5.12$
 ## Step 6: Construct a Summary Table
 
 |Source|SS|df|MS|F|
-|---|---|---|---|---|
+|:---:|:---:|:---:|:---:|:---:|
 |Model|20.14|2|10.067|5.12*|
 |Residual|23.60|12|1.967|   |
 |Total|43.74|14|   |   |
 
 ## Multiple-Comparison Tests
 
-The ANOVA that you examined is used to test the hypothesis that there is no difference in the sample means among k treatment levels
+The ANOVA that you examined is used to test the hypothesis that there is no difference in the sample means among *k* treatment levels
 
 However we cannot conclude, after doing the test, which of the mean values are different from one-another.
 
@@ -1599,7 +1576,7 @@ Calculate the pairwise difference in sample means.
 
 We use a *t*-test "analog" to calculate a q-statistic
 
-*S*^2^ is the error mean sqare by anova computation
+*S*^2^ is the error mean square by ANOVA computation
 
 *n* is the of data in each of groups B and A
 
@@ -1658,7 +1635,7 @@ Data for the plant height (cm)
 <Br>
 
 |pH |6|6|7|7|8|8|
-|---     |---   |---   |---   |---   |---   |---   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |Sun     |Full  |Partial  |Full |Partial  |Full |Partial  |
 |        |65    |50    |70    |45    |55    |30    |
 |        |70    |55    |65    |60    |65    |30    |
@@ -1691,7 +1668,7 @@ arrows(x0 = 25, y0 = 50, x1 = 45, y1 = 27, lwd = 2)
 ## Step 1: Calculate SS~T~
 
 |SS~T~|
-|---|---|---|---|---|---|
+|:---:|:---:|:---:|:---:|:---:|:---:|
 |65   |50   |70   |45   |55   |30   |
 |50   |55   |65   |60   |65   |30   |
 |70   |80   |60   |85   |70   |30   |
@@ -1726,7 +1703,7 @@ $\mbox{SS}_\mbox{M}=5479.167$
 Mean "Full Sun": 60.21
 
 |SS~A~|   |   |
-|---|---|---|
+|:---:|:---:|:---:|
 |65 |70   |55   |
 |70 |65   |65   |
 |60 |60   |70   |
@@ -1739,7 +1716,7 @@ Mean "Full Sun": 60.21
 Mean "Partial Sun": 56.46
 
 |SS~A~   |   |   |
-|---|---|---|
+|:---:|:---:|:---:|
 |50   |45   |30   |
 |55   |60   |30   |
 |80   |85   |30   |
@@ -1774,7 +1751,7 @@ pH = 6
 Mean $\mbox{pH}_6$ = 63.75
 
 |SS~B~|   |
-|---|---|
+|:---:|:---:|
 |65   |50   |
 |70   |55   |
 |60   |80   |
@@ -1789,7 +1766,7 @@ pH = 7
 Mean $\mbox{pH}_7$ = 64.6875
 
 |SS~B~   |   |
-|---|---|
+|:---:|:---:|
 |70   |45   |
 |65   |60   |
 |60   |85   |
@@ -1804,7 +1781,7 @@ pH = 8
 Mean $\mbox{pH}_8$ = 46.5625
 
 |SS~B~   |   |
-|---|---|
+|:---:|:---:|
 |55   |30   |
 |65   |30   |
 |70   |30   |
@@ -1876,7 +1853,7 @@ $\mbox{SS}_\mbox{R}=3487.52$
 ## Interpreting Factorial ANOVA 
 
 |Response      |Attractiveness   |   |   |   |
-|---           |---   |--- |---|---|
+|---           |:---:|:---:|:---:|:---:|
 |              |Sum Sq|Df  |*F* value  |Pr(>*F*)   |
 |Sunlight        |169   |1   |2.0323   |0.1614   |
 |pH       |3332  |2   |20.0654  |7.649e-07   |
@@ -1939,7 +1916,7 @@ legend("topright", legend = c("Full Sunlight", "Partial Sulight"), lty = c(1,2),
 
 
 |pH |6|6|7|7|8|8|
-|---     |---   |---   |---   |---   |---   |---   |
+|---     |:---:|:---:|:---:|:---:|:---:|:---:|
 |Sunlight  |Full|Partial  |Full|Partial  |Full|Partial  |
 |        |65    |50    |70    |45    |55    |30    |
 |        |70    |55    |65    |60    |65    |30    |
@@ -1968,7 +1945,7 @@ $plant height_i=(b_0+b_1Sunlight_i+b_2pH_i+b_3interaction_i)+\varepsilon_i$
 + *A* x *B*
 
 |Sunlight|pH|Dummy (Sunlight)|Dummy (pH)|Interaction|Mean|
-|---|---|---|---|---|---|
+|---     |:---:|:---:|:---:|:---:|:---:|
 |Partial   |6   |0   |0   |0   |66.875   |
 |Partial   |8|0   |1   |0   |35.625   |
 |Full   |6   |1   |0   |0   |60.625   |
@@ -1984,7 +1961,7 @@ $b_0=\bar{Y}_{partial,6}$
 $b_0=66.875$
 
 |Sunlight|pH|Dummy (Sunlight)|Dummy (pH)|Interaction|Mean|
-|---|---|---|---|---|---|
+|---     |:---:|:---:|:---:|:---:|:---:|
 |Partial   |6   |0   |0   |0   |66.875   |
 |Partial   |8|0   |1   |0   |35.625   |
 |Full   |6   |1   |0   |0   |60.625   |
@@ -2004,7 +1981,7 @@ $b_1=-6.25$
 
 
 |Sunlight|pH|Dummy (Sunlight)|Dummy (pH)|Interaction|Mean|
-|---|---|---|---|---|---|
+|---     |:---:|:---:|:---:|:---:|:---:|
 |Partial   |6   |0   |0   |0   |66.875   |
 |Partial   |8|0   |1   |0   |35.625   |
 |Full   |6   |1   |0   |0   |60.625   |
@@ -2021,7 +1998,7 @@ $b_2=\bar{Y}_{partial,4 \: pH}-\bar{Y}_{partial,6}$
 
 
 |Sunlight|pH|Dummy (Sunlight)|Dummy (pH)|Interaction|Mean|
-|---|---|---|---|---|---|
+|---     |:---:|:---:|:---:|:---:|:---:|
 |Partial   |6   |0   |0   |0   |66.875   |
 |Partial   |8|0   |1   |0   |35.625   |
 |Full   |6   |1   |0   |0   |60.625   |
@@ -2061,7 +2038,7 @@ Patients were selected based on their form of Alzheimer's disease. Three forms o
 What is (are) the null hypothesis(ese) being tested?
 
 |Group|Piano Interlude|Mozart|Easy Listening|
-|---|---|---|---|
+|---     |:---:|:---:|:---:|
 |Early Stage ALzheimer's |21   |9   |29   |
 |                        |24   |12   |26   |
 |                        |22   |10   |30   |
@@ -2076,7 +2053,7 @@ What is (are) the null hypothesis(ese) being tested?
 Plot these data (means) on a single figure such that cell-level means can be evaluated.
 
 |Group|Piano Interlude|Mozart|Easy Listening|
-|---|---|---|---|
+|---     |:---:|:---:|:---:|
 |Early Stage ALzheimer's |21   |9   |29   |
 |                        |24   |12   |26   |
 |                        |22   |10   |30   |
@@ -2102,7 +2079,7 @@ Factors:
 + Temperature
 
 |Species 1|   |   |   |   |   |
-|---|---|---|---|---|---|
+|---     |:---:|:---:|:---:|:---:|:---:|
 |Low Temp   |   |Med Temp   |   |High Temp   |   |
 |Male   |Female   |Male   |Female   |Male  |Female   |
 |1.9   |1.8   |2.3   |2.4   |2.9   |3.0   |
@@ -2112,7 +2089,7 @@ Factors:
 
 
 |Species 2|   |   |   |   |   |
-|---|---|---|---|---|---|
+|---     |:---:|:---:|:---:|:---:|:---:|
 |Low Temp   |   |Med Temp   |   |High Temp   |   |
 |Male   |Female   |Male   |Female   |Male  |Female   |
 |2.1   |2.3   |2.4   |2.0   |3.6   |3.1   |
@@ -2122,7 +2099,7 @@ Factors:
 
 
 |Species 3|   |   |   |   |   |
-|---|---|---|---|---|---|
+|---     |:---:|:---:|:---:|:---:|:---:|
 |Low Temp   |   |Med Temp   |   |High Temp   |   |
 |Male   |Female   |Male   |Female   |Male  |Female   |
 |1.1   |1.4   |2.0   |2.4   |2.9   |3.2   |
@@ -2134,7 +2111,7 @@ Factors:
 ## Multiway Factorial ANOVA Hypotheses Being Tested
 
 |Popcorn|Oil Amt.|Batch|Yeild|
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 |Plain  |Little   |Large   |8.2   |
 |Gourmet|Little   |Large   |8.6   |
 |Plain  |Lots   |Large   |10.4   |
@@ -2168,7 +2145,7 @@ Three factor ANOVA:
   
 
 |   |Df   |Sum Sq   |Mean Sq   |F value   |Pr(>F)   |
-|---|---|---|---|---|---| 
+|---     |:---:|:---:|:---:|:---:|:---:|
 |popcorn type                      |1   |3.062   |3.062   |0.1731   |0.6883   |
 |oil amount                        |1   |0.062   |0.062   |0.0035   |0.9541   |
 |batch size                        |1   |52.562   |52.562   |2.9717   |0.1230   |
@@ -2186,7 +2163,7 @@ Experiment: we are interested in oxygen consumption of two species of limpets in
 + Factor B is the concentration of SW as a function of maximum salinity - 100, 75, and 50 % (levels, b)
 
 |Completed anova   |   |   |   |
-|---|---|---|---|
+|---     |:---:|:---:|:---:|
 |Source of variation|df|SS|MS|
 |Species   |1  |16.6380   |16.638 ns   |
 |salinities|2  |10.3566   |5.178 ns   |
@@ -2203,7 +2180,7 @@ Interaction: The effect of one factor in the presence of a particular level of a
 There is an interaction between two factors if the effect of one factor depends on the levels of the second factor. 
 
 |   |Species   |Species   |   |
-|---|---|---|---|
+|---     |:---:|:---:|:---:|
 |Seawater Concentration|A. scabra|A. digitalis|Mean|
 |100%   |10.56   |7.43   |9.00   |
 |75%   |7.89   |7.34   |10.11   |
@@ -2323,7 +2300,7 @@ A limnologist obtained eight containers of water from each of four ponds. The pH
 <Br>
 
 |Pond 1|Pond 2|Pond 3|Pond 4|
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 |7.68 (1)   |7.71 (6*)    |7.74 (13.5*)|7.71 (6*)  |
 |7.69 (2)   |7.73 (10)    |7.75 (16)   |7.71 (6*)  |
 |7.70 (3.5*)|7.74 (13.5*) |7.77 (18)   |7.74 (13.5)|
@@ -2348,7 +2325,7 @@ $=11.876$
 
 
 |Pond 1|Pond 2|Pond 3|Pond 4|
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 |7.68 (1)   |7.71 (6*)    |7.74 (13.5*)|7.71 (6*)  |
 |7.69 (2)   |7.73 (10)    |7.75 (16)   |7.71 (6*)  |
 |7.70 (3.5*)|7.74 (13.5*) |7.77 (18)   |7.74 (13.5)|
@@ -2359,7 +2336,7 @@ $=11.876$
 |7.76 (17)  |7.81 (26*)   |            |7.91 (31)   |
 
 |n~1~ =8    |n~2~ =8   |n~3~ =7   |n~4~ =8   |
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 |R~1~ =55   |R~2~ =132.5   |R~3~ =145   |R~4~ =163.5   |
 
 *tied ranks
@@ -2372,7 +2349,7 @@ $\sum t=(2^3-2)+(3^3-3)+(3^3-3)+(4^3-4)+(3^3-3)+(2^3-2)+(3^3-)$
 $\sum t=168$
 
 |Pond 1|Pond 2|Pond 3|Pond 4|
-|---|---|---|---|
+|:---:|:---:|:---:|:---:|
 |7.68 (1)   |7.71 (6*)    |7.74 (13.5*)|7.71 (6*)  |
 |7.69 (2)   |7.73 (10)    |7.75 (16)   |7.71 (6*)  |
 |7.70 (3.5*)|7.74 (13.5*) |7.77 (18)   |7.74 (13.5)|
@@ -2504,8 +2481,6 @@ curve(predict(g2,data.frame(w2=x),type="resp"),add=TRUE, lty = 2)
 
 
 ```
-
-<Br>
 
 ## Over Dispersion
 
