@@ -1159,7 +1159,7 @@ The analysis is termed a one-factor test or one-way ANOVA (only a single thing, 
 
 Pigs are assigned, at random, to each of the three groups. These are the replicates of each group. 
 
-$\mbox{illness}_i=b_0+b_2\mbox{high}_i+b_1\mbox{low}_i+\varepsilon_i$
+$\mbox{illness}_i=b_0+b_1\mbox{low}_i+b_2\mbox{high}_i+\varepsilon_i$
 
 Here $high$ and $low$ are dummy variables, just like *G* in the *t*-test.
 
@@ -1171,19 +1171,31 @@ Here $high$ and $low$ are dummy variables, just like *G* in the *t*-test.
 
 ## Placebo Group
 
-$\mbox{illness}_i=b_0+b_2\mbox{high}_i+b_1\mbox{low}_i+\varepsilon_i$
+$\mbox{illness}_i=b_0+b_1\mbox{low}_i+b_2\mbox{high}_i+\varepsilon_i$
 
-$\mbox{illness}_i=b_0+(b_2\times 0)+(b_1\times 0)$
+$\mbox{illness}_i=b_0+(b_1\times 0)+(b_2\times 0)$
 
 $\mbox{illness}_i=b_0$
 
 $\bar{Y}_{placebo}=b_0$
 
+## Low Dose Group
+
+$\mbox{illness}_i=b_0+b_1\mbox{low}_i+b_2\mbox{high}_i+\varepsilon_i$
+
+$\mbox{illness}_i=b_0+(b_1\times 1)+(b_2\times 0)$
+
+$\mbox{illness}_i=b_0+b_1$
+
+$\bar{Y}_{low}=\bar{Y}_{placebo}+b_1$
+
+$b_1=\bar{Y}_{low}-\bar{Y}_{placebo}$
+
 ## High Dose Group
 
-$\mbox{illness}_i=b_0+b_2\mbox{high}_i+b_1\mbox{low}_i+\varepsilon_i$
+$\mbox{illness}_i=b_0+b_1\mbox{low}_i+b_2\mbox{high}_i+\varepsilon_i$
 
-$\mbox{illness}_i=b_0+(b_2\times 1)+(b_1\times 0)$
+$\mbox{illness}_i=b_0+(b_1\times 0)+(b_2\times 1)$
 
 $\mbox{illness}_i=b_0+b_2$
 
@@ -1191,17 +1203,6 @@ $\bar{Y}_{high}= \bar{Y}_{placebo}+b_2$
 
 $b_2=\bar{Y}_{high}-\bar{Y}_{placebo}$
 
-## Low Dose Group
-
-$\mbox{illness}_i=b_0+b_2\mbox{high}_i+b_1\mbox{low}_i+\varepsilon_i$
-
-$\mbox{illness}_i=b_0+(b_2\times 0)+(b_1\times 1)$
-
-$\mbox{illness}_i=b_0+b_1$
-
-$\bar{Y}_{low}=\bar{Y}_{placebo}+b_1$
-
-$b_1=\bar{Y}_{low}-\bar{Y}_{placebo}$
 
 ## Output from Regression
 
@@ -1219,7 +1220,9 @@ Signif. Codes: \ 0 '***' 0.001 '**' 0.01 '*' 0.05'.' 0.1 '' 1
 
 ## Theory of ANOVA
 
-We calculate how much variability there is between scores
+We use SS components: 
+
+First, we calculate how much variability there is between scores
 
 + Total sum of squares (SS~T~).
 
@@ -1235,9 +1238,7 @@ We then calculate how much of this variability can be explained by the model we 
 
 If the model explains a lot more variability than it can't explain, then the experimental manipulation has had a significant effect on the outcome.
 
-+ SS~M~ will be greater than SS~R~
-
-## ANOVA Calculation
+## ANOVA Worked Example
 
 Testing the effects of medicine on illness using three groups:
 
@@ -1262,99 +1263,39 @@ The outcome/dependent variable (DV) was an objective measure of illness.
 
 Grand Mean = 3.467, Grand *s* = 1.767, Grand *s*^2^ = 3.124
 
-```{r, results='hide',message=FALSE, echo=FALSE}
-x <- c(1,2,3,4,5)
-y <- c(3,2,1,1,4)
-plot(x,y, main = "", xlab = "Participant", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=16)
-abline(h = 3.5)
-segments(x0 = 1, y0 = 2.2, x1 = 5, y1 = 2.2)
-segments(x0 = 1, y0 = 2.2, x1 = 1, y1 = 3, lty = 2)
-segments(x0 = 2, y0 = 2.2, x1 = 2, y1 = 2, lty = 2)
-segments(x0 = 3, y0 = 2.2, x1 = 3, y1 = 1, lty = 2)
-segments(x0 = 4, y0 = 2.2, x1 = 4, y1 = 1, lty = 2)
-segments(x0 = 5, y0 = 2.2, x1 = 5, y1 = 4, lty = 2)
-
-x <- c(6,7,8,9,10)
-y <- c(5,2,4,2,3)
-points(x,y, main = "", xlab = "Participant", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=17)
-segments(x0 = 6, y0 = 3.2, x1 = 10, y1 = 3.2)
-segments(x0 = 6, y0 = 5, x1 = 6, y1 = 3.2, lty = 2)
-segments(x0 = 7, y0 = 2, x1 = 7, y1 = 3.2, lty = 2)
-segments(x0 = 8, y0 = 4, x1 = 8, y1 = 3.2, lty = 2)
-segments(x0 = 9, y0 = 2, x1 = 9, y1 = 3.2, lty = 2)
-segments(x0 = 10, y0 = 3, x1 = 10, y1 = 3.2, lty = 2)
-
-x <- c(11,12,13,14,15)
-y <- c(7,4,5,3,6)
-points(x,y, main = "", xlab = "Participant", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=15)
-segments(x0 = 11, y0 = 5, x1 = 15, y1 = 5)
-segments(x0 = 11, y0 = 7, x1 = 11, y1 = 5, lty = 2)
-segments(x0 = 12, y0 = 4, x1 = 12, y1 = 5, lty = 2)
-segments(x0 = 14, y0 = 3, x1 = 14, y1 = 5, lty = 2)
-segments(x0 = 15, y0 = 6, x1 = 15, y1 = 5, lty = 2)
-
-arrows(x0 = 5.5, y0 = 2.2, x1 = 5.5, y1 = 3.2)
-arrows(x0 = 10.5, y0 = 2.2, x1 = 10.5, y1 = 5)
-
-legend("bottomright", legend = c("Placebo", "Low Dose", "Low Dose"), pch = c(16,17,15), lty = 1)
-```
-
 ## Step 1: Calculate SS~T~
-
-```{r, results='hide',message=FALSE, echo=FALSE}
-par(mfrow = c(1,1), mar = c(4,4,1,4)) # This tells R to put 1 row, 2 columns
-x <- c(1,2,3,4,5,6,7,8)
-y <- c(2,8,5,8,12,11,18,15)
-plot(x,y, main = "", xlab = "x", ylab = "y", xlim = c(1,8), ylim = c(1,18), pch=1)
-par(new=T)
-abline(h = 10)
-segments(x0 = 1, y0 = 2, x1 = 1, y1 = 10, lty = 2)
-segments(x0 = 2, y0 = 8, x1 = 2, y1 = 10, lty = 2)
-segments(x0 = 3, y0 = 5, x1 = 3, y1 = 10, lty = 2)
-segments(x0 = 4, y0 = 8, x1 = 4, y1 = 10, lty = 2)
-segments(x0 = 5, y0 = 12, x1 = 5, y1 = 10, lty = 2)
-segments(x0 = 6, y0 = 11, x1 = 6, y1 = 10, lty = 2)
-segments(x0 = 7, y0 = 18, x1 = 7, y1 = 10, lty = 2)
-segments(x0 = 8, y0 = 15, x1 = 8, y1 = 10, lty = 2)
-box()
-
-
-```
 
 *SS~T~ uses the differences between the observed data and the mean value of Y. Where the mean is the grand mean* 
 
-## Total Sum of Squares (SS~T~)
-
 ```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(1,2,3,4,5)
 y <- c(3,2,1,1,4)
-plot(x,y, main = "", xlab = "Participant", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=16)
+plot(x,y, main = "", xlab = "Replicate (grouped)", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=16)
 abline(h = 3.5)
-segments(x0 = 1, y0 = 2.2, x1 = 5, y1 = 2.2)
-segments(x0 = 1, y0 = 2.2, x1 = 1, y1 = 3, lty = 2)
-segments(x0 = 2, y0 = 2.2, x1 = 2, y1 = 2, lty = 2)
-segments(x0 = 3, y0 = 2.2, x1 = 3, y1 = 1, lty = 2)
-segments(x0 = 4, y0 = 2.2, x1 = 4, y1 = 1, lty = 2)
-segments(x0 = 5, y0 = 2.2, x1 = 5, y1 = 4, lty = 2)
+
+segments(x0 = 1, y0 = 3.5, x1 = 1, y1 = 3, lty = 2)
+segments(x0 = 2, y0 = 3.5, x1 = 2, y1 = 2, lty = 2)
+segments(x0 = 3, y0 = 3.5, x1 = 3, y1 = 1, lty = 2)
+segments(x0 = 4, y0 = 3.5, x1 = 4, y1 = 1, lty = 2)
+segments(x0 = 5, y0 = 3.5, x1 = 5, y1 = 4, lty = 2)
 
 x <- c(6,7,8,9,10)
 y <- c(5,2,4,2,3)
-points(x,y, main = "", xlab = "Participant", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=17)
-segments(x0 = 6, y0 = 3.2, x1 = 10, y1 = 3.2)
-segments(x0 = 6, y0 = 5, x1 = 6, y1 = 3.2, lty = 2)
-segments(x0 = 7, y0 = 2, x1 = 7, y1 = 3.2, lty = 2)
-segments(x0 = 8, y0 = 4, x1 = 8, y1 = 3.2, lty = 2)
-segments(x0 = 9, y0 = 2, x1 = 9, y1 = 3.2, lty = 2)
-segments(x0 = 10, y0 = 3, x1 = 10, y1 = 3.2, lty = 2)
+points(x,y,ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=17)
+segments(x0 = 6, y0 = 5, x1 = 6, y1 = 3.5, lty = 2)
+segments(x0 = 7, y0 = 2, x1 = 7, y1 = 3.5, lty = 2)
+segments(x0 = 8, y0 = 4, x1 = 8, y1 = 3.5, lty = 2)
+segments(x0 = 9, y0 = 2, x1 = 9, y1 = 3.5, lty = 2)
+segments(x0 = 10, y0 = 3, x1 = 10, y1 = 3.5, lty = 2)
 
 x <- c(11,12,13,14,15)
 y <- c(7,4,5,3,6)
 points(x,y, main = "", xlab = "Participant", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=15)
-segments(x0 = 11, y0 = 5, x1 = 15, y1 = 5)
-segments(x0 = 11, y0 = 7, x1 = 11, y1 = 5, lty = 2)
-segments(x0 = 12, y0 = 4, x1 = 12, y1 = 5, lty = 2)
-segments(x0 = 14, y0 = 3, x1 = 14, y1 = 5, lty = 2)
-segments(x0 = 15, y0 = 6, x1 = 15, y1 = 5, lty = 2)
+segments(x0 = 11, y0 = 7, x1 = 11, y1 = 3.5, lty = 2)
+segments(x0 = 12, y0 = 4, x1 = 12, y1 = 3.5, lty = 2)
+segments(x0 = 13, y0 = 5, x1 = 13, y1 = 3.5, lty = 2)
+segments(x0 = 14, y0 = 3, x1 = 14, y1 = 3.5, lty = 2)
+segments(x0 = 15, y0 = 6, x1 = 15, y1 = 3.5, lty = 2)
 
 
 legend("bottomright", legend = c("Placebo", "Low Dose", "Low Dose"), pch = c(16,17,15), lty = 1)
@@ -1374,8 +1315,7 @@ legend("bottomright", legend = c("Placebo", "Low Dose", "Low Dose"), pch = c(16,
 Grand Mean = 3.467, Grand *s* = 1.767, Grand *s*^2^ = 3.124
 
 SS~T~ = sum((observed - Grand mean)^2^)
-
-SS~T~ =S^2^(N-1) 
+$SS_T=\sum(obs_i - \bar{X}_{grand})$
 
 ## Degrees of Freedom
 
@@ -1390,27 +1330,9 @@ df~Total~ =  N - 1
 Difference between the model estimate and the mean (or "Grand Mean")
 
 ```{r, results='hide',message=FALSE, echo=FALSE}
-x <- c(1,2,3,4,5,6,7,8)
-y <- c(2,8,5,8,12,11,18,15)
-plot(x,y, main = "", xlab = "x", ylab = "y", xlim = c(1,8), ylim = c(1,18), pch=1)
-par(new=T)
-abline(h = 10)
-segments(x0 = 1, y0 = 3, x1 = 8, y1 = 17)
-segments(x0 = 1, y0 = 3, x1 = 1, y1 = 10, lty = 2)
-segments(x0 = 2, y0 = 5, x1 = 2, y1 = 10, lty = 2)
-segments(x0 = 3, y0 = 7, x1 = 3, y1 = 10, lty = 2)
-segments(x0 = 4, y0 = 9, x1 = 4, y1 = 10, lty = 2)
-segments(x0 = 5, y0 = 10, x1 = 5, y1 = 11, lty = 2)
-segments(x0 = 6, y0 = 10, x1 = 6, y1 = 13, lty = 2)
-segments(x0 = 7, y0 = 10, x1 = 7, y1 = 15, lty = 2)
-segments(x0 = 8, y0 = 10, x1 = 8, y1 = 17, lty = 2)
-box()
-```
-
-```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(1,2,3,4,5)
 y <- c(3,2,1,1,4)
-plot(x,y, main = "", xlab = "", ylab = "", xlim = c(0,16), ylim = c(0,8), pch=16)
+plot(x,y, main = "", xlab = "Replicate (grouped)", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=16)
 abline(h = 3.5)
 segments(x0 = 1, y0 = 2.2, x1 = 5, y1 = 2.2)
 segments(x0 = 1, y0 = 2.2, x1 = 1, y1 = 3.5)
@@ -1445,8 +1367,6 @@ segments(x0 = 15, y0 = 3.5, x1 = 15, y1 = 5)
 
 $SS_M=\sum n_i(\bar{x}_i - \bar{x}_{grand})^2$
 
-to 
-
 $SS_M=5(2.2-3.467)^2+5(3.2-3.467)^2+5(5.0-3.467)^2$
 
 $SS_M=5(-1.267)^2+5(-0.267)^2+5(1.533)^2$
@@ -1468,8 +1388,8 @@ $df_M=k-1=3-1=2$
 ```{r, results='hide',message=FALSE, echo=FALSE}
 x <- c(1,2,3,4,5)
 y <- c(3,2,1,1,4)
-plot(x,y, main = "", xlab = "", ylab = "", xlim = c(0,16), ylim = c(0,8), pch=16)
-abline(h = 3.5)
+plot(x,y, main = "", xlab = "Replicate (grouped)", ylab = "Illness", xlim = c(0,16), ylim = c(0,8), pch=16)
+
 segments(x0 = 1, y0 = 2.2, x1 = 5, y1 = 2.2)
 segments(x0 = 1, y0 = 2.2, x1 = 1, y1 = 3)
 segments(x0 = 2, y0 = 2.2, x1 = 2, y1 = 2)
@@ -1544,7 +1464,7 @@ $14=2+12$
 
 $MS_M=\frac{SS_M}{df_M}=\frac{20.135}{2}=10.067$
 
-$MS_R=\frac{SS_R}[df_R]=\frac{23.60}{12}=1.967$
+$MS_R=\frac{SS_R}{df_R}=\frac{23.60}{12}=1.967$
 
 ## Step 5: Calculate the *F*-Ratio
 
