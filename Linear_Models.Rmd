@@ -1784,9 +1784,9 @@ $\mbox{SS}_\mbox{R}=3487.52$
 |Source   | SS  | df  |MS|
 |:---:|:---:|:---:|:---:|
 |Factor A   |$SS_A$   |a-1   |$\frac{SS_A}{a-1}$|
-|Factor B      |$SS_B$   |b-1   |\frac{SS_B}{b-1}$|
-|Factor A x B     |$SS_{AB}$   |(a-1)(b-1)   |\frac{SS_{AB}}{(a-1)(b-1)}$|
-|Error   |SSE   |N-ab   |\frac{SSE}{N-ab}$|
+|Factor B      |$SS_B$   |b-1   |$\frac{SS_B}{b-1}$|
+|Factor A x B     |$SS_{AB}$   |(a-1)(b-1)   |$\frac{SS_{AB}}{(a-1)(b-1)}$|
+|Error   |SSE   |N-ab   |$\frac{SSE}{N-ab}$|
 |Total   |SST   | N-1 |
 
 ## Interpreting Factorial ANOVA 
