@@ -1605,13 +1605,6 @@ arrows(x0 = 25, y0 = 50, x1 = 45, y1 = 27, lwd = 2)
 ```
 
 ## Step 1: Calculate SS~T~
-
-
-|pH (Factor A, *a* levels)|6|6|7|7|8|8|
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|Sun (Factor B, *b* levels) |Full  |Partial  |Full |Partial  |Full |Partial  |
-|Mean    |60.625|66.875|62.50 |66.875|57.50 |35.625|
-
 $Grand \: Mean = \bar{X} = 58.33$
 
 $SS_T=\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{l=1}^{n}({X_{i,j,l} - \bar{X}})^2$ 
@@ -1619,6 +1612,14 @@ $SS_T=\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{l=1}^{n}({X_{i,j,l} - \bar{X}})^2$
 $SS_T=8966.66$
 
 ## Step 2: Calculate SS~M~
+
+
+
+|pH (Factor A, *a* levels)|6|6|7|7|8|8|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|Sun (Factor B, *b* levels) |Full  |Partial  |Full |Partial  |Full |Partial  |
+|Mean    |60.625|66.875|62.50 |66.875|57.50 |35.625|
+
 
 Here we evaluate main effects and interaction effects.
 

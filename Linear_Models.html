@@ -3388,6 +3388,12 @@ lines(cbind(new_hp, pred.vals)[,c(1,4)], col = &quot;red&quot;)</code></pre>
 </div>
 <div id="step-1-calculate-sst-1" class="section level2">
 <h2><span class="header-section-number">5.5</span> Step 1: Calculate SS<sub>T</sub></h2>
+<p><span class="math inline">\(Grand \: Mean = \bar{X} = 58.33\)</span></p>
+<p><span class="math inline">\(SS_T=\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{l=1}^{n}({X_{i,j,l} - \bar{X}})^2\)</span></p>
+<p><span class="math inline">\(SS_T=8966.66\)</span></p>
+</div>
+<div id="step-2-calculate-ssm-1" class="section level2">
+<h2><span class="header-section-number">5.6</span> Step 2: Calculate SS<sub>M</sub></h2>
 <table>
 <thead>
 <tr class="header">
@@ -3421,12 +3427,6 @@ lines(cbind(new_hp, pred.vals)[,c(1,4)], col = &quot;red&quot;)</code></pre>
 </tr>
 </tbody>
 </table>
-<p><span class="math inline">\(Grand \: Mean = \bar{X} = 58.33\)</span></p>
-<p><span class="math inline">\(SS_T=\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{l=1}^{n}({X_{i,j,l} - \bar{X}})^2\)</span></p>
-<p><span class="math inline">\(SS_T=8966.66\)</span></p>
-</div>
-<div id="step-2-calculate-ssm-1" class="section level2">
-<h2><span class="header-section-number">5.6</span> Step 2: Calculate SS<sub>M</sub></h2>
 <p>Here we evaluate main effects and interaction effects.</p>
 <p><span class="math inline">\(SS_M=n\sum_{i=1}^{a}\sum_{j = 1}^{b}({\bar{X}_{ij}}-\bar{X})^2\)</span></p>
 <p><span class="math inline">\(\mbox{SS}_\mbox{M}=8(60.625-58.33)^2+8(66.875-58.33)^2+8(62.5-58.33)^2+8(66.875-58.33)^2+8(57.5-58.33)^2+8(35.625-58.33)^2\)</span></p>
