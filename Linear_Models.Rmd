@@ -1521,42 +1521,62 @@ If the null hypothesis is accepted between two means then all other means within
 
 Two independent variables
 
-+ Two-way = 2 Independent variables
-+ Three-way = 3 Independent variables
-
-Several independent variables is known as a factorial design.
++ Two-way (*n* = 2) factors
++ Three-way (*n* = 3) factors
++ Multifactoral anova (*n* >= 3) factors
 
 ## Benefit of Factorial Designs
 
-We can look at how variables interact.
+We can look at how variables interact, this process is called 'interaction'.
 
-Interactions
++ Show how the effects that one level of one group (or factor) might depend on the effects of level in another group.
 
-+ Show how the effects that one I.V. might depend on the effects of another
 + Are often more interesting than main effects.
 
-Examples
+Example:
 
-+ Interaction between hangover and lecture topic on sleeping during lectures.
++ Interaction between hangover and lecture topic on sleeping during lectures. In this case the hangover and sleeping are the factors. Levels in each of the two factors could be (hangover levels = True or False) and sleeping levels could be (snoring, nodding off, and drowsy).
 
-+ A hangover might have more effect on sleepiness during a stats lecture than during an ecology lecture.
+An interaction could indicate that a hangover might have more effect on sleepiness during a biology lecture than during a statistics lecture.
       
-## An Example
+## An example of factorial design
 
-Field (2009): Testing the effects of the pH of soil and amount of sunlight exposure (full or partial) on plant height:
+Testing the effects of the pH of soil and amount of sunlight exposure (full or partial) on plant height:
 
-+ IV 1 (pH): 6, 7, 8
-+ IV 2 (Sun): full, partial
+$y = \beta_0 + \beta_{pH}X_{pH} + \beta_{Sun}X_{Sun} + \beta_{Interaction}X_{pH_i}X_{Sun_i}$.
 
-Dependent variable (DV) was the height of the plant at the end of the experiment.
+We will test:
 
-Data for the plant height (cm) 
+$\beta_{pH} = 0$,
 
-<Br>
+$\beta_{Sun} = 0$, 
 
-|pH |6|6|7|7|8|8|
+and $\beta_{Interaction} =\beta_{pH\times Sun} = 0$.
+
++ Factor A (pH), levels = 6, 7, 8
++ Factor B (Sun), levels = full, partial
+
+The response is the height of the plant at the end of the experiment.
+
+## Terminology
+
+The experiment has two “levels” for the factor “B” (b = 2) and three “levels” for the factor “A” (a = 3).
+
+Thus, there are $ab = 3\times2=6$ unique combinations of sun and pH With each combination. 
+
+We have *r* = 8 observations for each combination. *r* is called the number of replicates, in each cell.
+
+The total number of replicates (*n*) is:
+
+$N = abr = 3\times2\times8 = 48$.
+
+The amounts $Y_{i,j,k}$ is the amount of plant height for each replicate (*k* = 1 to 8) with sun i, (*i* = 1, 2) at pH *j*, (*j* = 1, 2, 3).
+
+Treatment and level-specific data for the plant height (cm): 
+
+|pH (Factor A, *a* levels)|6|6|7|7|8|8|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|Sun     |Full  |Partial  |Full |Partial  |Full |Partial  |
+|Sun (Factor B, *b* levels) |Full  |Partial  |Full |Partial  |Full |Partial  |
 |        |65    |50    |70    |45    |55    |30    |
 |        |70    |55    |65    |60    |65    |30    |
 |        |60    |80    |60    |85    |70    |30    |
@@ -1568,7 +1588,6 @@ Data for the plant height (cm)
 |Total   |485   |535   |500   |535   |460   |285   |
 |Mean    |60.625|66.875|62.50 |66.875|57.50 |35.625|
 |Variance|24.55 |106.70|42.86 |156.70|50.00 |117.41|
-
 
 ```{r echo=FALSE, warning=FALSE}
 
@@ -1587,28 +1606,23 @@ arrows(x0 = 25, y0 = 50, x1 = 45, y1 = 27, lwd = 2)
 
 ## Step 1: Calculate SS~T~
 
-|SS~T~|
-|:---:|:---:|:---:|:---:|:---:|:---:|
-|65   |50   |70   |45   |55   |30   |
-|50   |55   |65   |60   |65   |30   |
-|70   |80   |60   |85   |70   |30   |
-|45   |65   |70   |65   |55   |55   |
-|55   |70   |65   |70   |55   |35   |
-|30   |75   |60   |70   |60   |20   |
-|70   |75   |60   |80   |50   |45   |
-|55   |65   |50   |60   |50   |40   |
 
-$Grand \: Mean = 58.33$
+|pH (Factor A, *a* levels)|6|6|7|7|8|8|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|Sun (Factor B, *b* levels) |Full  |Partial  |Full |Partial  |Full |Partial  |
+|Mean    |60.625|66.875|62.50 |66.875|57.50 |35.625|
 
-$SS_T=\sum({observations_i}-\bar{observations})^2$
+$Grand \: Mean = \bar{X} = 58.33$
 
-$SS_T=\sum({Y_i}-\bar{Y})^2$
+$SS_T=\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{l=1}^{n}({X_{i,j,l} - \bar{X}})^2$ 
 
 $SS_T=8966.66$
 
 ## Step 2: Calculate SS~M~
 
-$\mbox{SS}_\mbox{M}=\sum(\bar{Y}-\bar{Y}_{grand})^2$
+Here we evaluate main effects and interaction effects.
+
+$SS_M=n\sum_{i=1}^{a}\sum_{j = 1}^{b}({\bar{X}_{ij}}-\bar{X})^2$
 
 $\mbox{SS}_\mbox{M}=8(60.625-58.33)^2+8(66.875-58.33)^2+8(62.5-58.33)^2+8(66.875-58.33)^2+8(57.5-58.33)^2+8(35.625-58.33)^2$
 
@@ -1616,11 +1630,11 @@ $\mbox{SS}_\mbox{M}=8(2.295)^2+8(8.545)^2+8(4.17)^2+8(8.545)^2+8(-0.83)^2+8(-22.
 
 $\mbox{SS}_\mbox{M}=42.1362+584.1362+139.1112+584.1362+5.5112+4124.1362$
 
-$\mbox{SS}_\mbox{M}=5479.167$
+$\mbox{SS}_\mbox{M}=5479.17$
 
 ## Step 2a: Calculate SS~A~
 
-Mean "Full Sun": 60.21
+Mean "Full Sun": 60.21 cm
 
 |SS~A~|   |   |
 |:---:|:---:|:---:|
@@ -1633,7 +1647,7 @@ Mean "Full Sun": 60.21
 |60 |60   |50   |
 |55 |50   |50   |
 
-Mean "Partial Sun": 56.46
+Mean "Partial Sun": 56.46 cm
 
 |SS~A~   |   |   |
 |:---:|:---:|:---:|
@@ -1646,10 +1660,8 @@ Mean "Partial Sun": 56.46
 |75   |80   |45   |
 |65   |60   |40   |
 
-$\mbox{SS}_\mbox{Sun}=\sum^k_1(\bar{Y}_k-\bar{Y}_{Grand})^2n_k$
-
-+ Where *k* is the number of levels of factor A (Sun)
-
+$SS_{A} = {rb}\sum_{i=1}^a(\overline{X}_{i} - \overline{X})^2$
+ 
 $\mbox{SS}_\mbox{Sun}=24(60.21-58.33)^2+24(56.46-58.33)^2$
 
 $\mbox{SS}_\mbox{Sun}=24(1.88)^2+24(-1.87)^2$
@@ -1659,10 +1671,6 @@ $\mbox{SS}_\mbox{Sun}=84.8256+83.9256$
 $\mbox{SS}_\mbox{Sun}=168.75$
 
 ## Step 2b: Calculate SS~B~
-
-$\mbox{SS}_\mbox{B}=\sum^k_1(\bar{Y}_k-\bar{Y}_{Grand})n_k$
-
-+ Where *k* is the number of levels of factor B
 
 + Factor B is pH.
 
@@ -1683,7 +1691,7 @@ Mean $\mbox{pH}_6$ = 63.75
 
 pH = 7
 
-Mean $\mbox{pH}_7$ = 64.6875
+Mean $\mbox{pH}_7$ = 64.68
 
 |SS~B~   |   |
 |:---:|:---:|
@@ -1698,7 +1706,7 @@ Mean $\mbox{pH}_7$ = 64.6875
 
 pH = 8
 
-Mean $\mbox{pH}_8$ = 46.5625
+Mean $\mbox{pH}_8$ = 46.56
 
 |SS~B~   |   |
 |:---:|:---:|
@@ -1712,7 +1720,9 @@ Mean $\mbox{pH}_8$ = 46.5625
 |50   |40   |
 
 
-$\mbox{SS}_\mbox{pH}=16(63.75-58.33)^2+16(64.6875-58.33)^2+16(46.5625-58.33)^2$
+$SS_B = ra\sum_{j=1}^b(\overline{X}_{j} - \overline{X})^2$
+
+$\mbox{SS}_\mbox{pH}=16(63.75-58.33)^2+16(64.68-58.33)^2+16(46.56-58.33)^2$
 
 $\mbox{SS}_\mbox{pH}=16(5.42)^2+16(6.3575)^2+16(-11.7675)^2$
 
@@ -1748,7 +1758,7 @@ $=1978.125$
 
 ## Step 3: Calculate SS~R~
 
-The residual sum of squares is calculated in the same way as for one-way ANOVA 
+The residual sum of squares is calculated in the same way as for one-way ANOVA .
 
 Represents individual differences in performance or the variance that can't be explained by factors that were systematically manipulated.
 
@@ -1756,9 +1766,7 @@ We saw in one-way ANOVA that the value is calculated by taking the squared error
 
 So, we use the individual variances of each group and multiply them by one less than the number of people within the group (n). 
 
-We have the individual group variances: there were eight people in each group (therefore, n = 8).
-
-The degrees of freedom for each group will be one less than the number of scores per group (i.e. 7). Therefore, if we add the sums of squares for each group, we get a total of 6 X 7 = 42.
+We have the individual group variances: there were eight people in each group (therefore, *n* = 8).
 
 $\mbox{SS}_\mbox{R}=s^2_{group1}(n_1-1)+s^2_{group2}(n_2-1)+s^2_{group3}(n_3-1)+s^2_{group \: n}(n_n-1)$
 
@@ -1770,14 +1778,24 @@ $\mbox{SS}_\mbox{R}=171.85+746.9+300+1096.9+350+821.87$
 
 $\mbox{SS}_\mbox{R}=3487.52$
 
+## Degrees of Freedom and Mean Square Calculations
+
+|Source   | SS  | df  |MS|
+|:---:|:---:|:---:|:---:|
+|Factor A   |$SS_A$   |a-1   |$\frac{SS_A}{a-1}$|
+|Factor B      |$SS_B$   |b-1   |\frac{SS_B}{b-1}$|
+|Factor A x B     |$SS_{AB}$   |(a-1)(b-1)   |\frac{SS_{AB}}{(a-1)(b-1)}$|
+|Error   |SSE   |N-ab   |\frac{SSE}{N-ab}$|
+|Total   |SST   | N-1 |
+
 ## Interpreting Factorial ANOVA 
 
-|Response      |Attractiveness   |   |   |   |
+|Response      |Plant Growth   |   |   |   |
 |---           |:---:|:---:|:---:|:---:|
 |              |Sum Sq|Df  |*F* value  |Pr(>*F*)   |
 |Sunlight        |169   |1   |2.0323   |0.1614   |
 |pH       |3332  |2   |20.0654  |7.649e-07   |
-|Gender:pH|1978  |2   |11.9113  |7.987e-05   |
+|Sunlight:pH|1978  |2   |11.9113  |7.987e-05   |
 |residuals     |3488  |42  |         |   |
 
 
@@ -1801,7 +1819,7 @@ arrows(barCenters, sun$mu + sun$sd, barCenters, sun$mu - sun$sd, angle = 90, cod
 
 ```
 
-+ There was a non-significant main effect of sunlight exposure on the plant height, F(1, 42) = 2.03, p = .161.
++ There was a non-significant main effect of sunlight exposure on the plant height, F(1, 42) = 2.03, p = 0.161.
 
 ## Interpretation: Interaction Effects
 
@@ -1830,7 +1848,7 @@ legend("topright", legend = c("Full Sunlight", "Partial Sulight"), lty = c(1,2),
 
 + Post-hoc tests
 
-+ Non-parametric 
++ Non-parametric versions
 
 ## Factorial ANOVA as Regression
 
