@@ -1510,55 +1510,143 @@ Start with the largest mean, vs. the smallest mean. Then when the first largest 
 
 If the null hypothesis is accepted between two means then all other means within that range cannot be different.
 
+
 # Two-Way Independent ANOVA
 
-+ Rationale of factorial ANOVA
-+ Partitioning variance
+Like one-way ANOVA this is a comparison of means test. In this module we will examine multifactor ANOVA.
+
++ Multi-factorial ANOVA as a linear model
+
++ Hypotheses being tested
+
 + Interaction effects
-+ Interaction graphs and their interpretation
+
++ Post-hoc tests
+
++ Non-parametric versions
 
 ## What is Two-Way Independent ANOVA?
 
 Two independent variables
 
 + Two-way (*n* = 2) factors
-+ Three-way (*n* = 3) factors
-+ Multifactoral anova (*n* >= 3) factors
+
+Simultaneous analysis of two factors and measurement of mean response.
+
+Terminology:
+
+One *factor* termed A and one *factor* termed B.
+
+*a* is the number of levels in A.
+
+*b* is the number of levels in B.
+
+## Example of two-way ANOVA
+
+Researchers have sought to examine the effects of various types of music on agitation levels in patients in early and middle stages of Alzheimer's disease. 
+
+Patients were selected based on their form of Alzheimer's disease. Three forms of music were tested: easy listening, Mozart, and piano interludes. The response variable agitation level was scored.
+
+Here is the design:
+
+|Group|Piano Interlude|Mozart|Easy Listening|
+|---     |:---:|:---:|:---:|
+|Early Stage ALzheimer's |21   |9   |29   |
+|                        |24   |12   |26   |
+|                        |22   |10   |30   |
+|                        |18   |5   |24   |
+|                        |20   |9   |26   |
+|Middle Stage Alzheimer's|22   |14   |15   |
+|                        |20   |18   |18   |
+|                        |25   |11   |20   |
+|                        |18   |9   |13   |
+|                        |20   |13   |19   |
+
+## Hypotheses Being Tested
+
+Three factor ANOVA:
+
++ H~O~: Mean agitation is the same for each music type.
++ H~O~ : Mean agitation is the same for each Alzheimer's stage.
++ H~O~ : Mean agitation is the same for all levels of music, independent of Alzheimer stage.
+
+## Multiway Factorial ANOVA Hypotheses Being Tested
+
+|Popcorn|Oil Amt.|Batch|Yeild|
+|:---:|:---:|:---:|:---:|
+|Plain  |Little   |Large   |8.2   |
+|Gourmet|Little   |Large   |8.6   |
+|Plain  |Lots   |Large   |10.4   |
+|Gourmet|Lots   |Large   |9.2   |
+|Plain  |Little   |Small   |9.9   |
+|Gourmet|Little   |Small   |12.1   |
+|Plain  |Lots   |Small   |10.6   |
+|Gourmet|Lots   |Small   |18.0   |
+|Plain  |Little   |Large   |8.8   |
+|Gourmet|Little   |Large   |8.2   |
+|Plain  |Lots   |Large   |8.8   |
+|Gourmet|Lots   |Large   |9.8   |
+|Plain  |Little   |Small   |10.1   |
+|Gourmet|Little   |Small   |15.9   |
+|Plain  |Lots   |Small   |7.4   |
+|Gourmet|Lots   |Small   |16.0   |
+
+## Hypotheses Being Tested
+
+Three factor ANOVA:
+
++ H~O~: Yield is the same in all three Batch sizes
++ H~O~ : Yield is the same in all three Oil amounts
++ H~O~ : Yield is the same in all three Popcorn types
++ H~O~ : The mean yield is the same for all levels of batch, independent of oil amount (Batch X Oil)
++ H~O~ : The mean yield is the same for all levels of Oil amount, independent of popcorn type (Oil X Type)
++ H~O~ : The mean yield is the same for all levels of batch, independent of popcorn type (Batch X Type)
++ H~O~ : Differences in mean Yield among the batch, oil amount, and popcorn type are independent of the other factors
+      + (Batch X Type X Oil)
+  
+
+|   |Df   |Sum Sq   |Mean Sq   |F value   |Pr(>F)   |
+|---     |:---:|:---:|:---:|:---:|:---:|
+|popcorn type                      |1   |3.062   |3.062   |0.1731   |0.6883   |
+|oil amount                        |1   |0.062   |0.062   |0.0035   |0.9541   |
+|batch size                        |1   |52.562   |52.562   |2.9717   |0.1230   |
+|popcorn type:oil amount           |1   |27.562   |27.562   |1.5583   |0.2472   |
+|popcorn type:batch size           |1   |14.062   |14.062   |0.7951   |0.3986   |
+|oil amount:batch size             |1   |0.063   |0.063    |0.0035   |0.9541   |
+|popcorn type:oil amount:batch size|1   |1.563   |1.563    |0.0883   |0.7739   |
+|Residuals                         |8   |141.500   |17.687   |   |   |
+
 
 ## Benefit of Factorial Designs
 
-We can look at how variables interact, this process is called 'interaction'.
+1.) The experimental design is an efficient design to test multiple hypotheses simultaneously.
+
+2.) We can look at how variables interact, this process is called 'interaction'.
 
 + Show how the effects that one level of one group (or factor) might depend on the effects of level in another group.
 
 + Are often more interesting than main effects.
 
-Example:
-
-+ Interaction between hangover and lecture topic on sleeping during lectures. In this case the hangover and sleeping are the factors. Levels in each of the two factors could be (hangover levels = True or False) and sleeping levels could be (snoring, nodding off, and drowsy).
-
-An interaction could indicate that a hangover might have more effect on sleepiness during a biology lecture than during a statistics lecture.
       
-## An example of factorial design
+## A worked example of factorial design
 
-Testing the effects of the pH of soil and amount of sunlight exposure (full or partial) on plant height:
-
-$y = \beta_0 + \beta_{pH}X_{pH} + \beta_{Sun}X_{Sun} + \beta_{Interaction}X_{pH_i}X_{Sun_i}$.
+Testing the effects of the pH of soil and amount of sunlight exposure (full or partial) on mean plant height.
 
 We will test:
 
-$\beta_{pH} = 0$,
+## Hypotheses Being Tested
 
-$\beta_{Sun} = 0$, 
++ H~O~: Mean plant height is the same in all sunlight treatments.
++ H~O~ : Mean plant height is the same in all pH treatments.
++ H~O~ : There is no significant interaction of ph and sunlight.
 
-and $\beta_{Interaction} =\beta_{pH\times Sun} = 0$.
+## Remeber the terminology
+
 
 + Factor A (pH), levels = 6, 7, 8
 + Factor B (Sun), levels = full, partial
 
 The response is the height of the plant at the end of the experiment.
-
-## Terminology
 
 The experiment has two “levels” for the factor “B” (b = 2) and three “levels” for the factor “A” (a = 3).
 
@@ -1613,13 +1701,10 @@ $SS_T=8966.66$
 
 ## Step 2: Calculate SS~M~
 
-
-
 |pH (Factor A, *a* levels)|6|6|7|7|8|8|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |Sun (Factor B, *b* levels) |Full  |Partial  |Full |Partial  |Full |Partial  |
 |Mean    |60.625|66.875|62.50 |66.875|57.50 |35.625|
-
 
 Here we evaluate main effects and interaction effects.
 
@@ -1837,22 +1922,8 @@ legend("topright", legend = c("Full Sunlight", "Partial Sulight"), lty = c(1,2),
 + Non-parallel lines indicate such an interaction: For low pH full and partial sunlight, scores do not change much. 
 + At a high pH, partial sunlight scores plummet but full sunlight scores remain fairly high. So, the interaction is caused by a difference between sunlight exposure in the height of plants.
 
-# ANOVA Part II 
-
-## Comparison of Means Test
-
-+ Multi-factorial ANOVA as a linear model
-
-+ Hypotheses being tested
-
-+ Interaction effects
-
-+ Post-hoc tests
-
-+ Non-parametric versions
 
 ## Factorial ANOVA as Regression
-
 
 |pH |6|6|7|7|8|8|
 |---     |:---:|:---:|:---:|:---:|:---:|:---:|
@@ -1958,141 +2029,7 @@ $b_3=66.875-60.625+57.500-35.625$
 
 $b_3=28.125$
 
-## Two-Factor Analysis of Variance Hypotheses Being Tested
 
-Simultaneous analysis of two factors and measurement of mean response
-
-Case. 1: equal replication
-
-Terminology:
-
-One *factor* termed A and one *factor* termed B
-
-*b* is the number of levels in B
-
-Researchers have sought to examine the effects of various types of music on agitation levels in patients in early and middle stages of Alzheimer's disease. 
-
-Patients were selected based on their form of Alzheimer's disease. Three forms of music were tested: easy listening, Mozart, and piano interludes. The response variable agitation level was scored.
-
-What is (are) the null hypothesis(ese) being tested?
-
-|Group|Piano Interlude|Mozart|Easy Listening|
-|---     |:---:|:---:|:---:|
-|Early Stage ALzheimer's |21   |9   |29   |
-|                        |24   |12   |26   |
-|                        |22   |10   |30   |
-|                        |18   |5   |24   |
-|                        |20   |9   |26   |
-|Middle Stage Alzheimer's|22   |14   |15   |
-|                        |20   |18   |18   |
-|                        |25   |11   |20   |
-|                        |18   |9   |13   |
-|                        |20   |13   |19   |
-
-Plot these data (means) on a single figure such that cell-level means can be evaluated.
-
-|Group|Piano Interlude|Mozart|Easy Listening|
-|---     |:---:|:---:|:---:|
-|Early Stage ALzheimer's |21   |9   |29   |
-|                        |24   |12   |26   |
-|                        |22   |10   |30   |
-|                        |18   |5   |24   |
-|                        |20   |9   |26   |
-|Middle Stage Alzheimer's|22   |14   |15   |
-|                        |20   |18   |18   |
-|                        |25   |11   |20   |
-|                        |18   |9   |13   |
-|                        |20   |13   |19   |
-
-
-## Three-Factor Analysis of Variance 
-
-What hypotheses are being tested?
-
-Evaluate respiratory rate of crabs (ml O2 hr-1) 
-
-Factors: 
-
-+ Sex
-+ Species
-+ Temperature
-
-|Species 1|   |   |   |   |   |
-|---     |:---:|:---:|:---:|:---:|:---:|
-|Low Temp   |   |Med Temp   |   |High Temp   |   |
-|Male   |Female   |Male   |Female   |Male  |Female   |
-|1.9   |1.8   |2.3   |2.4   |2.9   |3.0   |
-|1.8   |1.7   |2.1   |2.7   |2.8   |3.1   |
-|1.6   |1.4   |2.0   |2.4   |3.4   |3.0   |
-|1.4   |1.5   |2.6   |2.6   |3.2   |2.7   |
-
-
-|Species 2|   |   |   |   |   |
-|---     |:---:|:---:|:---:|:---:|:---:|
-|Low Temp   |   |Med Temp   |   |High Temp   |   |
-|Male   |Female   |Male   |Female   |Male  |Female   |
-|2.1   |2.3   |2.4   |2.0   |3.6   |3.1   |
-|2.0   |2.0   |2.6   |2.3   |3.1   |3.0   |
-|1.8   |1.9   |2.7   |2.1   |3.4   |2.8   |
-|2.2   |1.7   |2.3   |2.4   |3.2   |3.2   |
-
-
-|Species 3|   |   |   |   |   |
-|---     |:---:|:---:|:---:|:---:|:---:|
-|Low Temp   |   |Med Temp   |   |High Temp   |   |
-|Male   |Female   |Male   |Female   |Male  |Female   |
-|1.1   |1.4   |2.0   |2.4   |2.9   |3.2   |
-|1.2   |1.0   |2.1   |2.6   |2.8   |2.9   |
-|1.0   |1.3   |1.9   |2.3   |3.0   |2.8   |
-|1.4   |1.2   |2.2   |2.2   |3.1   |2.9   |
-
-
-## Multiway Factorial ANOVA Hypotheses Being Tested
-
-|Popcorn|Oil Amt.|Batch|Yeild|
-|:---:|:---:|:---:|:---:|
-|Plain  |Little   |Large   |8.2   |
-|Gourmet|Little   |Large   |8.6   |
-|Plain  |Lots   |Large   |10.4   |
-|Gourmet|Lots   |Large   |9.2   |
-|Plain  |Little   |Small   |9.9   |
-|Gourmet|Little   |Small   |12.1   |
-|Plain  |Lots   |Small   |10.6   |
-|Gourmet|Lots   |Small   |18.0   |
-|Plain  |Little   |Large   |8.8   |
-|Gourmet|Little   |Large   |8.2   |
-|Plain  |Lots   |Large   |8.8   |
-|Gourmet|Lots   |Large   |9.8   |
-|Plain  |Little   |Small   |10.1   |
-|Gourmet|Little   |Small   |15.9   |
-|Plain  |Lots   |Small   |7.4   |
-|Gourmet|Lots   |Small   |16.0   |
-
-
-## Hypotheses Being Tested
-
-Three factor ANOVA:
-
-+ H~O~: Yield is the same in all three Batch sizes
-+ H~O~ : Yield is the same in all three Oil amounts
-+ H~O~ : Yield is the same in all three Popcorn types
-+ H~O~ : The mean yield is the same for all levels of batch, independent of oil amount (Batch X Oil)
-+ H~O~ : The mean yield is the same for all levels of Oil amount, independent of popcorn type (Oil X Type)
-+ H~O~ : The mean yield is the same for all levels of batch, independent of popcorn type (Batch X Type)
-+ H~O~ : Differences in mean Yield among the batch, oil amount, and popcorn type are independent of the other factors
-      + (Batch X Type X Oil)
-  
-
-|   |Df   |Sum Sq   |Mean Sq   |F value   |Pr(>F)   |
-|---     |:---:|:---:|:---:|:---:|:---:|
-|popcorn type                      |1   |3.062   |3.062   |0.1731   |0.6883   |
-|oil amount                        |1   |0.062   |0.062   |0.0035   |0.9541   |
-|batch size                        |1   |52.562   |52.562   |2.9717   |0.1230   |
-|popcorn type:oil amount           |1   |27.562   |27.562   |1.5583   |0.2472   |
-|popcorn type:batch size           |1   |14.062   |14.062   |0.7951   |0.3986   |
-|oil amount:batch size             |1   |0.063   |0.063    |0.0035   |0.9541   |
-|popcorn type:oil amount:batch size|1   |1.563   |1.563    |0.0883   |0.7739   |
-|Residuals                         |8   |141.500   |17.687   |   |   |
 
 ## Interaction Effects
 
@@ -2322,6 +2259,7 @@ $F=\frac{(N-k)H_c}{(k-1)(N-1-H_c)}=\frac{(31-4)(11.943)}{(4-1)(31-1-11.943)}=5.9
 $F_{0.05(1),3,26}=2.98$
 
 Reject H~0~
+
 
 # Logistic Regression
 
