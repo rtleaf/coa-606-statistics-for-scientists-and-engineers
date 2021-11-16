@@ -19,31 +19,31 @@ Kachigan (1986) defines statistical analysis as the process of data
 
 In this course we will use the framework above and focus on aspects of collection (experimental design and random sampling), organization (using descriptive and inferential approaches), and interpretation.
 
-One of the primary facets of quantitative analysis is the need to be creative in your approaches - the methods outlined in this class provide the foundation for analysis but the practitioner is encouraged to explore the methods and practices in their discipline to best address the needs for interpretation.
+One of the primary facets of quantitative analysis is the need to be creative in your approaches - it is best to explore the methods and practices in your discipline.
 
 It is my sincere hope that the aspects of collection, organization, and interpretation of data that are presented in this class provide the foundation you will need to establish statistical expertise in your own scientific practice.
-
-One of the features of statistical analysis that I would like to highlight: Every problem, every research approach, will require consideration of the means of collection, processing of data, and statistical analysis. 
 
 # Data organization and best practices (Broman and Woo, 2018)
 
 Broman and Woo (2018) highlight the challenges and best practices for using spreadsheets. The design principles that they outline are useful for your work in MS Excel as well as a variety of specialized statistical programs (i.e. Matlab, R, and many others).
 
-+ Spreadsheets continue to to be a primary way for data storage, analysis, and visualization.
++ Spreadsheets continue to to be a primary way for data storage, analysis, and visualization even for those using specialized statistical programs. 
 
-+ Multipurpose (positive and negative).
++ That spreadsheet softward is multipurpose has positive and negative characteristics.
 
 + Can be error prone to make large sweeping changes - hard to retrace your steps.
 
-+ Organization is critical for reproducible research and archiving. A common scenario in your scientific practice is to have multiple time-sensitive projects occurring simultaneously, organization is critical.
-
 ## Consistency and conventions
 
-+ Use consistent codes for categorical variables.
+Organization is critical for reproducible research and archiving. A common scenario in your scientific practice is to have multiple time-sensitive projects occurring simultaneously, organization is critical.
+
+Consistency is critical for: 
+
++ Categorical variables,
 
 + Use a consistent fixed code for any missing values (e.g. 'NA' or an unfilled cell).
 
-+ Use consistent variable names (these are column names).
++ Use consistent variable (column) names.
 
 + Use a consistent data layout in multiple files (same column names). This allows data to be merged in a seamless way. So, each sheet will use similar naming conventions.
 
@@ -382,8 +382,10 @@ text(labels = seq(1,4),
 
 + The mean (much more about this below).
 
+
 # The Normal Distribution
 + The normal distribution is probably the most common distribution in all of probability and statistics. 
+
 + One of the main reasons it crops up so much is due to the Central Limit Theorem (we will explore this). 
 
 ## The Normal Probability Density Function

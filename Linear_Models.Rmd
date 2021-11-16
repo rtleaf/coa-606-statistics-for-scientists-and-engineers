@@ -2263,37 +2263,156 @@ Reject H~0~
 
 # Logistic Regression
 
-When and why do we use logistic regression?
+## When and why do we use logistic regression?
 
-+ Binary
-+ Multinomial
+In some cases the response rariable (or dependent variable, DV) is binomially distributed. 
 
-Theory behind logistic regression
+We need an alternative approach because having a categorical  outcome variable violates the assumption of linearity in normal regression.
 
-Interpreting logistic regression
+Suppose we want to predict whether someone is diabetic by evaluating plasma glucose . We could plot the relations between the two variables as we customarily do in regression. 
+
+Note: It is customary to code a binary DV either 0 or 1. 
+
+```{r,message=FALSE, echo=FALSE, warning=FALSE}
+library(tidyverse)
+library(caret)
+theme_set(theme_bw())
+
+
+# Load the data and remove NAs
+data("PimaIndiansDiabetes2", package = "mlbench")
+PimaIndiansDiabetes2 <- na.omit(PimaIndiansDiabetes2)
+# Inspect the data
+# sample_n(PimaIndiansDiabetes2, 3)
+# Split the data into training and test set
+set.seed(123)
+training.samples <- PimaIndiansDiabetes2$diabetes %>% 
+  createDataPartition(p = 0.8, list = FALSE)
+train.data  <- PimaIndiansDiabetes2[training.samples, ]
+test.data <- PimaIndiansDiabetes2[-training.samples, ]
+
+# Fit the model
+model <- glm( diabetes ~., data = train.data, family = binomial)
+# Make predictions
+probabilities <- model %>% predict(test.data, type = "response")
+predicted.classes <- ifelse(probabilities > 0.5, "pos", "neg")
+# Model accuracy
+model <- glm( diabetes ~ glucose, data = train.data, family = binomial)
+
+newdata <- data.frame(glucose = c(20,  180))
+probabilities <- model %>% predict(newdata, type = "response")
+predicted.classes <- ifelse(probabilities > 0.5, "pos", "neg")
+predicted.classes
+
+train.data %>%
+  mutate(prob = ifelse(diabetes == "pos", 1, 0)) %>%
+  ggplot(aes(glucose, prob)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = "glm", method.args = list(family = "binomial")) +
+  labs(
+    title = "Logistic Regression Model", 
+    x = "Plasma Glucose Concentration",
+    y = "Probability of being diabete-pos"
+    )
+```
+
+Here we code one DV as 1 and the other as 0 (positive and negative for diabetes).
+
+If we code like this, then the mean of the distribution is equal to the proportion of 1's in the distribution. 
+
+
+```{r,message=FALSE, echo=TRUE, warning=FALSE}
+library(tidyverse)
+library(caret)
+theme_set(theme_bw())
+
+
+# Load the data and remove NAs
+data("PimaIndiansDiabetes2", package = "mlbench")
+PimaIndiansDiabetes2 <- na.omit(PimaIndiansDiabetes2)
+
+# Number positive
+length(which(PimaIndiansDiabetes2$diabetes == "pos"))
+
+# Number negative
+length(which(PimaIndiansDiabetes2$diabetes == "neg"))
+
+# Total number
+length((PimaIndiansDiabetes2$diabetes))
+
+
+```
+
+
+For example if there are 100 people in the distribution and 30 of them are coded 1, then the mean of the distribution is 0.30, which is the proportion of 1s. 
+
+The mean of the distribution is also the probability of drawing a person labeled as 1 at random from the distribution. 
+
+That is, if we grab a person at random from our sample of 100 that I just described, the probability that the person will be a 1 is 0.30. 
+
+Therefore, proportion and probability of 1 are the same in such cases. The mean of a binary distribution so coded is denoted as *P*, the proportion of 1s. The proportion of zeros is (1-*P*),which is sometimes denoted as *Q*. 
+
+$P = $ numer of 'ones'
+
+$Q = 1 - P$
+
+The variance of such a distribution is $P \times Q$, and the standard deviation is $\sqrt{PQ}$.
 
 ## When and Why?
 
 To predict an outcome variable that is categorical from one or more categorical or continuous predictor variables.
 
-Used because having a categorical  outcome variable violates the assumption of linearity in normal regression.
+In this class we will focus on regression with one predictor. 
 
-## We will focus on regression with one predictor
+$P=\frac{1}{1+e^{-(b_0+b_1X_)}}$
 
-$P(Y)=\frac{1}{1+e^{-(b_0+b_1X_1+\varepsilon_i)}}$
+## What are we predicting?
 
-Outcome
+In the equation above:
 
-+ We predict the probability of the outcome occurring
++ *P* is the probability of a 1 (the proportion of 1s, the mean of Y), 
 
-b~0~ and b~1~
++ *e* is the base of the natural logarithm (about 2.718),
 
-+ Can be thought of in much the same way as multiple regression
-+ Note the normal regression equation forms part of the logistic regression equation
++ and $b_0$ and $b_1$ are the parameters of the model. 
 
-## Assessing the Model
+The value of $b_0$ yields *P* when *X* is zero, and $b_1$ adjusts how quickly the probability changes with changing X a single unit. 
 
-log - likelihood $=\sum^N_{i=1}[\Upsilon_iln(P(\Upsilon_i))+(1-\Upsilon_1)ln(1-P(\Upsilon_i))]$
+The relation between *X* and *P* is nonlinear.
+
+```{r,message=FALSE, echo=TRUE, warning=FALSE}
+
+b0 = rep(-10,3)
+b1 = c(0.14,0.25,0.54)
+x = seq(1,100)
+plot(x, 1/(1+exp(-(b0[1] + b1[1]*x))), type = 'n')
+lines(x, 1/(1+exp(-(b0[1] + b1[1]*x))), col = "red", lwd = 2)
+lines(x, 1/(1+exp(-(b0[1] + b1[2]*x))), col = "blue", lwd = 2)
+lines(x, 1/(1+exp(-(b0[1] + b1[3]*x))), col = "green", lwd = 2)
+legend('bottomright', legend = b1, col = c('red', 'blue', 'green'), lwd = rep(2, 3))
+```
+
+```{r,message=FALSE, echo=TRUE, warning=FALSE}
+
+b0 = c(-5,-10,-15)
+b1 = rep(0.25,3)
+x = seq(1,100)
+plot(x, 1/(1+exp(-(b0[1] + b1[1]*x))), type = 'n')
+lines(x, 1/(1+exp(-(b0[1] + b1[1]*x))), col = "red", lwd = 2)
+lines(x, 1/(1+exp(-(b0[2] + b1[2]*x))), col = "blue", lwd = 2)
+lines(x, 1/(1+exp(-(b0[3] + b1[3]*x))), col = "green", lwd = 2)
+legend('bottomright', legend = b0, col = c('red', 'blue', 'green'), lwd = rep(2, 3))
+```
+
+## Fitting the Model
+
+### Approach 1 - SS
+
+A loss function is a measure of fit between a mathematical model of data and the actual data. 
+
+We choose the parameters of our model to minimize the sum of squares residual.
+
+### Approach 2 - Likelihood
 
 The log-likelihood statistic
 
@@ -2301,86 +2420,273 @@ The log-likelihood statistic
 + It is an indicator of how much unexplained information there is after the model has been fitted.
 + Large values indicate poorly fitting statistical models.
 
-## Assessing Changes in Models
+## The Odds Ratio
 
-It's possible to calculate a log-likelihood for different models and to compare these models by looking at the difference between their log-likelihoods.
+Suppose we only know a person's height and we want to predict whether that person is male or female. 
 
-$\chi^2=2[LL(new)-LL(baseline)]$
+We can talk about the probability of being male or female, or we can talk about the odds of being male or female. 
 
-$(df=k_{new}-k_{baseline})$
+Let's say that the probability of being male at a given height is .90. Then the odds of being male would be:
 
-## Assessing Predictors: The Odds Ratio
+$\mbox{odss ratio}=\frac{P}{1-P}$
 
-$\mbox{odss ratio}=\frac{\mbox{odds after a unit change in the predictor}}{\mbox{odds before a unit change in the predictor}}$
+Odds can also be found by counting the number of people in each group and dividing one number by the other.
+
+In our example, the odds would be 0.90/0.10 or 9 to one. 
+
+Now the odds of being female would be 0.10/0.90 or 1/9 or 0.11. This asymmetry is unappealing, because the odds of being a male should be the opposite of the odds of being a female. 
+
+So, we calculate the 'log odds'
+
+We can take care of this asymmetry though the natural logarithm, ln. 
+
+The natural log of 9 is 2.217, ln(0.9/0.1)=2.217. 
+
+The natural log of 1/9 is -2.217, ln(.1/.9)=-2.217.
+
+So the log odds of being male is exactly opposite to the log odds of being female. 
+
+The natural log function looks like this:
+
+
+```{r,message=FALSE, echo=TRUE, warning=FALSE}
+
+
+x = seq(0,10, by = 0.1)
+plot(x, log(x), xlab = 'X, the odds', ylab = 'ln X (ln odds)', type = 'n')
+lines(x, log(x), lwd = 3)
+abline(h = 0)
+abline(v = 1)
+```
+
+Note that the natural log is zero when X is 1. 
+
+When X is larger than one, the log curves up slowly. 
+
+When X is less than one, the natural log is less than zero, and decreases rapidly as X approaches zero. 
+
+When P = 0.50, the odds are .50/.50 or 1, and ln(1) = 0. 
+
+If P is greater than .50, ln(P/(1-P) is positive; if P is less than .50, ln(odds) is negative. 
+
+A number taken to a negative power is one divided by that number, e.g. e-10 = 1/e10. 
+
+A logarithm is an exponent from a given base, for example ln(e10) = 10.
 
 Indicates the change in odds resulting from a unit change in the predictor.
 
-## Things That Can Go Wrong
+## Back to logistic regression
 
-Assumptions from linear regression:
+In logistic regression, the dependent variable is a logit, which is the natural log of the odds, that is:
 
-+ Linearity
-+ Independence of errors
-+ Multicollinearity - we will spend time on this in multiple linear regression.
+$log(odds) = logit(P)$
 
-## Complete Separation
+$log(odds) = ln(\frac{P}{1-P})$
 
-When the outcome variable can be perfectly predicted.
+So a logit is a log of odds and odds are a function of P, the probability of a 1. In logistic regression, we find:
 
-+ E.g. predicting whether someone is a burglar, your teenage son or your cat based on weight.
-+ Weight is a perfect predictor of cat/burglar unless you have a very fat cat indeed!
+$logit(P) = b_0 + b_1X$
 
-```{r echo=FALSE, warning=FALSE}
-par(mfrow = c(1,2))
+$ln(\frac{P}{1-P}) = b_0 + b_1X$
 
-weight <- c(rnorm(25, 50,10), rnorm(25,70,10))
-p <- c(rep(0,25),rep(1,25))
+$\frac{P}{1-P} = e^{b_0 + b_1X}$
 
-g=glm(p~weight,family=binomial) # run a logistic regression model (in this case, generalized linear model with logit link). see ?glm
-plot(weight, p, pch = 24, ylab = "Probability of Outcome", xlab = "Weight (kg)")
-curve(predict(g,data.frame(weight=x),type="resp"),add=TRUE) # draws a curve based on prediction from logistic regression model
+$P = \frac{e^{b_0 + b_1X}}{1-e^{b_0 + b_1X}}$
 
-points(weight,fitted(g),pch=20) 
+## Full worked example:
+
+Suppose that we are working with some doctors on heart attack patients. The dependent variable is whether the patient has had a second heart attack within 1 year (yes = 1). We have two independent variables, one is whether the patient completed a treatment consistent of anger control practices (yes=1). The other IV is a score on a trait anxiety scale (a higher score means more anxious).
 
 
-weight <- c(rnorm(25, 10,2), rnorm(25,50,5))
-w2 <- c(rnorm(25, 5, 2), rnorm(25, 50, 15))
-p <- c(rep(0,25),rep(1,25))
+```{r,message=FALSE, echo=FALSE, warning=FALSE}
+data. <- 
+rbind(c(1,1,1,70),
+c(2,1,1,80),
+c(3,1,1,50),
+c(4,1,0,60),
+c(5,1,0,40),
+c(6,1,0,65),
+c(7,1,0,75),
+c(8,1,0,80),
+c(9,1,0,70),
+c(10,1,0,60),
+c(11,0,1,65),
+c(12,0,1,50),
+c(13,0,1,45),
+c(14,0,1,35),
+c(15,0,1,40),
+c(16,0,1,50),
+c(17,0,0,55),
+c(18,0,0,45),
+c(19,0,0,50),
+c(20,0,0,60))
 
-g=glm(p~weight,family=binomial)
-g2=glm(p~w2,family=binomial)
+data. <- as.data.frame(data.)
+names(data.) <- c("Person",
+"2nd Heart Attack",
+"Treatment of Anger",
+"Trait Anxiety")
 
+data.
+```
 
-plot(weight, p, pch = 24, xlab = "Weight (kg)", ylab = "Probability of Outcome")
-points(w2, p, pch = 16)
-curve(predict(g,data.frame(weight=x),type="resp"),add=TRUE) 
-curve(predict(g2,data.frame(w2=x),type="resp"),add=TRUE, lty = 2) 
+Now let's look at the logistic regression, for the moment examining the treatment of anger by itself, ignoring the anxiety test scores. 
 
+```{r,message=FALSE, echo=FALSE, warning=FALSE}
+data. <- 
+rbind(c(1,1,1,70),
+c(2,1,1,80),
+c(3,1,1,50),
+c(4,1,0,60),
+c(5,1,0,40),
+c(6,1,0,65),
+c(7,1,0,75),
+c(8,1,0,80),
+c(9,1,0,70),
+c(10,1,0,60),
+c(11,0,1,65),
+c(12,0,1,50),
+c(13,0,1,45),
+c(14,0,1,35),
+c(15,0,1,40),
+c(16,0,1,50),
+c(17,0,0,55),
+c(18,0,0,45),
+c(19,0,0,50),
+c(20,0,0,60))
+
+data. <- as.data.frame(data.)
+names(data.) <- c("Person",
+"2nd Heart Attack",
+"Treatment of Anger",
+"Trait Anxiety")
+
+plot(jitter(data.$`2nd Heart Attack`), jitter(data.$`Treatment of Anger`),
+     xlab = "Treatment of Anger",
+     ylab = "2nd Heart Attack")
+
+model <- glm( data.$`2nd Heart Attack` ~data.$`Treatment of Anger`, family = binomial)
+
+(model)
 
 ```
 
-## Over Dispersion
+So, we can write the model, using the estimated parameters:
 
-Over dispersion is where the variance is larger than expected from the model.
+$P=\frac{1}{1+e^{-(-0.5596+1.2528\times X_)}}$.
 
-This can be caused by violating the assumption of independence.
+The intercept is the value of  $b_0$, in this case -.5596. 
 
-This problem makes the standard errors too small! 
+As usual, we are not terribly interested in whether a is equal to zero. 
 
-## An Example
+The value of $b_1$ given for Anger Treatment is -1.2528. 
 
-Predictors of a treatment intervention.
+```{r,message=FALSE, echo=FALSE, warning=FALSE}
+data. <- 
+rbind(c(1,1,1,70),
+c(2,1,1,80),
+c(3,1,1,50),
+c(4,1,0,60),
+c(5,1,0,40),
+c(6,1,0,65),
+c(7,1,0,75),
+c(8,1,0,80),
+c(9,1,0,70),
+c(10,1,0,60),
+c(11,0,1,65),
+c(12,0,1,50),
+c(13,0,1,45),
+c(14,0,1,35),
+c(15,0,1,40),
+c(16,0,1,50),
+c(17,0,0,55),
+c(18,0,0,45),
+c(19,0,0,50),
+c(20,0,0,60))
 
-Participants
+data. <- as.data.frame(data.)
+names(data.) <- c("Person",
+"2nd Heart Attack",
+"Treatment of Anger",
+"Trait Anxiety")
 
-+ 113 adults with a medical problem
+x <-  seq(0,1, by = 0.01)
+plot(jitter(data.$`2nd Heart Attack`), jitter(data.$`Treatment of Anger`),
+     xlab = "Treatment of Anger",
+     ylab = "2nd Heart Attack")
+y = 1/(1 + exp(-(-.55961-1.2528*x)))
+lines(x, y)
 
-Outcome:
+```
 
-+ Cured (1) or not cured (0).
+## Let's look at the odds ratio:
 
-Predictors:
+$odds = (\frac{P}{1-P})$
 
-+ Intervention: intervention or no treatment.
+$P=\frac{1}{1+e^{-(-0.5596+1.2528\times X_)}}$.
 
-<Br>
+$odds = \frac{\frac{1}{1+e^{-(-0.5596+1.2528\times X_)}}}{1-\frac{1}{1+e^{-(-0.5596+1.2528\times X_)}}}$
+
+
+
+|  Heart Attack |  yes   |no   |total   |   |
+|:---:|:---:|:---:|:---:|:---:|
+|yes   |  3 | 7  |10   |   |
+| no  | 6  |  4 | 10  |   |
+| total  | 9  | 11  |20   |   |
+
+Now we can compute the odds of having a heart attack for the treatment group and the no treatment group. 
+
+For the treatment group, the odds are 3/6 = 1/2. 
+
+The probability of a heart attack is 3/(3+6) = 3/9 = 0.33. 
+
+The odds from this probability are 0.33/(1-.33) = 0.33/0.66 = 1/2. 
+
+The odds for the no treatment group are 7/4 or 1.75. 
+
+The odds ratio is calculated to compare the odds across groups.
+
+```{r,message=FALSE, echo=FALSE, warning=FALSE}
+data. <- 
+rbind(c(1,1,1,70),
+c(2,1,1,80),
+c(3,1,1,50),
+c(4,1,0,60),
+c(5,1,0,40),
+c(6,1,0,65),
+c(7,1,0,75),
+c(8,1,0,80),
+c(9,1,0,70),
+c(10,1,0,60),
+c(11,0,1,65),
+c(12,0,1,50),
+c(13,0,1,45),
+c(14,0,1,35),
+c(15,0,1,40),
+c(16,0,1,50),
+c(17,0,0,55),
+c(18,0,0,45),
+c(19,0,0,50),
+c(20,0,0,60))
+
+data. <- as.data.frame(data.)
+names(data.) <- c("Person",
+"2nd Heart Attack",
+"Treatment of Anger",
+"Trait Anxiety")
+
+x <-  seq(0,1, by = 0.01)
+plot(jitter(data.$`2nd Heart Attack`), jitter(data.$`Treatment of Anger`),
+     xlab = "Treatment of Anger",
+     ylab = "2nd Heart Attack")
+y = 1/(1 + exp(-(-.5596+1.2528*x)))
+lines(x, y)
+
+abline(v = 0.5)
+abline(h = 0.5)
+
+```
+
+
+
